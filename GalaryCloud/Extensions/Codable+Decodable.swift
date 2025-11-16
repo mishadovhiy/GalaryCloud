@@ -1,0 +1,51 @@
+//
+//  Codable+Decodable.swift
+//  GalaryCloud
+//
+//  Created by Mykhailo Dovhyi on 17.11.2025.
+//
+
+import Foundation
+
+extension Decodable {
+    static func configure(_ from:Data?) -> Self? {
+        guard let from else {
+            return nil
+        }
+        do {
+            let decoder = PropertyListDecoder()
+            let decodedData = try decoder.decode(Self.self, from: from)
+            return decodedData
+        } catch {
+#if DEBUG
+            print("error decoding data ", error)
+#endif
+            return nil
+        }
+    }
+}
+
+extension Encodable {
+    var encode: Data? {
+        let encoder = PropertyListEncoder()
+        encoder.outputFormat = .binary
+        do {
+            return try encoder.encode(self)
+        }
+        catch {
+#if DEBUG
+            print("error encoding db ", error)
+#endif
+            return try? JSONEncoder().encode(self)
+        }
+    }
+    
+    var dictionary:[String:Any]? {
+        let encoder = JSONEncoder()
+        if let data = try? encoder.encode(self),
+           let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+            return json
+        }
+        return nil
+    }
+}
