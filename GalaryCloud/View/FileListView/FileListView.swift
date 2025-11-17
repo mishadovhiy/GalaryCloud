@@ -28,10 +28,15 @@ struct FileListView: View {
             HStack {
                 Text("\(viewModel.totalFileRecords ?? 0)")
                 Spacer()
-                Button("upload") {
-                    //present photo lib
+                NavigationLink {
+                    PhotoLibraryPickerView { newImage in
+                        viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
+                    }
+                } label: {
+                    Text("upload")
                 }
                 .disabled(viewModel.uploadRequestLoading)
+
                 Spacer()
                 if viewModel.fetchRequestLoading {
                     ProgressView()

@@ -12,6 +12,7 @@
 		8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620A2ECAD02700E52013 /* FileListViewModel.swift */; };
 		8271620E2ECAFB2B00E52013 /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620D2ECAFB2B00E52013 /* RequestType.swift */; };
 		8271622B2ECB095800E52013 /* ViewSizeReaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */; };
+		827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -58,6 +59,7 @@
 		8271620A2ECAD02700E52013 /* FileListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListViewModel.swift; sourceTree = "<group>"; };
 		8271620D2ECAFB2B00E52013 /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
 		8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSizeReaderModifier.swift; sourceTree = "<group>"; };
+		827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryPickerView.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,12 +111,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		827162062ECACF0500E52013 /* Components */ = {
+		827162062ECACF0500E52013 /* Component */ = {
 			isa = PBXGroup;
 			children = (
 				82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */,
 			);
-			path = Components;
+			path = Component;
 			sourceTree = "<group>";
 		};
 		827162092ECAD01500E52013 /* FileListView */ = {
@@ -151,6 +153,14 @@
 			path = ViewModifier;
 			sourceTree = "<group>";
 		};
+		827162432ECB436D00E52013 /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */,
+			);
+			path = Reusable;
+			sourceTree = "<group>";
+		};
 		82D7F4B32ECA813300A44A98 = {
 			isa = PBXGroup;
 			children = (
@@ -171,7 +181,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		82D7F4F02ECA82C300A44A98 /* Extensions */ = {
+		82D7F4F02ECA82C300A44A98 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */,
@@ -179,7 +189,7 @@
 				82D7F5192ECA8EF000A44A98 /* URLSession.swift */,
 				82D7F51E2ECA93DC00A44A98 /* URLRequest.swift */,
 			);
-			path = Extensions;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		82D7F4F42ECA82C300A44A98 /* GalaryCloud */ = {
@@ -191,7 +201,8 @@
 				82D7F5042ECA82F600A44A98 /* Service */,
 				82D7F5092ECA837E00A44A98 /* Model */,
 				82D7F5012ECA82D900A44A98 /* View */,
-				82D7F4F02ECA82C300A44A98 /* Extensions */,
+				8271622C2ECB096400E52013 /* ViewModifier */,
+				82D7F4F02ECA82C300A44A98 /* Extension */,
 				82D7F4F32ECA82C300A44A98 /* GalaryCloudApp.swift */,
 			);
 			path = GalaryCloud;
@@ -219,8 +230,8 @@
 			children = (
 				82D7F4F22ECA82C300A44A98 /* HomeView.swift */,
 				827162092ECAD01500E52013 /* FileListView */,
-				8271622C2ECB096400E52013 /* ViewModifier */,
-				827162062ECACF0500E52013 /* Components */,
+				827162062ECACF0500E52013 /* Component */,
+				827162432ECB436D00E52013 /* Reusable */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -437,6 +448,7 @@
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
+				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,
 				82D7F5142ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift in Sources */,
 				82D7F51A2ECA8EF000A44A98 /* URLSession.swift in Sources */,

@@ -18,6 +18,8 @@ class FileListViewModel: ObservableObject {
     @Published var fetchRequestLoading: Bool = false
     @Published var uploadRequestLoading: Bool = false
     @Published var uploadIndicatorSize: CGSize = .zero
+    @Published var photoLibrarySelectedURLs: [URL] = []
+    
     private var requestOffset: Int = 0
     private var selectedUploadingFiles: [CreateFileRequest.Image] = []
     
@@ -96,6 +98,7 @@ class FileListViewModel: ObservableObject {
                     if !reUploading {
                         self.selectedUploadingFiles = files
                     }
+                    self.uploadError = error as NSError
                 }
             }
         }

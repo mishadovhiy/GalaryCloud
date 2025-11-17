@@ -12,11 +12,13 @@ struct HomeView: View {
     @EnvironmentObject private var appData: AppData
     
     var body: some View {
-        TabView {
-            FileListView()
-                .tabItem {
-                    Text("uploaded")
-                }
+        NavigationView {
+            TabView {
+                FileListView()
+                    .tabItem {
+                        Text("uploaded")
+                    }
+            }
         }
     }
 }
