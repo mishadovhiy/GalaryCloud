@@ -18,7 +18,7 @@ struct FileListView: View {
                 Text(error.localizedDescription)
             }
             galary
-
+            
             bottomStatusBar
         })
         .padding(.bottom, !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
@@ -41,7 +41,7 @@ struct FileListView: View {
             }
         }
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
-            #warning("todo: image preview view, with delete")
+#warning("todo: image preview view, with delete")
             VStack {
                 if let image = viewModel.selectedImagePreviewPresenting {
                     Image(uiImage: image)
@@ -55,13 +55,13 @@ struct FileListView: View {
     
     var bottomStatusBar: some View {
         HStack {
-            Text("\(viewModel.totalFileRecords ?? 0)")
+            Text("\(viewModel.totalFileRecords ?? 0)/\(viewModel.files.count)")
             Spacer()
             Button("upload") {
                 viewModel.isPhotoLibraryPresenting = true
             }
             .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
-
+            
             Spacer()
             if viewModel.fetchRequestLoading {
                 ProgressView()
@@ -83,25 +83,38 @@ struct FileListView: View {
     }
     
     var galary: some View {
-
-        List(viewModel.files, id: \.originalURL) { item in
-            VStack(content: {
-                CachedAsyncImage(
-                    username: "hi@mishadovhiy.com",
-                    fileName: item.originalURL,
-                    imagePresenting: $viewModel.selectedImagePreviewPresenting
-                )
-                .frame(height: 200)
-                Text(item.originalURL)
-            })
-                .onAppear {
-                    if viewModel.files.last?.originalURL == item.originalURL {
-                        viewModel.fetchList()
-                    }
+        ScrollView(.vertical) {
+            LazyVGrid(columns: [.init(), .init()]) {
+                ForEach(viewModel.files, id: \.originalURL) { item in
+                    galaryItem(item)
                 }
+            }
+            .refreshable {
+                viewModel.fetchList(ignoreOffset: true)
+            }
         }
-        .refreshable {
-            
+        //        List(viewModel.files, id: \.originalURL) { item in
+        //
+        //        }
+        //        .refreshable {
+        //            viewModel.fetchList(ignoreOffset: true)
+        //        }
+    }
+    
+    private func galaryItem(_ item: FileListViewModel.File) -> some View {
+        VStack(content: {
+            CachedAsyncImage(
+                username: "hi@mishadovhiy.com",
+                fileName: item.originalURL,
+                imagePresenting: $viewModel.selectedImagePreviewPresenting
+            )
+            .frame(height: 200)
+            Text(item.originalURL)
+        })
+        .onAppear {
+            if viewModel.files.last?.originalURL == item.originalURL {
+                viewModel.fetchList()
+            }
         }
     }
 }

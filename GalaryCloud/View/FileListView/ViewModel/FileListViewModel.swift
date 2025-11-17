@@ -9,8 +9,8 @@ import Combine
 import SwiftUI
 
 class FileListViewModel: ObservableObject {
-    
-    @Published var files: [FetchFilesResponse.File] = []
+    typealias File = FetchFilesResponse.File
+    @Published var files: [File] = []
     
     @Published var fetchError: NSError?
     @Published var uploadError: NSError?
@@ -34,15 +34,19 @@ class FileListViewModel: ObservableObject {
     
     var totalFileRecords: Int?
     
-    func fetchList(ignoreOffset: Bool = false) {
+    func fetchList(ignoreOffset: Bool = false, reload: Bool = false) {
         if fetchRequestLoading {
             print("request is already loading")
             return
         }
         if let totalFileRecords,
-           !ignoreOffset, totalFileRecords <= files.count {
+           !reload, !ignoreOffset, totalFileRecords <= files.count {
             print("no more records")
             return
+        }
+        if reload {
+            self.requestOffset = 0
+            self.files.removeAll()
         }
         fetchRequestLoading = true
         fetchError = nil
@@ -66,6 +70,7 @@ class FileListViewModel: ObservableObject {
                     if canUpdateData {
                         self.totalFileRecords = result.totalRecords
                         self.files.append(contentsOf: result.results)
+                        self.requestOffset += 1
                     }
                     print(canUpdateData, " htrgerfds ")
                     self.fetchRequestLoading = false
