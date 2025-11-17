@@ -8,7 +8,7 @@
 import Foundation
 
 extension Decodable {
-    static func configure(_ from:Data?) -> Self? {
+    static func configure(_ from:Data?) throws -> Self? {
         guard let from else {
             return nil
         }
@@ -20,13 +20,13 @@ extension Decodable {
 #if DEBUG
             print("error decoding data ", error)
 #endif
-            return nil
+            throw error
         }
     }
 }
 
 extension Encodable {
-    var encode: Data? {
+    func encode() throws -> Data? {
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
         do {
@@ -34,18 +34,20 @@ extension Encodable {
         }
         catch {
 #if DEBUG
-            print("error encoding db ", error)
+            print("error encoding PropertyListEncoder, keep trying", error)
 #endif
-            return try? JSONEncoder().encode(self)
+            return try JSONEncoder().encode(self)
         }
     }
     
-    var dictionary:[String:Any]? {
+    func dictionary() throws -> [String:Any]? {
         let encoder = JSONEncoder()
-        if let data = try? encoder.encode(self),
-           let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+        do {
+            let data = try encoder.encode(self)
+            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             return json
+        } catch {
+            throw error
         }
-        return nil
     }
 }

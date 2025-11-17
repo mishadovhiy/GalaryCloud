@@ -8,5 +8,11 @@
 import Foundation
 
 struct FetchFilesResponse: Codable {
+    let totalRecords: Int
+    let results: [File]
     
+    struct File: Codable {
+        let originalURL: String
+        let date: String
+    }
 }

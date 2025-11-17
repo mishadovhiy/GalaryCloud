@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct FetchFilesRequest: Requestable, Codable {
+    static var path: String { "file/fetch" }
+    
+    static var method: URLSession.Method { .get }
+    
+    typealias Response = FetchFilesResponse
+}
