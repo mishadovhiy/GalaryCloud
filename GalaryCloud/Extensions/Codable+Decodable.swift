@@ -20,7 +20,14 @@ extension Decodable {
 #if DEBUG
             print("error decoding data ", error)
 #endif
-            throw error
+            do {
+                let decoder = JSONDecoder()
+                self = try decoder.decode(Self.self, from: data)
+            } catch {
+                print(error, " yhtgerfesd")
+                print(String.init(data: data, encoding: .utf8))
+                throw error
+            }
         }
     }
 }
