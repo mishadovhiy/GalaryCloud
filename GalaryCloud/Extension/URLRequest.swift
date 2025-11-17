@@ -11,14 +11,14 @@ extension URLRequest {
     
     init(_ requestable: any Requestable) throws {
         let requestableType = type(of: requestable)
-        let urlString = Keys.serverURL.rawValue + requestableType.path + ".php"
+        let urlString = Keys.serverURL.rawValue + requestableType.path + (requestableType.ignoreParameterKeys ? "" : ".php")
         do {
             let suffix = try URLRequest.urlSuffix(requestable)
             
             guard let url = URL(string: urlString + suffix) else {
                 throw NSError(domain: "Error creating url", code: URLError.badURL.rawValue)
             }
-            self.init(url: url)
+            self.init(url: url, cachePolicy: requestableType.isCached ? .returnCacheDataElseLoad : .reloadIgnoringLocalAndRemoteCacheData)
             try self.prepareRequest(requestable: requestable)
         }
         catch {
@@ -27,22 +27,22 @@ extension URLRequest {
     }
     
     fileprivate static func urlSuffix(_ requestable: any Requestable) throws -> String {
-        let method = type(of: requestable).method
-        switch type(of: requestable).method {
-        case .get, .getNotDecodedRequestKeys:
+        let type = type(of: requestable)
+        switch type.method {
+        case .get:
             guard let requestDictionary = try requestable.dictionary() else {
                 throw NSError(domain: "Error encoding data", code: -3)
             }
             let requestString = requestDictionary
                 .map({
-                    if method == .get {
+                    if !type.ignoreParameterKeys {
                         return $0.key + "=" + "\($0.value)"
                     } else {
                         return "\($0.value)"
                     }
                 })
                 .joined(separator: "&")
-            return "?" + requestString
+            return (!type.ignoreParameterKeys ? "?" : "") + requestString
         default:
             return ""
         }

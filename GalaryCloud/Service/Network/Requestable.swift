@@ -13,6 +13,11 @@ protocol Requestable: Codable {
     
     static var method: URLSession.Method { get }
     
+    static var isCached: Bool { get }
+    
+    /// only values would be used in the request
+    static var ignoreParameterKeys: Bool { get }
+    
     associatedtype Response: Codable
     
 }

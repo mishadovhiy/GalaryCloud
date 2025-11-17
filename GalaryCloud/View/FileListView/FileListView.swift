@@ -12,21 +12,6 @@ struct FileListView: View {
     @EnvironmentObject private var appData: AppData
     @StateObject private var viewModel: FileListViewModel = .init()
     
-    var galary: some View {
-
-        List(viewModel.files, id: \.originalURL) { item in
-            VStack(content: {
-                image
-                Text(item.originalURL)
-            })
-                .onAppear {
-                    if viewModel.files.last?.originalURL == item.originalURL {
-                        viewModel.fetchList()
-                    }
-                }
-        }
-    }
-    
     var body: some View {
         VStack(content: {
             if let error = viewModel.fetchError {
@@ -34,32 +19,11 @@ struct FileListView: View {
             }
             galary
 
-            HStack {
-                Text("\(viewModel.totalFileRecords ?? 0)")
-                Spacer()
-                Button("upload") {
-                    viewModel.isPhotoLibraryPresenting = true
-                }
-                .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
-
-                Spacer()
-                if viewModel.fetchRequestLoading {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                }
-            }
+            bottomStatusBar
         })
         .padding(.bottom, !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
         .overlay(content: {
-            VStack {
-                Spacer()
-                if !viewModel.photoLibrarySelectedURLs.isEmpty {
-                    UploadingProgressView(uploadingFilesCount: viewModel.photoLibrarySelectedURLs.count, error: viewModel.uploadError, resendPressed: {
-                        viewModel.upload()
-                    })
-                    .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
-                }
-            }
+            uploadingIndicator
         })
         .onChange(of: viewModel.uploadError) { newValue in
             if let newValue {
@@ -75,6 +39,69 @@ struct FileListView: View {
                 viewModel.upload()
                 print(viewModel.photoLibrarySelectedURLs, " jufredws ")
             }
+        }
+        .sheet(isPresented: $viewModel.imagePreviewPresenting) {
+            #warning("todo: image preview view, with delete")
+            VStack {
+                if let image = viewModel.selectedImagePreviewPresenting {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                }
+            }
+            .background(.black)
+        }
+    }
+    
+    var bottomStatusBar: some View {
+        HStack {
+            Text("\(viewModel.totalFileRecords ?? 0)")
+            Spacer()
+            Button("upload") {
+                viewModel.isPhotoLibraryPresenting = true
+            }
+            .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
+
+            Spacer()
+            if viewModel.fetchRequestLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
+        }
+    }
+    
+    var uploadingIndicator: some View {
+        VStack {
+            Spacer()
+            if !viewModel.photoLibrarySelectedURLs.isEmpty {
+                UploadingProgressView(uploadingFilesCount: viewModel.photoLibrarySelectedURLs.count, error: viewModel.uploadError, resendPressed: {
+                    viewModel.upload()
+                })
+                .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
+            }
+        }
+    }
+    
+    var galary: some View {
+
+        List(viewModel.files, id: \.originalURL) { item in
+            VStack(content: {
+                CachedAsyncImage(
+                    username: "hi@mishadovhiy.com",
+                    fileName: item.originalURL,
+                    imagePresenting: $viewModel.selectedImagePreviewPresenting
+                )
+                .frame(height: 200)
+                Text(item.originalURL)
+            })
+                .onAppear {
+                    if viewModel.files.last?.originalURL == item.originalURL {
+                        viewModel.fetchList()
+                    }
+                }
+        }
+        .refreshable {
+            
         }
     }
 }

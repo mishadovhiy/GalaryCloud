@@ -14,6 +14,10 @@ struct CreateFileRequest: Requestable, Codable {
     
     static var method: URLSession.Method { .post }
     
+    static var ignoreParameterKeys: Bool { false }
+    
+    static var isCached: Bool { false }
+    
     let username: String
     let originalURL: [Image]
     

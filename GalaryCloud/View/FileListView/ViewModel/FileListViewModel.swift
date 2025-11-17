@@ -19,6 +19,17 @@ class FileListViewModel: ObservableObject {
     @Published var uploadIndicatorSize: CGSize = .zero
     @Published var photoLibrarySelectedURLs: [URL] = []
     @Published var isPhotoLibraryPresenting: Bool = false
+    @Published var selectedImagePreviewPresenting: UIImage?
+    var imagePreviewPresenting: Bool {
+        get {
+            selectedImagePreviewPresenting != nil
+        }
+        set {
+            if !newValue {
+                self.selectedImagePreviewPresenting = nil
+            }
+        }
+    }
     private var requestOffset: Int = 0
     
     var totalFileRecords: Int?
@@ -34,6 +45,7 @@ class FileListViewModel: ObservableObject {
             return
         }
         fetchRequestLoading = true
+        fetchError = nil
         Task(priority: .userInitiated) {
             let response = await URLSession.shared.resumeTask(FetchFilesRequest(offset: requestOffset, username: "hi@mishadovhiy.com"))
             

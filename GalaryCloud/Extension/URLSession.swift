@@ -16,6 +16,9 @@ extension URLSession {
             let response = try await self.performTask(request: request)
             switch response {
             case .success(let data):
+                if T.Response.self == Data.self {
+                    return .success(data as! T.Response)
+                }
                 let result = try T.Response.init(data)
                 return .success(result)
             case .failure(let error):
@@ -27,7 +30,7 @@ extension URLSession {
         }
     }
         
-    private func performTask(request: URLRequest) async throws -> Result<Data, Error> {
+    func performTask(request: URLRequest) async throws -> Result<Data, Error> {
         do {
             let (data, response) = try await self.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse,
@@ -53,6 +56,5 @@ extension URLSession {
     enum Method: String {
         case post
         case get
-        case getNotDecodedRequestKeys
     }
 }
