@@ -12,30 +12,35 @@ struct FileListView: View {
     @EnvironmentObject private var appData: AppData
     @StateObject private var viewModel: FileListViewModel = .init()
     
+    var galary: some View {
+
+        List(viewModel.files, id: \.originalURL) { item in
+            VStack(content: {
+                image
+                Text(item.originalURL)
+            })
+                .onAppear {
+                    if viewModel.files.last?.originalURL == item.originalURL {
+                        viewModel.fetchList()
+                    }
+                }
+        }
+    }
+    
     var body: some View {
         VStack(content: {
             if let error = viewModel.fetchError {
                 Text(error.localizedDescription)
             }
-            List(viewModel.files, id: \.originalURL) { item in
-                Text(item.originalURL)
-                    .onAppear {
-                        if viewModel.files.last?.originalURL == item.originalURL {
-                            viewModel.fetchList()
-                        }
-                    }
-            }
+            galary
+
             HStack {
                 Text("\(viewModel.totalFileRecords ?? 0)")
                 Spacer()
-                NavigationLink {
-                    PhotoLibraryPickerView { newImage in
-                        viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
-                    }
-                } label: {
-                    Text("upload")
+                Button("upload") {
+                    viewModel.isPhotoLibraryPresenting = true
                 }
-                .disabled(viewModel.uploadRequestLoading)
+                .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
 
                 Spacer()
                 if viewModel.fetchRequestLoading {
@@ -44,13 +49,13 @@ struct FileListView: View {
                 }
             }
         })
-        .padding(.bottom, viewModel.uploadRequestLoading ? viewModel.uploadIndicatorSize.height : 0)
+        .padding(.bottom, !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
         .overlay(content: {
             VStack {
                 Spacer()
-                if viewModel.uploadRequestLoading {
-                    UploadingProgressView(uploadingFilesCount: 0, error: viewModel.uploadError, resendPressed: {
-                        viewModel.upload(files: nil, reUploading: true)
+                if !viewModel.photoLibrarySelectedURLs.isEmpty {
+                    UploadingProgressView(uploadingFilesCount: viewModel.photoLibrarySelectedURLs.count, error: viewModel.uploadError, resendPressed: {
+                        viewModel.upload()
                     })
                     .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
                 }
@@ -59,11 +64,17 @@ struct FileListView: View {
         .onChange(of: viewModel.uploadError) { newValue in
             if let newValue {
                 appData.message.append(.init(title: newValue.localizedDescription))
-                viewModel.uploadError = nil
             }
         }
         .onAppear {
             viewModel.fetchList()
+        }
+        .fullScreenCover(isPresented: $viewModel.isPhotoLibraryPresenting) {
+            PhotoLibraryPickerView { newImage in
+                viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
+                viewModel.upload()
+                print(viewModel.photoLibrarySelectedURLs, " jufredws ")
+            }
         }
     }
 }

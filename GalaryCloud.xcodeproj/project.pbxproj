@@ -13,6 +13,8 @@
 		8271620E2ECAFB2B00E52013 /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620D2ECAFB2B00E52013 /* RequestType.swift */; };
 		8271622B2ECB095800E52013 /* ViewSizeReaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */; };
 		827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */; };
+		8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */; };
+		827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162502ECBA8C000E52013 /* FetchImageRequest.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -60,6 +62,8 @@
 		8271620D2ECAFB2B00E52013 /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
 		8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSizeReaderModifier.swift; sourceTree = "<group>"; };
 		827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryPickerView.swift; sourceTree = "<group>"; };
+		8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
+		827162502ECBA8C000E52013 /* FetchImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchImageRequest.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */,
+				8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -195,7 +200,7 @@
 		82D7F4F42ECA82C300A44A98 /* GalaryCloud */ = {
 			isa = PBXGroup;
 			children = (
-				82D7F4F12ECA82C300A44A98 /* Assets.xcassets */,
+				82D7F4F32ECA82C300A44A98 /* GalaryCloudApp.swift */,
 				82D7F52B2ECAB1AE00A44A98 /* AppData.swift */,
 				82D7F52D2ECAB1DA00A44A98 /* AppConfig */,
 				82D7F5042ECA82F600A44A98 /* Service */,
@@ -203,7 +208,7 @@
 				82D7F5012ECA82D900A44A98 /* View */,
 				8271622C2ECB096400E52013 /* ViewModifier */,
 				82D7F4F02ECA82C300A44A98 /* Extension */,
-				82D7F4F32ECA82C300A44A98 /* GalaryCloudApp.swift */,
+				82D7F4F12ECA82C300A44A98 /* Assets.xcassets */,
 			);
 			path = GalaryCloud;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 				82D7F5112ECA855A00A44A98 /* LoginRequest.swift */,
 				82D7F5132ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift */,
 				82D7F5262ECAAF8700A44A98 /* CreateFileRequest.swift */,
+				827162502ECBA8C000E52013 /* FetchImageRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -445,8 +451,10 @@
 				82D7F5182ECA8D2800A44A98 /* Keys.swift in Sources */,
 				82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */,
 				82D7F5062ECA836D00A44A98 /* FetchFilesResponse.swift in Sources */,
+				8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
+				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,

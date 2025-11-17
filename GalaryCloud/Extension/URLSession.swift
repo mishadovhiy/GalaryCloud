@@ -12,13 +12,14 @@ extension URLSession {
     func resumeTask<T: Requestable>(_ requestable: T) async -> Result<T.Response, Error> {
         do {
             let request = try URLRequest.init(requestable)
-            print(request.url, " url")
+            print(request.url, " url ")
             let response = try await self.performTask(request: request)
             switch response {
             case .success(let data):
                 let result = try T.Response.init(data)
                 return .success(result)
             case .failure(let error):
+                print((error as NSError).domain)
                 return .failure(error)
             }
         } catch {
@@ -52,5 +53,6 @@ extension URLSession {
     enum Method: String {
         case post
         case get
+        case getNotDecodedRequestKeys
     }
 }

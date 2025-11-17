@@ -11,7 +11,7 @@ extension URLRequest {
     
     init(_ requestable: any Requestable) throws {
         let requestableType = type(of: requestable)
-        let urlString = Keys.serverURL.rawValue + requestableType.path + ".php?"
+        let urlString = Keys.serverURL.rawValue + requestableType.path + ".php"
         do {
             let suffix = try URLRequest.urlSuffix(requestable)
             
@@ -27,15 +27,22 @@ extension URLRequest {
     }
     
     fileprivate static func urlSuffix(_ requestable: any Requestable) throws -> String {
+        let method = type(of: requestable).method
         switch type(of: requestable).method {
-        case .get:
+        case .get, .getNotDecodedRequestKeys:
             guard let requestDictionary = try requestable.dictionary() else {
                 throw NSError(domain: "Error encoding data", code: -3)
             }
             let requestString = requestDictionary
-                .map({$0.key + "=" + "\($0.value)"})
+                .map({
+                    if method == .get {
+                        return $0.key + "=" + "\($0.value)"
+                    } else {
+                        return "\($0.value)"
+                    }
+                })
                 .joined(separator: "&")
-            return requestString
+            return "?" + requestString
         default:
             return ""
         }
@@ -47,8 +54,19 @@ extension URLRequest {
         case .post:
             self.httpMethod = "POST"
             self.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            self.httpBody = try requestable.encode()
+            self.httpBody = try! requestable.encode()
         default: break
+        }
+    }
+}
+
+
+extension Date {
+    var string: String {
+        if #available(iOS 16.0, *) {
+            self.ISO8601Format(.iso8601(timeZone: .current, includingFractionalSeconds: true, dateSeparator: .dash, dateTimeSeparator: .space, timeSeparator: .colon))
+        } else {
+            self.ISO8601Format()
         }
     }
 }

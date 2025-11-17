@@ -16,12 +16,10 @@ class FileListViewModel: ObservableObject {
     @Published var uploadError: NSError?
     
     @Published var fetchRequestLoading: Bool = false
-    @Published var uploadRequestLoading: Bool = false
     @Published var uploadIndicatorSize: CGSize = .zero
     @Published var photoLibrarySelectedURLs: [URL] = []
-    
+    @Published var isPhotoLibraryPresenting: Bool = false
     private var requestOffset: Int = 0
-    private var selectedUploadingFiles: [CreateFileRequest.Image] = []
     
     var totalFileRecords: Int?
     
@@ -68,36 +66,40 @@ class FileListViewModel: ObservableObject {
         }
     }
     
-    func upload(files: [CreateFileRequest.Image]?, reUploading: Bool = false) {
-        if uploadRequestLoading {
+    func upload() {
+        self.uploadError = nil
+        guard let url = self.photoLibrarySelectedURLs.first else {
             return
         }
-        uploadRequestLoading = true
-        let files = files ?? selectedUploadingFiles
-        if files.isEmpty {
-            print("no files to upload")
+
+        guard let imageData = try? Data(contentsOf: url) else {
+            if !self.photoLibrarySelectedURLs.isEmpty {
+                self.photoLibrarySelectedURLs.removeFirst()
+            }
             return
         }
+        
+        let apiData = CreateFileRequest.Image(url: url.lastPathComponent, date: Date().string, data: imageData.base64EncodedString())
         Task(priority: .userInitiated) {
-            let response = await URLSession.shared.resumeTask(CreateFileRequest(username: "hi@mishadovhiy.com", originalURL: files))
+            let response = await URLSession.shared.resumeTask(CreateFileRequest(username: "hi@mishadovhiy.com", originalURL: [apiData]))
             
             await MainActor.run {
                 switch response {
                     
                 case .success(let result):
-                    uploadRequestLoading = false
                     if result.success {
-                        selectedUploadingFiles.removeAll()
-                        self.fetchList(ignoreOffset: true)
-                    } else if !reUploading {
-                        self.selectedUploadingFiles = files
+                        self.photoLibrarySelectedURLs.removeFirst()
+                        if photoLibrarySelectedURLs.isEmpty {
+                            self.requestOffset = 0
+                            self.files.removeAll()
+                            self.fetchList(ignoreOffset: true)
+
+                        } else {
+                            self.upload()
+                        }
                     }
                     
                 case .failure(let error):
-                    uploadRequestLoading = false
-                    if !reUploading {
-                        self.selectedUploadingFiles = files
-                    }
                     self.uploadError = error as NSError
                 }
             }

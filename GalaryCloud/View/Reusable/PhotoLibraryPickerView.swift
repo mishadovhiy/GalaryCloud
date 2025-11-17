@@ -14,16 +14,33 @@ struct PhotoLibraryPickerView: UIViewControllerRepresentable {
     var imageSelected: (_ newImage: [URL]) -> ()
     
     class Coordinator: NSObject, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
+        #warning("todo: move to services")
+        private func safeFile(libraryURL: URL) -> URL? {
+            let filename = libraryURL.lastPathComponent
+            let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+            
+            do {
+                if FileManager.default.fileExists(atPath: tempURL.path) {
+                    try FileManager.default.removeItem(at: tempURL)
+                }
+                try FileManager.default.copyItem(at: libraryURL, to: tempURL)
+                return tempURL
+            } catch {
+                return nil
+            }
+        }
+        
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            print("fgsaed")
             DispatchQueue.main.async {
-                self.parent.dismiss()
+                picker.dismiss(animated: true)
             }
             var selectedURLs: [URL] = []
             results.forEach { result in
                 result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
-                    if let url {
-                        selectedURLs.append(url)
+                    if let url,
+                       let newURL = self.safeFile(libraryURL: url)
+                    {
+                        selectedURLs.append(newURL)
                     }
                     if results.last == result {
                         DispatchQueue.main.async {
@@ -36,7 +53,6 @@ struct PhotoLibraryPickerView: UIViewControllerRepresentable {
         
         var parent: PhotoLibraryPickerView
         init(parent: PhotoLibraryPickerView) { self.parent = parent }
-        
         
     }
     

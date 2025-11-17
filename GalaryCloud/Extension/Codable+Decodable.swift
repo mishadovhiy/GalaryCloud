@@ -34,16 +34,17 @@ extension Decodable {
 
 extension Encodable {
     func encode() throws -> Data? {
-        let encoder = PropertyListEncoder()
-        encoder.outputFormat = .binary
+
         do {
-            return try encoder.encode(self)
+            return try JSONEncoder().encode(self)
         }
         catch {
 #if DEBUG
             print("error encoding PropertyListEncoder, keep trying", error)
 #endif
-            return try JSONEncoder().encode(self)
+            let encoder = PropertyListEncoder()
+            encoder.outputFormat = .binary
+            return try encoder.encode(self)
         }
     }
     

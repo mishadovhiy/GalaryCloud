@@ -12,7 +12,8 @@ import UIKit
 struct GalaryCloudApp: App {
     
     @StateObject var appData: AppData = .init()
-    
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some Scene {
         WindowGroup {
             HomeView()
@@ -21,7 +22,25 @@ struct GalaryCloudApp: App {
                     print(newValue, " htrgefd ")
                     presentAlert()
                 }
-            
+                .onChange(of: scenePhase) { newValue in
+                    switch newValue {
+                    case .background:
+                        clearTempFolder()
+                    default: break
+                    }
+                }
+        }
+    }
+    
+#warning("todo: move to services")
+
+    func clearTempFolder() {
+        let temporaryDirectory = FileManager.default.temporaryDirectory
+        
+        let tempFiles = try? FileManager.default.contentsOfDirectory(at: temporaryDirectory, includingPropertiesForKeys: nil)
+        
+        for file in (tempFiles ?? []) {
+            try? FileManager.default.removeItem(at: file)
         }
     }
     
@@ -32,7 +51,11 @@ struct GalaryCloudApp: App {
                                       preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default) { action in
+            if appData.message.isEmpty {
+                return
+            }
             appData.message.removeFirst()
+            presentAlert()
         })
         
         UIApplication.shared.activeWindow?.rootViewController?.topViewController.present(alert, animated: true)

@@ -15,9 +15,9 @@ struct UploadingProgressView: View {
     
     var body: some View {
         HStack {
-            Text(error?.localizedDescription ?? "Uploading")
+            Text(error?.localizedDescription ?? "Uploading \(uploadingFilesCount)")
             if error != nil {
-                Button("resend") {
+                Button("resend \(uploadingFilesCount) files") {
                     resendPressed()
                 }
             }
