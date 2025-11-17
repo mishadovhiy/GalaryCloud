@@ -8,14 +8,14 @@
 import Foundation
 
 extension Decodable {
-    static func configure(_ from:Data?) throws -> Self? {
-        guard let from else {
-            return nil
+    init(_ data: Data?) throws {
+        guard let data else {
+            throw NSError(domain: "no data", code: -10)
         }
         do {
             let decoder = PropertyListDecoder()
-            let decodedData = try decoder.decode(Self.self, from: from)
-            return decodedData
+            let decodedData = try decoder.decode(Self.self, from: data)
+            self = decodedData
         } catch {
 #if DEBUG
             print("error decoding data ", error)

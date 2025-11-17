@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @EnvironmentObject private var appData: AppData
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            FileListView()
+                .tabItem {
+                    Text("uploaded")
+                }
         }
-        .padding()
     }
 }
 

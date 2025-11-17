@@ -31,7 +31,9 @@ struct GalaryCloudApp: App {
                                       message: first.title,
                                       preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { action in
+            appData.message.removeFirst()
+        })
         
         UIApplication.shared.activeWindow?.rootViewController?.topViewController.present(alert, animated: true)
     }

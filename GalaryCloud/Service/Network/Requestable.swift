@@ -14,4 +14,5 @@ protocol Requestable: Codable {
     static var method: URLSession.Method { get }
     
     associatedtype Response: Codable
+    
 }

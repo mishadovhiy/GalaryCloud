@@ -11,7 +11,7 @@ extension URLRequest {
     
     init(_ requestable: any Requestable) throws {
         let requestableType = type(of: requestable)
-        let urlString = Keys.serverURL.rawValue + requestableType.path
+        let urlString = Keys.serverURL.rawValue + requestableType.path + ".php?"
         do {
             let suffix = try URLRequest.urlSuffix(requestable)
             
@@ -35,7 +35,7 @@ extension URLRequest {
             let requestString = requestDictionary
                 .map({$0.key + "=" + "\($0.value)"})
                 .joined(separator: "&")
-            return "/" + requestString
+            return requestString
         default:
             return ""
         }

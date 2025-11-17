@@ -15,11 +15,11 @@ struct CreateFileRequest: Requestable, Codable {
     static var method: URLSession.Method { .post }
     
     let username: String
-    let originalURL: [String]
-    let images: [Image]
+    let originalURL: [Image]
     
     struct Image: Codable {
         let url: String
         let date: String
+        let data: String
     }
 }

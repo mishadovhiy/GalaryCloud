@@ -9,17 +9,23 @@ import Foundation
 
 extension URLSession {
     
-    func resumeTask(_ requestable: any Requestable) async throws -> Result<Data, Error> {
+    func resumeTask<T: Requestable>(_ requestable: T) async -> Result<T.Response, Error> {
         do {
             let request = try URLRequest.init(requestable)
-            return try await self.performTask(request: request)
-            
+            print(request.url, " url")
+            let response = try await self.performTask(request: request)
+            switch response {
+            case .success(let data):
+                let result = try T.Response.init(data)
+                return .success(result)
+            case .failure(let error):
+                return .failure(error)
+            }
         } catch {
             return .failure(error)
         }
-        
     }
-    
+        
     private func performTask(request: URLRequest) async throws -> Result<Data, Error> {
         do {
             let (data, response) = try await self.data(for: request)
