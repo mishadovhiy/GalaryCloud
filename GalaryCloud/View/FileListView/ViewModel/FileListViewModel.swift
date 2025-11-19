@@ -16,7 +16,7 @@ class FileListViewModel: ObservableObject {
     @Published var files: [File] = []
     @Published var fetchError: NSError?
     @Published var uploadError: NSError?
-    
+    @Published var directorySizeResponse: DirectorySizeResponse?
     @Published var fetchRequestLoading: Bool = false
     @Published var uploadIndicatorSize: CGSize = .zero
     @Published var photoLibrarySelectedURLs: [URL] = []
@@ -35,6 +35,20 @@ class FileListViewModel: ObservableObject {
     private var requestOffset: Int = 0
     
     var totalFileRecords: Int?
+    
+    func fetchDirectoruSizeRequest(completion:(()->())? = nil) {
+        Task {
+            let response = await URLSession.shared.resumeTask(DirectorySizeRequest(path: "hi@mishadovhiy.com"))
+            await MainActor.run {
+                switch response {
+                case .success(let response):
+                    self.directorySizeResponse = response
+                    completion?()
+                default: break
+                }
+            }
+        }
+    }
     
     func fetchList(ignoreOffset: Bool = false, reload: Bool = false) {
         if fetchRequestLoading {
@@ -56,10 +70,11 @@ class FileListViewModel: ObservableObject {
             let response = await URLSession.shared.resumeTask(FetchFilesRequest(offset: requestOffset, username: "hi@mishadovhiy.com"))
             
             await MainActor.run {
+                self.fetchRequestLoading = false
                 switch response {
                     
                 case .success(let result):
-                    var canUpdateData = false
+                    var canUpdateData = ignoreOffset || reload
                     if let totalFileRecords,
                         ignoreOffset
                          {
@@ -75,11 +90,11 @@ class FileListViewModel: ObservableObject {
                         self.requestOffset += 1
                     }
                     print(canUpdateData, " htrgerfds ")
-                    self.fetchRequestLoading = false
-                    
+                    if self.directorySizeResponse == nil {
+                        self.fetchDirectoruSizeRequest()
+                    }
                 case .failure(let error):
                     self.fetchError = error as NSError
-                    self.fetchRequestLoading = false
                 }
             }
         }
@@ -111,6 +126,7 @@ class FileListViewModel: ObservableObject {
                         if photoLibrarySelectedURLs.isEmpty {
                             self.requestOffset = 0
                             self.files.removeAll()
+                            self.directorySizeResponse = nil
                             self.fetchList(ignoreOffset: true)
 
                         } else {

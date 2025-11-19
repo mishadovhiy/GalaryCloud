@@ -38,6 +38,7 @@
 		82D7F52C2ECAB1AE00A44A98 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F52B2ECAB1AE00A44A98 /* AppData.swift */; };
 		82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */; };
 		82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */; };
+		82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A222ECE50760003474F /* DirectorySizeResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		82D7F52B2ECAB1AE00A44A98 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewView.swift; sourceTree = "<group>"; };
 		82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectorySizeRequest.swift; sourceTree = "<group>"; };
+		82E06A222ECE50760003474F /* DirectorySizeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectorySizeResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				82D7F5052ECA836D00A44A98 /* FetchFilesResponse.swift */,
+				82E06A222ECE50760003474F /* DirectorySizeResponse.swift */,
 				82D7F5282ECAB06800A44A98 /* Base */,
 			);
 			path = Response;
@@ -460,6 +463,7 @@
 				8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
+				82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */,
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,

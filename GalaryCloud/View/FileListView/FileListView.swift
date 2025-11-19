@@ -35,8 +35,10 @@ struct FileListView: View {
         }
         .fullScreenCover(isPresented: $viewModel.isPhotoLibraryPresenting) {
             PhotoLibraryPickerView { newImage in
-                viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
-                viewModel.upload()
+                viewModel.fetchDirectoruSizeRequest {
+                    viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
+                    viewModel.upload()
+                }
             }
         }
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
@@ -72,6 +74,8 @@ struct FileListView: View {
             .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
             
             Spacer()
+            Text("b:\(viewModel.directorySizeResponse?.megabytes ?? "")")
+                .padding(.trailing, 5)
             if viewModel.fetchRequestLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
