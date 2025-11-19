@@ -7,11 +7,13 @@
 
 import Combine
 import SwiftUI
-
+struct ImageSelection {
+    let file: FetchFilesResponse.File
+    let index: Int
+}
 class FileListViewModel: ObservableObject {
     typealias File = FetchFilesResponse.File
     @Published var files: [File] = []
-    
     @Published var fetchError: NSError?
     @Published var uploadError: NSError?
     
@@ -19,7 +21,7 @@ class FileListViewModel: ObservableObject {
     @Published var uploadIndicatorSize: CGSize = .zero
     @Published var photoLibrarySelectedURLs: [URL] = []
     @Published var isPhotoLibraryPresenting: Bool = false
-    @Published var selectedImagePreviewPresenting: UIImage?
+    @Published var selectedImagePreviewPresenting: ImageSelection?
     var imagePreviewPresenting: Bool {
         get {
             selectedImagePreviewPresenting != nil

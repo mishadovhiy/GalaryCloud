@@ -36,6 +36,8 @@
 		82D7F5272ECAAF8700A44A98 /* CreateFileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5262ECAAF8700A44A98 /* CreateFileRequest.swift */; };
 		82D7F52A2ECAB10100A44A98 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5292ECAB10100A44A98 /* MessageModel.swift */; };
 		82D7F52C2ECAB1AE00A44A98 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F52B2ECAB1AE00A44A98 /* AppData.swift */; };
+		82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */; };
+		82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +90,8 @@
 		82D7F5262ECAAF8700A44A98 /* CreateFileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFileRequest.swift; sourceTree = "<group>"; };
 		82D7F5292ECAB10100A44A98 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		82D7F52B2ECAB1AE00A44A98 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewView.swift; sourceTree = "<group>"; };
+		82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectorySizeRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */,
+				82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 				82D7F5132ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift */,
 				82D7F5262ECAAF8700A44A98 /* CreateFileRequest.swift */,
 				827162502ECBA8C000E52013 /* FetchImageRequest.swift */,
+				82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -457,6 +463,8 @@
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
+				82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */,
+				82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,
 				82D7F5142ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift in Sources */,
 				82D7F51A2ECA8EF000A44A98 /* URLSession.swift in Sources */,

@@ -8,36 +8,61 @@
 import SwiftUI
 
 struct CachedAsyncImage: View {
-    let username: String
-    let fileName: String
+    let presentationType: PresentationType
     @State private var image: UIImage?
     @State private var isLoading: Bool = true
-    @Binding var imagePresenting: UIImage?
+    
     var body: some View {
         ZStack {
             if let image {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
-                    .onTapGesture {
-                        imagePresenting = image
-                    }
             }
             if isLoading {
                 ProgressView().progressViewStyle(.circular)
             }
         }
-        .task(priority: .userInitiated) {
-            let response = await URLSession.shared.resumeTask(FetchImageRequest(urlPathSuffix: "/\(username)/\(fileName)"))
-            await MainActor.run {
-                isLoading = false
-                switch response {
-                case .success(let imageData):
-                    self.image = .init(data: imageData)
-                default: break
+        .onAppear(perform: {
+            fetchImage()
+            
+        })
+    }
+    
+    func fetchImage() {
+        switch presentationType {
+        case .galary(let dataModel):
+            Task {
+                let response = await URLSession.shared.resumeTask(FetchImageRequest(urlPathSuffix: "/\(dataModel.username)/\(dataModel.fileName)"))
+                await MainActor.run {
+                    isLoading = false
+                    switch response {
+                    case .success(let imageData):
+                        self.image = .init(data: imageData)
+                    default: break
+                    }
                 }
             }
-            
+        }
+        
+    }
+    
+    
+}
+
+extension CachedAsyncImage {
+    enum PresentationType {
+        case galary(GalaryModel)
+        struct GalaryModel {
+            let username: String
+            let fileName: String
+        }
+        
+        var hasValue: Bool {
+            switch self {
+            case .galary(let galaryModel):
+                !galaryModel.fileName.isEmpty
+            }
         }
     }
 }

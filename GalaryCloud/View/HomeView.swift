@@ -13,12 +13,7 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            TabView {
-                FileListView()
-                    .tabItem {
-                        Text("uploaded")
-                    }
-            }
+            FileListView()
         }
     }
 }

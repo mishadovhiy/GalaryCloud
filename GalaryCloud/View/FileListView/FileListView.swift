@@ -37,19 +37,28 @@ struct FileListView: View {
             PhotoLibraryPickerView { newImage in
                 viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
                 viewModel.upload()
-                print(viewModel.photoLibrarySelectedURLs, " jufredws ")
             }
         }
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
-#warning("todo: image preview view, with delete")
-            VStack {
-                if let image = viewModel.selectedImagePreviewPresenting {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                }
+            galaryPreview
+        }
+    }
+    
+    @ViewBuilder
+    var galaryPreview: some View {
+        let leftInx = (viewModel.selectedImagePreviewPresenting?.index ?? 0) - 1
+        let rightInx = (viewModel.selectedImagePreviewPresenting?.index ?? 0) + 1
+
+        PhotoPreviewView(imageSelection: viewModel.selectedImagePreviewPresenting, sideImages: [
+            .left: leftInx > 0 ? viewModel.files[leftInx] : nil,
+            .right: rightInx <= viewModel.files.count - 1 ? viewModel.files[rightInx] : nil
+        ]) { direction in
+            
+            let plusIndex = direction == .left ? -1 : 1
+            let oldIndex = viewModel.selectedImagePreviewPresenting?.index ?? 0
+            if oldIndex + plusIndex <= viewModel.files.count - 1 && oldIndex + plusIndex >= 0 {
+                viewModel.selectedImagePreviewPresenting = .init(file: viewModel.files[oldIndex + plusIndex], index: oldIndex + plusIndex)
             }
-            .background(.black)
         }
     }
     
@@ -93,22 +102,20 @@ struct FileListView: View {
                 viewModel.fetchList(ignoreOffset: true)
             }
         }
-        //        List(viewModel.files, id: \.originalURL) { item in
-        //
-        //        }
-        //        .refreshable {
-        //            viewModel.fetchList(ignoreOffset: true)
-        //        }
     }
     
     private func galaryItem(_ item: FileListViewModel.File) -> some View {
         VStack(content: {
             CachedAsyncImage(
-                username: "hi@mishadovhiy.com",
-                fileName: item.originalURL,
-                imagePresenting: $viewModel.selectedImagePreviewPresenting
+                presentationType: .galary(.init(username: "hi@mishadovhiy.com",
+                              fileName: item.originalURL))
             )
             .frame(height: 200)
+            .onTapGesture {
+                viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {
+                    $0.originalURL == item.originalURL
+                })!)
+            }
             Text(item.originalURL)
         })
         .onAppear {
