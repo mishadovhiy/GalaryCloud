@@ -10,13 +10,14 @@ import Foundation
 struct FetchImageRequest: Codable, Requestable {
     typealias Response = Data
     
-    static var path: String { "file/uploads" }
+    static var path: String { "file/fetchFile" }
     
     static var method: URLSession.Method { .get }
     
     #warning("refactor: use optional codable structure indeed ignoreParameterKeys, isCached")
-    static var ignoreParameterKeys: Bool { true }
+    static var ignoreParameterKeys: Bool { false }
     static var isCached: Bool { true }
     
-    let urlPathSuffix: String
+    let username: String
+    let filename: String
 }

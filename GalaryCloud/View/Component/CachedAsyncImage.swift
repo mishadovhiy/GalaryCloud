@@ -33,7 +33,7 @@ struct CachedAsyncImage: View {
         switch presentationType {
         case .galary(let dataModel):
             Task {
-                let response = await URLSession.shared.resumeTask(FetchImageRequest(urlPathSuffix: "/\(dataModel.username)/\(dataModel.fileName)"))
+                let response = await URLSession.shared.resumeTask(FetchImageRequest(username: dataModel.username, filename: dataModel.fileName))
                 await MainActor.run {
                     isLoading = false
                     switch response {
