@@ -76,8 +76,8 @@ class FileListViewModel: ObservableObject {
                 case .success(let result):
                     var canUpdateData = ignoreOffset || reload
                     if let totalFileRecords,
-                        ignoreOffset
-                         {
+                       ignoreOffset
+                    {
                         if totalFileRecords != result.totalRecords {
                             canUpdateData = true
                         }
@@ -105,15 +105,15 @@ class FileListViewModel: ObservableObject {
         guard let url = self.photoLibrarySelectedURLs.first else {
             return
         }
-
+        
         guard let imageData = try? Data(contentsOf: url) else {
             if !self.photoLibrarySelectedURLs.isEmpty {
                 self.photoLibrarySelectedURLs.removeFirst()
             }
             return
         }
-        
-        let apiData = CreateFileRequest.Image(url: url.lastPathComponent, date: Date().string, data: imageData.base64EncodedString())
+        let date = imageData.imageDate
+        let apiData = CreateFileRequest.Image(url: url.lastPathComponent, date: date ?? Date().string, data: imageData.base64EncodedString())
         Task(priority: .userInitiated) {
             let response = await URLSession.shared.resumeTask(CreateFileRequest(username: "hi@mishadovhiy.com", originalURL: [apiData]))
             
@@ -128,7 +128,7 @@ class FileListViewModel: ObservableObject {
                             self.files.removeAll()
                             self.directorySizeResponse = nil
                             self.fetchList(ignoreOffset: true)
-
+                            
                         } else {
                             self.upload()
                         }

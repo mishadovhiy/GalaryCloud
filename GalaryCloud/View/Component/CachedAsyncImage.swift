@@ -10,14 +10,18 @@ import SwiftUI
 struct CachedAsyncImage: View {
     let presentationType: PresentationType
     @State private var image: UIImage?
+    @State private var date: String = ""
     @State private var isLoading: Bool = true
     
     var body: some View {
         ZStack {
             if let image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
+                VStack {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                    Text(date)
+                }
             }
             if isLoading {
                 ProgressView().progressViewStyle(.circular)
@@ -39,6 +43,7 @@ struct CachedAsyncImage: View {
                     switch response {
                     case .success(let imageData):
                         self.image = .init(data: imageData)
+                        self.date = imageData.imageDate ?? "?"
                     default: break
                     }
                 }

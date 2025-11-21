@@ -24,7 +24,6 @@ struct ViewSizeReaderModifier: ViewModifier {
                         }
                         .onChange(of: proxy.size.debugDescription) { _ in
                             viewSize?.wrappedValue = proxy.size
-print(proxy.size, "tegrfeadfs")
                         }
                         .onChange(of: proxy.safeAreaInsets) { _ in
                             safeArea?.wrappedValue = proxy.safeAreaInsets

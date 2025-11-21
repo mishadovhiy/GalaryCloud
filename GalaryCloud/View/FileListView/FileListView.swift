@@ -109,19 +109,16 @@ struct FileListView: View {
     }
     
     private func galaryItem(_ item: FileListViewModel.File) -> some View {
-        VStack(content: {
-            CachedAsyncImage(
-                presentationType: .galary(.init(username: "hi@mishadovhiy.com",
-                              fileName: item.originalURL))
-            )
-            .frame(height: 200)
-            .onTapGesture {
-                viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {
-                    $0.originalURL == item.originalURL
-                })!)
-            }
-            Text(item.originalURL)
-        })
+        CachedAsyncImage(
+            presentationType: .galary(.init(username: "hi@mishadovhiy.com",
+                          fileName: item.originalURL))
+        )
+        .frame(height: 200)
+        .onTapGesture {
+            viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {
+                $0.originalURL == item.originalURL
+            })!)
+        }
         .onAppear {
             if viewModel.files.last?.originalURL == item.originalURL {
                 viewModel.fetchList()

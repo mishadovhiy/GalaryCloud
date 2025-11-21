@@ -16,6 +16,7 @@ protocol Requestable: Codable {
     static var isCached: Bool { get }
     
     /// only values would be used in the request
+    /// example, in Get request all parameters would be passed to the URL as a directory
     static var ignoreParameterKeys: Bool { get }
     
     associatedtype Response: Codable

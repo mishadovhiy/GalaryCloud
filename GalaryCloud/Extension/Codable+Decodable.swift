@@ -17,15 +17,10 @@ extension Decodable {
             let decodedData = try decoder.decode(Self.self, from: data)
             self = decodedData
         } catch {
-#if DEBUG
-            print("error decoding data ", error)
-#endif
             do {
                 let decoder = JSONDecoder()
                 self = try decoder.decode(Self.self, from: data)
             } catch {
-                print(error, " yhtgerfesd")
-                print(String.init(data: data, encoding: .utf8))
                 throw error
             }
         }
@@ -39,9 +34,6 @@ extension Encodable {
             return try JSONEncoder().encode(self)
         }
         catch {
-#if DEBUG
-            print("error encoding PropertyListEncoder, keep trying", error)
-#endif
             let encoder = PropertyListEncoder()
             encoder.outputFormat = .binary
             return try encoder.encode(self)

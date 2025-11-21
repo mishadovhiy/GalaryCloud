@@ -11,7 +11,8 @@ import PhotosUI
 
 struct PhotoLibraryPickerView: UIViewControllerRepresentable {
     @Environment(\.dismiss) var dismiss
-    var imageSelected: (_ newImage: [URL]) -> ()
+    typealias ImageItem = URL
+    var imageSelected: (_ newImage: [ImageItem]) -> ()
     
     class Coordinator: NSObject, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
         #warning("todo: move to services")
@@ -34,7 +35,7 @@ struct PhotoLibraryPickerView: UIViewControllerRepresentable {
             DispatchQueue.main.async {
                 picker.dismiss(animated: true)
             }
-            var selectedURLs: [URL] = []
+            var selectedURLs: [ImageItem] = []
             results.forEach { result in
                 result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
                     if let url,
