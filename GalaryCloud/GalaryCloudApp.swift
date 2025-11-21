@@ -13,6 +13,7 @@ struct GalaryCloudApp: App {
     
     @StateObject var appData: AppData = .init()
     @Environment(\.scenePhase) private var scenePhase
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
         WindowGroup {

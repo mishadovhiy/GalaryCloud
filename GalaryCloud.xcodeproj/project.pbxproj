@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC1F82ED0EFFF005367A2 /* Data.swift */; };
+		823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2522ED10AA3005367A2 /* AppDelegate.swift */; };
 		827162052ECACBFC00E52013 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162042ECACBFC00E52013 /* UIWindow.swift */; };
 		827162082ECACFF700E52013 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162072ECACFF700E52013 /* FileListView.swift */; };
 		8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620A2ECAD02700E52013 /* FileListViewModel.swift */; };
@@ -61,6 +62,9 @@
 
 /* Begin PBXFileReference section */
 		823DC1F82ED0EFFF005367A2 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		823DC1FA2ED109A4005367A2 /* GalaryCloud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GalaryCloud.entitlements; sourceTree = "<group>"; };
+		823DC1FB2ED109B1005367A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		823DC2522ED10AA3005367A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		827162042ECACBFC00E52013 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		827162072ECACFF700E52013 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
 		8271620A2ECAD02700E52013 /* FileListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListViewModel.swift; sourceTree = "<group>"; };
@@ -210,7 +214,10 @@
 		82D7F4F42ECA82C300A44A98 /* GalaryCloud */ = {
 			isa = PBXGroup;
 			children = (
+				823DC1FB2ED109B1005367A2 /* Info.plist */,
+				823DC1FA2ED109A4005367A2 /* GalaryCloud.entitlements */,
 				82D7F4F32ECA82C300A44A98 /* GalaryCloudApp.swift */,
+				823DC2522ED10AA3005367A2 /* AppDelegate.swift */,
 				82D7F52B2ECAB1AE00A44A98 /* AppData.swift */,
 				82D7F52D2ECAB1DA00A44A98 /* AppConfig */,
 				82D7F5042ECA82F600A44A98 /* Service */,
@@ -471,6 +478,7 @@
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
 				82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */,
+				823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */,
 				823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */,
 				82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,
@@ -639,14 +647,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GalaryCloud/GalaryCloud.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GalaryCloud/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -683,14 +703,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GalaryCloud/GalaryCloud.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GalaryCloud/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
