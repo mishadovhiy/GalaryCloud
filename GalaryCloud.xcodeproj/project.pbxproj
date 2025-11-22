@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC1F82ED0EFFF005367A2 /* Data.swift */; };
 		823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2522ED10AA3005367A2 /* AppDelegate.swift */; };
+		823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */; };
 		827162052ECACBFC00E52013 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162042ECACBFC00E52013 /* UIWindow.swift */; };
 		827162082ECACFF700E52013 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162072ECACFF700E52013 /* FileListView.swift */; };
 		8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620A2ECAD02700E52013 /* FileListViewModel.swift */; };
@@ -65,6 +66,7 @@
 		823DC1FA2ED109A4005367A2 /* GalaryCloud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GalaryCloud.entitlements; sourceTree = "<group>"; };
 		823DC1FB2ED109B1005367A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		823DC2522ED10AA3005367A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFileRequest.swift; sourceTree = "<group>"; };
 		827162042ECACBFC00E52013 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		827162072ECACFF700E52013 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
 		8271620A2ECAD02700E52013 /* FileListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListViewModel.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				82D7F5112ECA855A00A44A98 /* LoginRequest.swift */,
 				82D7F5132ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift */,
 				82D7F5262ECAAF8700A44A98 /* CreateFileRequest.swift */,
+				823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */,
 				827162502ECBA8C000E52013 /* FetchImageRequest.swift */,
 				82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */,
 			);
@@ -471,6 +474,7 @@
 				82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */,
 				82D7F5062ECA836D00A44A98 /* FetchFilesResponse.swift in Sources */,
 				8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */,
+				823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
 				82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */,

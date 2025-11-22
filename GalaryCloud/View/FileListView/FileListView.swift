@@ -48,18 +48,16 @@ struct FileListView: View {
     
     @ViewBuilder
     var galaryPreview: some View {
-        let leftInx = (viewModel.selectedImagePreviewPresenting?.index ?? 0) - 1
-        let rightInx = (viewModel.selectedImagePreviewPresenting?.index ?? 0) + 1
-
+        let inx = viewModel.selectedImagePreviewPresenting?.index ?? 0
         PhotoPreviewView(imageSelection: viewModel.selectedImagePreviewPresenting, sideImages: [
-            .left: leftInx > 0 ? viewModel.files[leftInx] : nil,
-            .right: rightInx <= viewModel.files.count - 1 ? viewModel.files[rightInx] : nil
+            .left: inx - 1 > 0 ? viewModel.files[inx - 1] : nil,
+            .right: inx + 1 <= viewModel.files.count - 1 ? viewModel.files[inx + 1] : nil
         ]) { direction in
             
             let plusIndex = direction == .left ? -1 : 1
-            let oldIndex = viewModel.selectedImagePreviewPresenting?.index ?? 0
-            if oldIndex + plusIndex <= viewModel.files.count - 1 && oldIndex + plusIndex >= 0 {
-                viewModel.selectedImagePreviewPresenting = .init(file: viewModel.files[oldIndex + plusIndex], index: oldIndex + plusIndex)
+            let isValid = inx + plusIndex <= viewModel.files.count - 1 && inx + plusIndex >= 0
+            if isValid {
+                viewModel.selectedImagePreviewPresenting = .init(file: viewModel.files[inx + plusIndex], index: inx + plusIndex)
             }
         }
     }
