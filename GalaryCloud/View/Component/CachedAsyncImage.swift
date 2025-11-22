@@ -67,6 +67,14 @@ struct CachedAsyncImage: View {
         switch presentationType {
         case .galary(let dataModel):
             Task {
+                if let imageData = FileManager.default.load(path: dataModel.username + dataModel.fileName) {
+                    await MainActor.run {
+                        self.image = .init(data: imageData)
+                        self.date = imageData.imageDate ?? "?"
+                        self.isLoading = false
+                    }
+                    return
+                }
                 let response = await URLSession.shared.resumeTask(FetchImageRequest(username: dataModel.username, filename: dataModel.fileName))
                 await MainActor.run {
                     isLoading = false
@@ -74,6 +82,7 @@ struct CachedAsyncImage: View {
                     case .success(let imageData):
                         self.image = .init(data: imageData)
                         self.date = imageData.imageDate ?? "?"
+                        FileManager.default.save(data: imageData, path: dataModel.username + dataModel.fileName)
                     default: break
                     }
                 }
@@ -86,18 +95,22 @@ struct CachedAsyncImage: View {
         isLoading = true
         Task {
             let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: data.username, filename: data.fileName))
-            switch request {
-            case .success(let data):
-                if data.success {
-                    messages.append(.init(title: "Image Deleted", buttons: [
-                        .init(title: "OK", didPress: {
-                            didDeleteImage?()
-                            isLoading = false
-                            
-                        })
-                    ]))
+            FileManager.default.delete(path: data.username + data.fileName)
+            await MainActor.run {
+                isLoading = false
+                switch request {
+                case .success(let data):
+                    if data.success {
+                        messages.append(.init(title: "Image Deleted", buttons: [
+                            .init(title: "OK", didPress: {
+                                didDeleteImage?()
+                                isLoading = false
+                                
+                            })
+                        ]))
+                    }
+                default: break
                 }
-            default: break
             }
         }
     }
