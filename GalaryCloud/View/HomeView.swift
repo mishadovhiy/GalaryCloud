@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    
-    @EnvironmentObject private var appData: AppData
-    
+        
     var body: some View {
-        NavigationView {
-            FileListView()
-        }
+        FileListView()
     }
 }
 

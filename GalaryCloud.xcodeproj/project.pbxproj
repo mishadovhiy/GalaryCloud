@@ -10,6 +10,8 @@
 		823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC1F82ED0EFFF005367A2 /* Data.swift */; };
 		823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2522ED10AA3005367A2 /* AppDelegate.swift */; };
 		823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */; };
+		823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC26A2ED18F78005367A2 /* AlertModifier.swift */; };
+		823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC26C2ED195A0005367A2 /* FileManager.swift */; };
 		827162052ECACBFC00E52013 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162042ECACBFC00E52013 /* UIWindow.swift */; };
 		827162082ECACFF700E52013 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162072ECACFF700E52013 /* FileListView.swift */; };
 		8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620A2ECAD02700E52013 /* FileListViewModel.swift */; };
@@ -38,7 +40,6 @@
 		82D7F51F2ECA93DC00A44A98 /* URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F51E2ECA93DC00A44A98 /* URLRequest.swift */; };
 		82D7F5272ECAAF8700A44A98 /* CreateFileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5262ECAAF8700A44A98 /* CreateFileRequest.swift */; };
 		82D7F52A2ECAB10100A44A98 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5292ECAB10100A44A98 /* MessageModel.swift */; };
-		82D7F52C2ECAB1AE00A44A98 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F52B2ECAB1AE00A44A98 /* AppData.swift */; };
 		82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */; };
 		82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */; };
 		82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A222ECE50760003474F /* DirectorySizeResponse.swift */; };
@@ -67,6 +68,8 @@
 		823DC1FB2ED109B1005367A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		823DC2522ED10AA3005367A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFileRequest.swift; sourceTree = "<group>"; };
+		823DC26A2ED18F78005367A2 /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
+		823DC26C2ED195A0005367A2 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		827162042ECACBFC00E52013 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		827162072ECACFF700E52013 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
 		8271620A2ECAD02700E52013 /* FileListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListViewModel.swift; sourceTree = "<group>"; };
@@ -98,7 +101,6 @@
 		82D7F51E2ECA93DC00A44A98 /* URLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequest.swift; sourceTree = "<group>"; };
 		82D7F5262ECAAF8700A44A98 /* CreateFileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFileRequest.swift; sourceTree = "<group>"; };
 		82D7F5292ECAB10100A44A98 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
-		82D7F52B2ECAB1AE00A44A98 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewView.swift; sourceTree = "<group>"; };
 		82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectorySizeRequest.swift; sourceTree = "<group>"; };
 		82E06A222ECE50760003474F /* DirectorySizeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectorySizeResponse.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */,
+				823DC26A2ED18F78005367A2 /* AlertModifier.swift */,
 			);
 			path = ViewModifier;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				827162042ECACBFC00E52013 /* UIWindow.swift */,
 				82D7F5192ECA8EF000A44A98 /* URLSession.swift */,
 				82D7F51E2ECA93DC00A44A98 /* URLRequest.swift */,
+				823DC26C2ED195A0005367A2 /* FileManager.swift */,
 				823DC1F82ED0EFFF005367A2 /* Data.swift */,
 			);
 			path = Extension;
@@ -220,7 +224,6 @@
 				823DC1FA2ED109A4005367A2 /* GalaryCloud.entitlements */,
 				82D7F4F32ECA82C300A44A98 /* GalaryCloudApp.swift */,
 				823DC2522ED10AA3005367A2 /* AppDelegate.swift */,
-				82D7F52B2ECAB1AE00A44A98 /* AppData.swift */,
 				82D7F52D2ECAB1DA00A44A98 /* AppConfig */,
 				82D7F5042ECA82F600A44A98 /* Service */,
 				82D7F5092ECA837E00A44A98 /* Model */,
@@ -470,6 +473,7 @@
 				8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */,
 				82D7F5272ECAAF8700A44A98 /* CreateFileRequest.swift in Sources */,
 				82D7F52A2ECAB10100A44A98 /* MessageModel.swift in Sources */,
+				823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */,
 				82D7F5182ECA8D2800A44A98 /* Keys.swift in Sources */,
 				82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */,
 				82D7F5062ECA836D00A44A98 /* FetchFilesResponse.swift in Sources */,
@@ -484,13 +488,13 @@
 				82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */,
 				823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */,
 				823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */,
+				823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */,
 				82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,
 				82D7F5142ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift in Sources */,
 				82D7F51A2ECA8EF000A44A98 /* URLSession.swift in Sources */,
 				82D7F5082ECA837700A44A98 /* FetchFilesRequest.swift in Sources */,
 				82D7F51D2ECA91E900A44A98 /* UploadingProgressView.swift in Sources */,
-				82D7F52C2ECAB1AE00A44A98 /* AppData.swift in Sources */,
 				82D7F4F82ECA82C300A44A98 /* GalaryCloudApp.swift in Sources */,
 				82D7F5162ECA861600A44A98 /* Requestable.swift in Sources */,
 				82D7F5102ECA843100A44A98 /* ErrorResponse.swift in Sources */,
@@ -671,6 +675,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GalaryCloud/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save images we need access to your photolibrary";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -686,7 +691,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dovhiy.GalaryCloud;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dovhiy.galaryCloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -727,6 +732,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GalaryCloud/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save images we need access to your photolibrary";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -742,7 +748,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dovhiy.GalaryCloud;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dovhiy.galaryCloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;

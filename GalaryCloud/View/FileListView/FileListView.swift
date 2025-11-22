@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FileListView: View {
     
-    @EnvironmentObject private var appData: AppData
     @StateObject private var viewModel: FileListViewModel = .init()
     
     var body: some View {
@@ -27,7 +26,7 @@ struct FileListView: View {
         })
         .onChange(of: viewModel.uploadError) { newValue in
             if let newValue {
-                appData.message.append(.init(title: newValue.localizedDescription))
+                viewModel.messages.append(.init(title: newValue.localizedDescription))
             }
         }
         .onAppear {
@@ -44,6 +43,7 @@ struct FileListView: View {
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
             galaryPreview
         }
+        .modifier(AlertModifier(messages: $viewModel.messages))
     }
     
     @ViewBuilder
@@ -52,7 +52,11 @@ struct FileListView: View {
         PhotoPreviewView(imageSelection: viewModel.selectedImagePreviewPresenting, sideImages: [
             .left: inx - 1 > 0 ? viewModel.files[inx - 1] : nil,
             .right: inx + 1 <= viewModel.files.count - 1 ? viewModel.files[inx + 1] : nil
-        ]) { direction in
+        ], didDeleteImage: {
+            print("deletePressed")
+            viewModel.files.remove(at: inx)
+            viewModel.isPhotoLibraryPresenting = false
+        }) { direction in
             
             let plusIndex = direction == .left ? -1 : 1
             let isValid = inx + plusIndex <= viewModel.files.count - 1 && inx + plusIndex >= 0

@@ -11,35 +11,21 @@ import PhotosUI
 
 struct PhotoLibraryPickerView: UIViewControllerRepresentable {
     @Environment(\.dismiss) var dismiss
-    typealias ImageItem = URL
-    var imageSelected: (_ newImage: [ImageItem]) -> ()
+    
+    var imageSelected: (_ newImage: [URL]) -> ()
     
     class Coordinator: NSObject, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
         #warning("todo: move to services")
-        private func safeFile(libraryURL: URL) -> URL? {
-            let filename = libraryURL.lastPathComponent
-            let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
-            
-            do {
-                if FileManager.default.fileExists(atPath: tempURL.path) {
-                    try FileManager.default.removeItem(at: tempURL)
-                }
-                try FileManager.default.copyItem(at: libraryURL, to: tempURL)
-                return tempURL
-            } catch {
-                return nil
-            }
-        }
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             DispatchQueue.main.async {
                 picker.dismiss(animated: true)
             }
-            var selectedURLs: [ImageItem] = []
+            var selectedURLs: [URL] = []
             results.forEach { result in
                 result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
                     if let url,
-                       let newURL = self.safeFile(libraryURL: url)
+                       let newURL = FileManager.default.safeFile(libraryURL: url)
                     {
                         selectedURLs.append(newURL)
                     }

@@ -22,6 +22,7 @@ class FileListViewModel: ObservableObject {
     @Published var photoLibrarySelectedURLs: [URL] = []
     @Published var isPhotoLibraryPresenting: Bool = false
     @Published var selectedImagePreviewPresenting: ImageSelection?
+    @Published var messages: [MessageModel] = []
     var imagePreviewPresenting: Bool {
         get {
             selectedImagePreviewPresenting != nil
@@ -127,6 +128,7 @@ class FileListViewModel: ObservableObject {
                             self.requestOffset = 0
                             self.files.removeAll()
                             self.directorySizeResponse = nil
+                            FileManager.default.clearTempFolder()
                             self.fetchList(ignoreOffset: true)
                             
                         } else {

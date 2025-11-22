@@ -13,6 +13,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     static var didReciveNotification:((_ userInfo: [AnyHashable : Any])->())?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FileManager.default.clearTempFolder()
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if granted {

@@ -18,5 +18,6 @@ struct DeleteFileRequest: Requestable {
     
     static var ignoreParameterKeys: Bool { false }
     
-    
+    let username: String
+    let filename: String
 }
