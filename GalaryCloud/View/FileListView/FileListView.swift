@@ -57,7 +57,8 @@ struct FileListView: View {
             viewModel.files.remove(at: inx)
             viewModel.isPhotoLibraryPresenting = false
         }) { direction in
-            
+            let inx = viewModel.selectedImagePreviewPresenting?.index ?? 0
+
             let plusIndex = direction == .left ? -1 : 1
             let isValid = inx + plusIndex <= viewModel.files.count - 1 && inx + plusIndex >= 0
             if isValid {

@@ -25,7 +25,7 @@ struct PhotoLibraryPickerView: UIViewControllerRepresentable {
             results.forEach { result in
                 result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
                     if let url,
-                       let newURL = FileManager.default.safeFile(libraryURL: url)
+                       let newURL = FileManager.default.copyFile(from: url)
                     {
                         selectedURLs.append(newURL)
                     }

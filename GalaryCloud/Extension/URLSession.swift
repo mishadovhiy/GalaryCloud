@@ -12,10 +12,13 @@ extension URLSession {
     func resumeTask<T: Requestable>(_ requestable: T) async -> Result<T.Response, Error> {
         do {
             let request = try URLRequest.init(requestable)
-            print(request.url, " url ")
+            if let cached = cachedIfCan(requestable, request: request) {
+                return .success(cached as! T.Response)
+            }
             let response = try await self.performTask(request: request)
             switch response {
             case .success(let data):
+                cacheIfCan(response: data, requestable, request: request)
                 if T.Response.self == Data.self {
                     return .success(data as! T.Response)
                 }
@@ -50,6 +53,28 @@ extension URLSession {
     }
 }
 
+fileprivate extension URLSession {
+    #warning("PHP cache not working: after fixing PHP, remove below")
+    func cachedIfCan<T: Requestable>(_ requestable: T, request: URLRequest) -> Data? {
+        let requestableType = type(of: requestable)
+        if requestableType.isCached,
+           let url = request.url?.absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics),
+            let file = FileManager.default.load(path: url) {
+            if T.Response.self == Data.self {
+                return file
+            }
+        }
+        return nil
+    }
+    
+    func cacheIfCan<T: Requestable>(response: Data, _ requestable: T, request: URLRequest) {
+        let requestableType = type(of: requestable)
+
+        if requestableType.isCached {
+            let _ = FileManager.default.save(data: response, path: request.url?.absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "")
+        }
+    }
+}
 
 
 extension URLSession {
