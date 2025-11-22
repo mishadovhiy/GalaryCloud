@@ -22,29 +22,17 @@ extension FileManager {
         let filename = url.lastPathComponent
         let tempURL = temporaryDirectory.appendingPathComponent(filename)
         
-        do {
-            if fileExists(atPath: tempURL.path) {
-                try removeItem(at: tempURL)
-            }
-            try copyItem(at: url, to: tempURL)
-            return tempURL
-        } catch {
-            return nil
+        if fileExists(atPath: tempURL.path) {
+            try? removeItem(at: tempURL)
         }
+        try? copyItem(at: url, to: tempURL)
+        return tempURL
     }
 
-    func save(data: Data, path: String) -> URL? {
+    func save(data: Data, path: String) {
         let cachesDir = self.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        
         let fileURL = cachesDir.appendingPathComponent(path)
-        
-        do {
-            try data.write(to: fileURL, options: .atomic)
-            return fileURL
-        } catch {
-            print("Error saving file: \(error)")
-            return nil
-        }
+        try? data.write(to: fileURL, options: .atomic)
     }
     
     func load(path: String) -> Data? {
@@ -63,11 +51,7 @@ extension FileManager {
         let fileURL = cachesDir.appendingPathComponent(path)
         
         if fileExists(atPath: fileURL.path) {
-            do {
-                try removeItem(at: fileURL)
-            } catch {
-            }
-        } else {
+            try? removeItem(at: fileURL)
         }
     }
 }
