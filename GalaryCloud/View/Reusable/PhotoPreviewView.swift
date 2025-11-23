@@ -62,7 +62,11 @@ struct PageRepresentable: UIViewControllerRepresentable {
         vc.newIndex = newIndex
         return vc
     }
+    
     func updateUIViewController(_ uiViewController: PageController, context: Context) {
+        if uiViewController.pages.first?.galaryModel == views.first?.galaryModel {
+            return
+        }
         uiViewController.didDeleteImage = didDeleteImage
         setViewController(uiViewController)
 //        uiViewController.setViewControllers([ uiViewController.pages[1]],

@@ -40,6 +40,9 @@ struct FileListView: View {
                 }
             }
         }
+        .sheet(isPresented: $viewModel.storeKitPresenting, content: {
+            StoreKitView()
+        })
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
             galaryPreview
         }
@@ -55,7 +58,7 @@ struct FileListView: View {
         ], didDeleteImage: {
             print("deletePressed")
             viewModel.files.remove(at: inx)
-            viewModel.isPhotoLibraryPresenting = false
+            viewModel.imagePreviewPresenting = false
         }) { direction in
             let inx = viewModel.selectedImagePreviewPresenting?.index ?? 0
 
@@ -70,6 +73,9 @@ struct FileListView: View {
     var bottomStatusBar: some View {
         HStack {
             Text("\(viewModel.totalFileRecords ?? 0)/\(viewModel.files.count)")
+            Button("upgrade") {
+                viewModel.storeKitPresenting = true
+            }
             Spacer()
             Button("upload") {
                 viewModel.isPhotoLibraryPresenting = true

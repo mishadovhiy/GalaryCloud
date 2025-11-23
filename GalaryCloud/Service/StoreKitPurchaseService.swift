@@ -9,8 +9,11 @@ import StoreKit
 import Foundation
 import Combine
 
-class StoreKitPurchaseService: ObservableObject {
+class StoreKitPurchaseService: NSObject, ObservableObject {
     @Published var products: [Product] = []
+#warning("todo: buy pressed")
+
+#warning("todo: load on app launch")
     private let productIDs: [String] = [
         "base",
         "average",
@@ -19,7 +22,8 @@ class StoreKitPurchaseService: ObservableObject {
         "vip"
     ]
     
-    init() {
+    override init() {
+        super.init()
         Task {
             await self.loadSubscriptions()
         }
@@ -30,7 +34,7 @@ class StoreKitPurchaseService: ObservableObject {
             
             let products = try await Product.products(for: productIDs)
             await MainActor.run {
-                self.products = products
+                self.products = products.sorted(by: {$0.price >= $1.price})
             }
         } catch {
             print("StoreKit error:", error)

@@ -9,4 +9,5 @@ import Foundation
 
 struct DataBaseModel: Codable {
     var generalAppParameters: AppParametersResponse? = nil
+    var test: Bool = false
 }

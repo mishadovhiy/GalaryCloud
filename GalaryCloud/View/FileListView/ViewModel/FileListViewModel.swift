@@ -23,6 +23,8 @@ class FileListViewModel: ObservableObject {
     @Published var isPhotoLibraryPresenting: Bool = false
     @Published var selectedImagePreviewPresenting: ImageSelection?
     @Published var messages: [MessageModel] = []
+    @Published var storeKitPresenting: Bool = false
+    #warning("remove photo library presenting bool, its not used imagePreviewPresenting used indeed")
     var imagePreviewPresenting: Bool {
         get {
             selectedImagePreviewPresenting != nil
@@ -102,6 +104,9 @@ class FileListViewModel: ObservableObject {
     }
     
     func upload() {
+        //check gb limit, if cannot, show alert and present Uploading progress view
+        //item uploaded, add file manually
+        // on upload start - check storekit limit
         self.uploadError = nil
         guard let url = self.photoLibrarySelectedURLs.first else {
             return

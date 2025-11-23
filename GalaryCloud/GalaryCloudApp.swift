@@ -12,7 +12,7 @@ import UIKit
 struct GalaryCloudApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject var storeKitService: StoreKitPurchaseService = .init()
+    // buy pro screen only dont store in enviroment and fecth active subscription detail when app did enter foregraund (for displaying total gb availible), and when selected photos
     @StateObject var dataBaseService: DataBaseService = .init()
     
     var body: some Scene {

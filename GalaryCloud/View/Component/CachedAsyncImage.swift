@@ -144,10 +144,19 @@ struct CachedAsyncImage: View {
 
 extension CachedAsyncImage {
     enum PresentationType {
+        
         case galary(GalaryModel)
-        struct GalaryModel {
+        
+        struct GalaryModel: Equatable {
             let username: String
             let fileName: String
+        }
+        
+        var galaryModel: GalaryModel? {
+            switch self {
+            case .galary(let galaryModel):
+                galaryModel
+            }
         }
         
         var hasValue: Bool {
