@@ -13,6 +13,11 @@
 		823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC26A2ED18F78005367A2 /* AlertModifier.swift */; };
 		823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC26C2ED195A0005367A2 /* FileManager.swift */; };
 		823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2822ED1B202005367A2 /* KeychainService.swift */; };
+		823DC2852ED27EEF005367A2 /* StoreKitPurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */; };
+		823DC2872ED28B15005367A2 /* DataBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2862ED28B15005367A2 /* DataBaseModel.swift */; };
+		823DC2892ED28B48005367A2 /* AppParametersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2882ED28B48005367A2 /* AppParametersResponse.swift */; };
+		823DC28B2ED28C21005367A2 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC28A2ED28C21005367A2 /* DataBaseService.swift */; };
+		823DC2932ED29321005367A2 /* StoreKitSubscriptionStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */; };
 		827162052ECACBFC00E52013 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162042ECACBFC00E52013 /* UIWindow.swift */; };
 		827162082ECACFF700E52013 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162072ECACFF700E52013 /* FileListView.swift */; };
 		8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620A2ECAD02700E52013 /* FileListViewModel.swift */; };
@@ -72,6 +77,11 @@
 		823DC26A2ED18F78005367A2 /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		823DC26C2ED195A0005367A2 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		823DC2822ED1B202005367A2 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitPurchaseService.swift; sourceTree = "<group>"; };
+		823DC2862ED28B15005367A2 /* DataBaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseModel.swift; sourceTree = "<group>"; };
+		823DC2882ED28B48005367A2 /* AppParametersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppParametersResponse.swift; sourceTree = "<group>"; };
+		823DC28A2ED28C21005367A2 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
+		823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionStatusService.swift; sourceTree = "<group>"; };
 		827162042ECACBFC00E52013 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		827162072ECACFF700E52013 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
 		8271620A2ECAD02700E52013 /* FileListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListViewModel.swift; sourceTree = "<group>"; };
@@ -269,6 +279,9 @@
 			isa = PBXGroup;
 			children = (
 				823DC2822ED1B202005367A2 /* KeychainService.swift */,
+				823DC28A2ED28C21005367A2 /* DataBaseService.swift */,
+				823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */,
+				823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */,
 				8271620F2ECAFB4100E52013 /* Network */,
 			);
 			path = Service;
@@ -278,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				82D7F5292ECAB10100A44A98 /* MessageModel.swift */,
+				823DC2862ED28B15005367A2 /* DataBaseModel.swift */,
 				82D7F50A2ECA838600A44A98 /* Network */,
 			);
 			path = Model;
@@ -297,6 +311,7 @@
 			children = (
 				82D7F5052ECA836D00A44A98 /* FetchFilesResponse.swift */,
 				82E06A222ECE50760003474F /* DirectorySizeResponse.swift */,
+				823DC2882ED28B48005367A2 /* AppParametersResponse.swift */,
 				82D7F5282ECAB06800A44A98 /* Base */,
 			);
 			path = Response;
@@ -471,16 +486,20 @@
 			files = (
 				82D7F5122ECA855A00A44A98 /* LoginRequest.swift in Sources */,
 				82D7F51F2ECA93DC00A44A98 /* URLRequest.swift in Sources */,
+				823DC2892ED28B48005367A2 /* AppParametersResponse.swift in Sources */,
 				8271620E2ECAFB2B00E52013 /* RequestType.swift in Sources */,
+				823DC2872ED28B15005367A2 /* DataBaseModel.swift in Sources */,
 				8271622B2ECB095800E52013 /* ViewSizeReaderModifier.swift in Sources */,
 				8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */,
 				82D7F5272ECAAF8700A44A98 /* CreateFileRequest.swift in Sources */,
 				82D7F52A2ECAB10100A44A98 /* MessageModel.swift in Sources */,
+				823DC2932ED29321005367A2 /* StoreKitSubscriptionStatusService.swift in Sources */,
 				823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */,
 				82D7F5182ECA8D2800A44A98 /* Keys.swift in Sources */,
 				82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */,
 				82D7F5062ECA836D00A44A98 /* FetchFilesResponse.swift in Sources */,
 				8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */,
+				823DC2852ED27EEF005367A2 /* StoreKitPurchaseService.swift in Sources */,
 				823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
@@ -500,6 +519,7 @@
 				82D7F5082ECA837700A44A98 /* FetchFilesRequest.swift in Sources */,
 				82D7F51D2ECA91E900A44A98 /* UploadingProgressView.swift in Sources */,
 				82D7F4F82ECA82C300A44A98 /* GalaryCloudApp.swift in Sources */,
+				823DC28B2ED28C21005367A2 /* DataBaseService.swift in Sources */,
 				82D7F5162ECA861600A44A98 /* Requestable.swift in Sources */,
 				82D7F5102ECA843100A44A98 /* ErrorResponse.swift in Sources */,
 			);

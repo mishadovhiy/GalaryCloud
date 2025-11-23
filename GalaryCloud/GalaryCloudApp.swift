@@ -12,10 +12,19 @@ import UIKit
 struct GalaryCloudApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
+    @StateObject var storeKitService: StoreKitPurchaseService = .init()
+    @StateObject var dataBaseService: DataBaseService = .init()
+    
     var body: some Scene {
         WindowGroup {
+//            if appData.db?.generalAppParameters == nil {
+//                ProgressView()
+//                    .progressViewStyle(.circular)
+//            } else {
+//                
+//            }
             HomeView()
+                .environmentObject(dataBaseService)
         }
     }
     
