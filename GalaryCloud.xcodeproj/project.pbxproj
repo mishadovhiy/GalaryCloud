@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232D4C12ED37841004A67EE /* AuthorizationView.swift */; };
+		8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */; };
 		823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC1F82ED0EFFF005367A2 /* Data.swift */; };
 		823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2522ED10AA3005367A2 /* AppDelegate.swift */; };
 		823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */; };
@@ -70,6 +72,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8232D4C12ED37841004A67EE /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
+		8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeaturesView.swift; sourceTree = "<group>"; };
 		823DC1F82ED0EFFF005367A2 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		823DC1FA2ED109A4005367A2 /* GalaryCloud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GalaryCloud.entitlements; sourceTree = "<group>"; };
 		823DC1FB2ED109B1005367A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -145,6 +149,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8232D4C32ED37CFA004A67EE /* AuthorizationView */ = {
+			isa = PBXGroup;
+			children = (
+				8232D4C12ED37841004A67EE /* AuthorizationView.swift */,
+				8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */,
+			);
+			path = AuthorizationView;
+			sourceTree = "<group>";
+		};
 		827162062ECACF0500E52013 /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +284,7 @@
 			children = (
 				82D7F4F22ECA82C300A44A98 /* HomeView.swift */,
 				823DC2942ED29FAB005367A2 /* StoreKitView.swift */,
+				8232D4C32ED37CFA004A67EE /* AuthorizationView */,
 				827162092ECAD01500E52013 /* FileListView */,
 				827162062ECACF0500E52013 /* Component */,
 				827162432ECB436D00E52013 /* Reusable */,
@@ -525,6 +539,8 @@
 				82D7F4F82ECA82C300A44A98 /* GalaryCloudApp.swift in Sources */,
 				823DC28B2ED28C21005367A2 /* DataBaseService.swift in Sources */,
 				82D7F5162ECA861600A44A98 /* Requestable.swift in Sources */,
+				8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */,
+				8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */,
 				82D7F5102ECA843100A44A98 /* ErrorResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
