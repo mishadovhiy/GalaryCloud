@@ -35,6 +35,10 @@
 		82909A622ED4E2A700BF9548 /* AWSS3 in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A612ED4E2A700BF9548 /* AWSS3 */; };
 		82909A642ED4E2A700BF9548 /* AWSSES in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A632ED4E2A700BF9548 /* AWSSES */; };
 		82909A662ED4E2A700BF9548 /* AWSSNS in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A652ED4E2A700BF9548 /* AWSSNS */; };
+		82909A682ED53FF200BF9548 /* LoaderShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A672ED53FF200BF9548 /* LoaderShape.swift */; };
+		82909A6A2ED5418700BF9548 /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A692ED5418700BF9548 /* ServiceConfig.swift */; };
+		82909A6C2ED541E900BF9548 /* WasabiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A6B2ED541E900BF9548 /* WasabiConfig.swift */; };
+		82909A6E2ED542A200BF9548 /* WasabiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A6D2ED542A200BF9548 /* WasabiService.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -102,6 +106,10 @@
 		827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryPickerView.swift; sourceTree = "<group>"; };
 		8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 		827162502ECBA8C000E52013 /* FetchImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchImageRequest.swift; sourceTree = "<group>"; };
+		82909A672ED53FF200BF9548 /* LoaderShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderShape.swift; sourceTree = "<group>"; };
+		82909A692ED5418700BF9548 /* ServiceConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
+		82909A6B2ED541E900BF9548 /* WasabiConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WasabiConfig.swift; sourceTree = "<group>"; };
+		82909A6D2ED542A200BF9548 /* WasabiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WasabiService.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +183,7 @@
 			children = (
 				82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */,
 				8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */,
+				82909A672ED53FF200BF9548 /* LoaderShape.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -221,6 +230,15 @@
 				82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */,
 			);
 			path = Reusable;
+			sourceTree = "<group>";
+		};
+		82909A6F2ED542EB00BF9548 /* StoreKitServices */ = {
+			isa = PBXGroup;
+			children = (
+				823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */,
+				823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */,
+			);
+			path = StoreKitServices;
 			sourceTree = "<group>";
 		};
 		82D7F4B32ECA813300A44A98 = {
@@ -309,8 +327,8 @@
 			children = (
 				823DC2822ED1B202005367A2 /* KeychainService.swift */,
 				823DC28A2ED28C21005367A2 /* DataBaseService.swift */,
-				823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */,
-				823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */,
+				82909A6D2ED542A200BF9548 /* WasabiService.swift */,
+				82909A6F2ED542EB00BF9548 /* StoreKitServices */,
 				8271620F2ECAFB4100E52013 /* Network */,
 			);
 			path = Service;
@@ -373,6 +391,8 @@
 			isa = PBXGroup;
 			children = (
 				82D7F5172ECA8D2800A44A98 /* Keys.swift */,
+				82909A692ED5418700BF9548 /* ServiceConfig.swift */,
+				82909A6B2ED541E900BF9548 /* WasabiConfig.swift */,
 			);
 			path = AppConfig;
 			sourceTree = "<group>";
@@ -539,9 +559,11 @@
 				8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */,
 				823DC2852ED27EEF005367A2 /* StoreKitPurchaseService.swift in Sources */,
 				823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */,
+				82909A6A2ED5418700BF9548 /* ServiceConfig.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
 				82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */,
+				82909A682ED53FF200BF9548 /* LoaderShape.swift in Sources */,
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,
@@ -558,7 +580,9 @@
 				82D7F5082ECA837700A44A98 /* FetchFilesRequest.swift in Sources */,
 				82D7F51D2ECA91E900A44A98 /* UploadingProgressView.swift in Sources */,
 				82D7F4F82ECA82C300A44A98 /* GalaryCloudApp.swift in Sources */,
+				82909A6C2ED541E900BF9548 /* WasabiConfig.swift in Sources */,
 				823DC28B2ED28C21005367A2 /* DataBaseService.swift in Sources */,
+				82909A6E2ED542A200BF9548 /* WasabiService.swift in Sources */,
 				82D7F5162ECA861600A44A98 /* Requestable.swift in Sources */,
 				8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */,
 				8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */,

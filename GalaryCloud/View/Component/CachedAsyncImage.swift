@@ -71,23 +71,6 @@ struct CachedAsyncImage: View {
         }
     }
     
-    func fetchURL(data: PresentationType.GalaryModel,
-                  completion: @escaping(_ url: URL?)->()) {
-        let request = AWSS3GetPreSignedURLRequest()
-        request.bucket = "galary-cloud-dovhyi"
-        request.key = "uploads/\(data.username)/\(data.fileName)"
-        request.httpMethod = .GET
-        request.expires = Date(timeIntervalSinceNow: 3600)
-        
-        AWSS3PreSignedURLBuilder.default().getPreSignedURL(request).continueWith { task in
-            if let url = task.result as? URL {
-                completion(url)
-            } else {
-                completion(nil)
-            }
-            return nil
-        }
-    }
     @State var task: URLSessionDataTask?
     func fetchImage() {
         isLoading = true
@@ -108,7 +91,10 @@ struct CachedAsyncImage: View {
                 }
             }
             Task {
-                self.fetchURL(data: dataModel) { url in
+                WasabiService.fetchURL(
+                    username: dataModel.username,
+                    filename: dataModel.fileName
+                ) { url in
                     task = URLSession.shared.dataTask(with: .init(url: url!)) { data, _, _ in
                         DispatchQueue.main.async {
                             if let data,
@@ -124,26 +110,6 @@ struct CachedAsyncImage: View {
                     task?.resume()
                     
                 }
-//                if let imageData = FileManager.default.load(path: dataModel.username + dataModel.fileName) {
-//                    await MainActor.run {
-//                        self.image = .init(data: imageData)
-//                        self.date = imageData.imageDate ?? "?"
-//                        self.isLoading = false
-//                    }
-//                    return
-//                }
-//                let response = await URLSession.shared.resumeTask(FetchImageRequest(username: dataModel.username, filename: dataModel.fileName))
-                
-//                await MainActor.run {
-//                    isLoading = false
-//                    switch response {
-//                    case .success(let imageData):
-//                        self.image = .init(data: imageData)
-//                        self.date = imageData.imageDate ?? "?"
-////                        FileManager.default.save(data: imageData, path: dataModel.username + dataModel.fileName)
-//                    default: break
-//                    }
-//                }
             }
         }
         

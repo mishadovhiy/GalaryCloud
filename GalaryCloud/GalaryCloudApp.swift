@@ -7,8 +7,6 @@
 
 import SwiftUI
 import UIKit
-import AWSS3
-import AWSCore
 
 @main
 struct GalaryCloudApp: App {
@@ -28,25 +26,7 @@ struct GalaryCloudApp: App {
             HomeView()
                 .environmentObject(dataBaseService)
                 .onAppear {
-                    let credentials = AWSStaticCredentialsProvider(
-                        accessKey: "TU596PAI2YD1KVSINVOY",
-                        secretKey: "2PGVASzVVFHqLaXFPuGPL6KZ7tgCXdYXKfMbjFXQ"
-                    )
-
-                    let endpoint = AWSEndpoint(
-                        region: .APNortheast2,
-                        service: .S3,
-                        url: URL(string: "https://s3.ap-northeast-2.wasabisys.com")!
-                    )
-
-                    let config = AWSServiceConfiguration(
-                        region: .USEast1,
-                        endpoint: endpoint,
-                        credentialsProvider: credentials
-                    )
-
-                    AWSServiceManager.default().defaultServiceConfiguration = config
-
+                    let _ = ServiceConfig()
                 }
         }
     }
