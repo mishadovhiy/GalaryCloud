@@ -120,7 +120,8 @@ struct FileListView: View {
     private func galaryItem(_ item: FileListViewModel.File) -> some View {
         CachedAsyncImage(
             presentationType: .galary(.init(username: "hi@mishadovhiy.com",
-                          fileName: item.originalURL))
+                          fileName: item.originalURL,
+                                            date: item.date))
         )
         .frame(height: 200)
         .onTapGesture {

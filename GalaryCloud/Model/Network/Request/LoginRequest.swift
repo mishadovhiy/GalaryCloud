@@ -14,10 +14,6 @@ struct LoginRequest: Requestable, Codable {
     
     static var method: URLSession.Method { .get }
     
-    static var ignoreParameterKeys: Bool { false }
-    
-    static var isCached: Bool { false }
-    
     let username: String
     let password: String
 }

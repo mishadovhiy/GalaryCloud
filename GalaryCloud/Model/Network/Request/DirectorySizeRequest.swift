@@ -14,9 +14,5 @@ struct DirectorySizeRequest: Requestable {
     
     static var method: URLSession.Method { .get }
     
-    static var isCached: Bool { false }
-    
-    static var ignoreParameterKeys: Bool { false }
-    
     let path: String
 }

@@ -12,10 +12,6 @@ struct FetchFilesRequest: Requestable, Codable {
     
     static var method: URLSession.Method { .get }
     
-    static var ignoreParameterKeys: Bool { false }
-    
-    static var isCached: Bool { false }
-    
     typealias Response = FetchFilesResponse
     
     private let offset: Int

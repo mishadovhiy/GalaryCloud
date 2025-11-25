@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 class DataBaseService: ObservableObject {
     private let dbkey = "db8"
+    let imageCache = NSCache<NSString, UIImage>()
 
     @Published var db: DataBaseModel? {
         didSet {
@@ -33,5 +34,6 @@ class DataBaseService: ObservableObject {
         } catch {
             self.db = .init()
         }
+        imageCache.totalCostLimit =  512 * 1024 * 1024
     }
 }

@@ -12,6 +12,7 @@ extension URLSession {
     func resumeTask<T: Requestable>(_ requestable: T) async -> Result<T.Response, Error> {
         do {
             let request = try URLRequest.init(requestable)
+            print(request.url?.absoluteString)
             let response = try await self.performTask(request: request)
             switch response {
             case .success(let data):

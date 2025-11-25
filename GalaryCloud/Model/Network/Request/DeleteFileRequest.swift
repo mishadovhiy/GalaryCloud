@@ -14,10 +14,6 @@ struct DeleteFileRequest: Requestable {
     
     static var method: URLSession.Method { .post }
     
-    static var isCached: Bool { false }
-    
-    static var ignoreParameterKeys: Bool { false }
-    
     let username: String
     let filename: String
 }

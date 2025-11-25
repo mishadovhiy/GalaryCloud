@@ -14,10 +14,6 @@ struct FetchImageRequest: Codable, Requestable {
     
     static var method: URLSession.Method { .get }
     
-    #warning("refactor: use optional codable structure indeed ignoreParameterKeys, isCached")
-    static var ignoreParameterKeys: Bool { false }
-    static var isCached: Bool { true }
-    
     let username: String
     let filename: String
 }

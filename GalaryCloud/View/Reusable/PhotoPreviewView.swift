@@ -18,7 +18,7 @@ struct PhotoPreviewView: View {
         VStack(content: {
             Spacer().frame(height: 30)
             PageRepresentable(views: pageList.compactMap({
-                .galary(.init(username: "hi@mishadovhiy.com", fileName: $0.originalURL))
+                .galary(.init(username: "hi@mishadovhiy.com", fileName: $0.originalURL, date: $0.date))
             }), didDeleteImage: didDeleteImage) { newIndex in
                 imageSwiped(newIndex == 0 ? .left : .right)
             }

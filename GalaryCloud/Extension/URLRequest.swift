@@ -11,14 +11,14 @@ extension URLRequest {
     
     init(_ requestable: any Requestable) throws {
         let requestableType = type(of: requestable)
-        let urlString = Keys.serverURL.rawValue + requestableType.path + (requestableType.ignoreParameterKeys ? "" : ".php")
+        let urlString = Keys.serverURL.rawValue + requestableType.path + ".php"
         do {
             let suffix = try URLRequest.urlSuffix(requestable)
             
             guard let url = URL(string: urlString + suffix) else {
                 throw NSError(domain: "Error creating url", code: URLError.badURL.rawValue)
             }
-            self.init(url: url, cachePolicy: requestableType.isCached ? .returnCacheDataElseLoad : .reloadIgnoringLocalAndRemoteCacheData)
+            self.init(url: url)
             try self.prepareRequest(requestable: requestable)
         }
         catch {
@@ -35,14 +35,10 @@ extension URLRequest {
             }
             let requestString = requestDictionary
                 .map({
-                    if !type.ignoreParameterKeys {
-                        return $0.key + "=" + "\($0.value)"
-                    } else {
-                        return "\($0.value)"
-                    }
+                    return $0.key + "=" + "\($0.value)"
                 })
                 .joined(separator: "&")
-            return (!type.ignoreParameterKeys ? "?" : "") + requestString
+            return "?" + requestString
         default:
             return ""
         }
