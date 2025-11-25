@@ -35,10 +35,15 @@
 		82909A622ED4E2A700BF9548 /* AWSS3 in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A612ED4E2A700BF9548 /* AWSS3 */; };
 		82909A642ED4E2A700BF9548 /* AWSSES in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A632ED4E2A700BF9548 /* AWSSES */; };
 		82909A662ED4E2A700BF9548 /* AWSSNS in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A652ED4E2A700BF9548 /* AWSSNS */; };
-		82909A682ED53FF200BF9548 /* LoaderShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A672ED53FF200BF9548 /* LoaderShape.swift */; };
+		82909A682ED53FF200BF9548 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A672ED53FF200BF9548 /* LoaderView.swift */; };
 		82909A6A2ED5418700BF9548 /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A692ED5418700BF9548 /* ServiceConfig.swift */; };
 		82909A6C2ED541E900BF9548 /* WasabiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A6B2ED541E900BF9548 /* WasabiConfig.swift */; };
 		82909A6E2ED542A200BF9548 /* WasabiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A6D2ED542A200BF9548 /* WasabiService.swift */; };
+		82909A712ED5607700BF9548 /* ArrowShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A702ED5607700BF9548 /* ArrowShape.swift */; };
+		82909A742ED5717800BF9548 /* UploadComponentShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A732ED5717800BF9548 /* UploadComponentShape.swift */; };
+		82909A762ED571E300BF9548 /* CloudShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A752ED571E300BF9548 /* CloudShape.swift */; };
+		82909A782ED574D200BF9548 /* UploadIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A772ED574D200BF9548 /* UploadIconView.swift */; };
+		82909A7A2ED59A4800BF9548 /* CheckmarkShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A792ED59A4800BF9548 /* CheckmarkShape.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -106,10 +111,15 @@
 		827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryPickerView.swift; sourceTree = "<group>"; };
 		8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 		827162502ECBA8C000E52013 /* FetchImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchImageRequest.swift; sourceTree = "<group>"; };
-		82909A672ED53FF200BF9548 /* LoaderShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderShape.swift; sourceTree = "<group>"; };
+		82909A672ED53FF200BF9548 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		82909A692ED5418700BF9548 /* ServiceConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
 		82909A6B2ED541E900BF9548 /* WasabiConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WasabiConfig.swift; sourceTree = "<group>"; };
 		82909A6D2ED542A200BF9548 /* WasabiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WasabiService.swift; sourceTree = "<group>"; };
+		82909A702ED5607700BF9548 /* ArrowShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowShape.swift; sourceTree = "<group>"; };
+		82909A732ED5717800BF9548 /* UploadComponentShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadComponentShape.swift; sourceTree = "<group>"; };
+		82909A752ED571E300BF9548 /* CloudShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudShape.swift; sourceTree = "<group>"; };
+		82909A772ED574D200BF9548 /* UploadIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadIconView.swift; sourceTree = "<group>"; };
+		82909A792ED59A4800BF9548 /* CheckmarkShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkShape.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,7 +193,8 @@
 			children = (
 				82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */,
 				8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */,
-				82909A672ED53FF200BF9548 /* LoaderShape.swift */,
+				82909A672ED53FF200BF9548 /* LoaderView.swift */,
+				82909A772ED574D200BF9548 /* UploadIconView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -241,6 +252,17 @@
 			path = StoreKitServices;
 			sourceTree = "<group>";
 		};
+		82909A722ED5638700BF9548 /* Shape */ = {
+			isa = PBXGroup;
+			children = (
+				82909A702ED5607700BF9548 /* ArrowShape.swift */,
+				82909A752ED571E300BF9548 /* CloudShape.swift */,
+				82909A732ED5717800BF9548 /* UploadComponentShape.swift */,
+				82909A792ED59A4800BF9548 /* CheckmarkShape.swift */,
+			);
+			path = Shape;
+			sourceTree = "<group>";
+		};
 		82D7F4B32ECA813300A44A98 = {
 			isa = PBXGroup;
 			children = (
@@ -285,6 +307,7 @@
 				82D7F5042ECA82F600A44A98 /* Service */,
 				82D7F5092ECA837E00A44A98 /* Model */,
 				82D7F5012ECA82D900A44A98 /* View */,
+				82909A722ED5638700BF9548 /* Shape */,
 				8271622C2ECB096400E52013 /* ViewModifier */,
 				82D7F4F02ECA82C300A44A98 /* Extension */,
 				82D7F4F12ECA82C300A44A98 /* Assets.xcassets */,
@@ -545,6 +568,7 @@
 				82D7F5122ECA855A00A44A98 /* LoginRequest.swift in Sources */,
 				82D7F51F2ECA93DC00A44A98 /* URLRequest.swift in Sources */,
 				823DC2892ED28B48005367A2 /* AppParametersResponse.swift in Sources */,
+				82909A762ED571E300BF9548 /* CloudShape.swift in Sources */,
 				8271620E2ECAFB2B00E52013 /* RequestType.swift in Sources */,
 				823DC2872ED28B15005367A2 /* DataBaseModel.swift in Sources */,
 				8271622B2ECB095800E52013 /* ViewSizeReaderModifier.swift in Sources */,
@@ -561,9 +585,11 @@
 				823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */,
 				82909A6A2ED5418700BF9548 /* ServiceConfig.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
+				82909A742ED5717800BF9548 /* UploadComponentShape.swift in Sources */,
+				82909A782ED574D200BF9548 /* UploadIconView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
 				82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */,
-				82909A682ED53FF200BF9548 /* LoaderShape.swift in Sources */,
+				82909A682ED53FF200BF9548 /* LoaderView.swift in Sources */,
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,
@@ -572,9 +598,11 @@
 				823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */,
 				823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */,
 				823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */,
+				82909A7A2ED59A4800BF9548 /* CheckmarkShape.swift in Sources */,
 				82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,
 				82D7F5142ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift in Sources */,
+				82909A712ED5607700BF9548 /* ArrowShape.swift in Sources */,
 				823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */,
 				82D7F51A2ECA8EF000A44A98 /* URLSession.swift in Sources */,
 				82D7F5082ECA837700A44A98 /* FetchFilesRequest.swift in Sources */,
