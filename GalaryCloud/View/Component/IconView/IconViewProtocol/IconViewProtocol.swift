@@ -30,7 +30,13 @@ extension View where Self: IconViewProtocol {
             }
             HStack {
                 ArrowShape(top: isTop)
-                    .offset(y: !isLoading ? 0 : (animationActive ? (!isTop ? -5 : -10) : (!isTop ? 0 : 5)))
+                    .offset(y: !isLoading ? 0 : (animationActive ? (!isTop ? -5 : -1) : (!isTop ? 0 : 10)))
+//                    .scale(isLoading ? (animationActive ? 1 : 0.98) : 1)
+                /**
+                 ArrowShape(top: isTop)
+                     .offset(y: !isLoading ? 0 : (animationActive ? (!isTop ? -5 : 0) : (!isTop ? 0 : 7)))
+                     .scale(isLoading ? (animationActive ? 1 : 0.98) : 1)
+                 */
                     .stroke(shapeColor, lineWidth: 1.5)
                     .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.5) : .default, value: animationActive)
                 
@@ -51,26 +57,4 @@ extension View where Self: IconViewProtocol {
         Spacer()
             .frame(maxHeight: .infinity)
     }
-}
-
-struct IconViewModifier<Content: IconViewProtocol>: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .offset(x: model.completed ? -10 : 0, y: model.completed ? 10 : 0)
-            .scaleEffect(model.completed ? 0 : 1)
-            .animation(.smooth, value: model.completed)
-            .overlay {
-                LoaderView(isLoading: isLoading, trim: model.completed ? 1 : 0)
-                    .padding(model.completed ? -20 : 20)
-            }
-            .overlay(content: {
-                CheckmarkShape()
-                    .trim(to: model.completed ? 1 : 0)
-                    .fill(shapeColor)
-                    .scaleEffect(model.completed ? 1 : 0.8)
-                    .animation(.smooth(duration: 0.9), value: model.completed)
-            })
-    }
-    
-    
 }

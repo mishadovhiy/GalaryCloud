@@ -24,13 +24,16 @@ struct SaveIconView: View, IconViewProtocol {
         ZStack(content: {
             VStack {
                 arrowView(true)
-                    .padding(.top, !isLoading ? -10 : 0)
+                    .padding(.top, !isLoading ? 5 : 0)
             }
             UploadComponentShape()
                 .trim(to: !isLoading ? 1 : (animationActive ? 1 : 0))
                 .scale(isLoading ? (animationActive ? 1.05 : 0.95) : 1)
                 .stroke(shapeColor, lineWidth: shapeWidth)
                 .padding(.bottom, 10)
+                .padding(.top, 10)
+//                .padding(.vertical, 10)
+//                .padding(.horizontal, 5)
                 .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.65) : .default, value: animationActive)
             
         })

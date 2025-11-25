@@ -47,6 +47,9 @@
 		82909A7C2ED5B42000BF9548 /* SaveIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A7B2ED5B42000BF9548 /* SaveIconView.swift */; };
 		82909A7F2ED5BCB900BF9548 /* IconViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A7E2ED5BCB900BF9548 /* IconViewProtocol.swift */; };
 		82909A822ED5BD2400BF9548 /* IconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A812ED5BD2400BF9548 /* IconViewModel.swift */; };
+		82909A842ED5E9F300BF9548 /* TrashShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A832ED5E9F300BF9548 /* TrashShape.swift */; };
+		82909A862ED5EA5500BF9548 /* TrashIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A852ED5EA5500BF9548 /* TrashIconView.swift */; };
+		82909A882ED658E700BF9548 /* TrashInsiderComponentShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A872ED658E700BF9548 /* TrashInsiderComponentShape.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -126,6 +129,9 @@
 		82909A7B2ED5B42000BF9548 /* SaveIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveIconView.swift; sourceTree = "<group>"; };
 		82909A7E2ED5BCB900BF9548 /* IconViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViewProtocol.swift; sourceTree = "<group>"; };
 		82909A812ED5BD2400BF9548 /* IconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViewModel.swift; sourceTree = "<group>"; };
+		82909A832ED5E9F300BF9548 /* TrashShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashShape.swift; sourceTree = "<group>"; };
+		82909A852ED5EA5500BF9548 /* TrashIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashIconView.swift; sourceTree = "<group>"; };
+		82909A872ED658E700BF9548 /* TrashInsiderComponentShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashInsiderComponentShape.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -264,6 +270,8 @@
 				82909A702ED5607700BF9548 /* ArrowShape.swift */,
 				82909A752ED571E300BF9548 /* CloudShape.swift */,
 				82909A732ED5717800BF9548 /* UploadComponentShape.swift */,
+				82909A832ED5E9F300BF9548 /* TrashShape.swift */,
+				82909A872ED658E700BF9548 /* TrashInsiderComponentShape.swift */,
 				82909A792ED59A4800BF9548 /* CheckmarkShape.swift */,
 			);
 			path = Shape;
@@ -275,6 +283,7 @@
 				82909A802ED5BD1B00BF9548 /* IconViewProtocol */,
 				82909A772ED574D200BF9548 /* UploadIconView.swift */,
 				82909A7B2ED5B42000BF9548 /* SaveIconView.swift */,
+				82909A852ED5EA5500BF9548 /* TrashIconView.swift */,
 			);
 			path = IconView;
 			sourceTree = "<group>";
@@ -627,11 +636,14 @@
 				823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */,
 				82909A7C2ED5B42000BF9548 /* SaveIconView.swift in Sources */,
 				82909A7A2ED59A4800BF9548 /* CheckmarkShape.swift in Sources */,
+				82909A862ED5EA5500BF9548 /* TrashIconView.swift in Sources */,
+				82909A882ED658E700BF9548 /* TrashInsiderComponentShape.swift in Sources */,
 				82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,
 				82D7F5142ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift in Sources */,
 				82909A712ED5607700BF9548 /* ArrowShape.swift in Sources */,
 				823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */,
+				82909A842ED5E9F300BF9548 /* TrashShape.swift in Sources */,
 				82D7F51A2ECA8EF000A44A98 /* URLSession.swift in Sources */,
 				82D7F5082ECA837700A44A98 /* FetchFilesRequest.swift in Sources */,
 				82D7F51D2ECA91E900A44A98 /* UploadingProgressView.swift in Sources */,

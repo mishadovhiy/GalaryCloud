@@ -21,7 +21,7 @@ struct LoaderView: View {
     var body: some View {
         Circle()
             .trim(to: isLoading ? 0.3 : (trim ?? 0))
-            .stroke(.red, lineWidth: 1)
+            .stroke(.red, lineWidth: 1.5)
             .background(.clear)
             .rotationEffect(!animationActive ? .degrees(0) : .degrees(360))
             .animation(isLoading ? .linear(duration: 1.3).repeatForever(autoreverses: false).speed(1.2) : .default, value: animationActive)

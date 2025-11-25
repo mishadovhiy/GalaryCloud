@@ -14,15 +14,23 @@ struct HomeView: View {
     
     var body: some View {
         TabView {
-            SaveIconView(isLoading: isLoading,
-                         canPressChanged: {
-                canPress = $0
-            })
+            HStack(spacing: 20) {
+                TrashIconView(isLoading: isLoading,
+                             canPressChanged: {
+                    canPress = $0
+                })
+                    .frame(width: 50, height: 50)
+                SaveIconView(isLoading: isLoading,
+                             canPressChanged: {
+                    canPress = $0
+                })
+                    .frame(width: 50, height: 50)
+                    .scaleEffect(0.7)
+                UploadIconView(isLoading: isLoading, canPressChanged: {
+                    canPress = $0
+                })
                 .frame(width: 50, height: 50)
-            UploadIconView(isLoading: isLoading, canPressChanged: {
-                canPress = $0
-            })
-            .frame(width: 50, height: 50)
+            }
             FileListView()
         }
         .tabViewStyle(.page)
