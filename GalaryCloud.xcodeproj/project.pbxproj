@@ -44,6 +44,9 @@
 		82909A762ED571E300BF9548 /* CloudShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A752ED571E300BF9548 /* CloudShape.swift */; };
 		82909A782ED574D200BF9548 /* UploadIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A772ED574D200BF9548 /* UploadIconView.swift */; };
 		82909A7A2ED59A4800BF9548 /* CheckmarkShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A792ED59A4800BF9548 /* CheckmarkShape.swift */; };
+		82909A7C2ED5B42000BF9548 /* SaveIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A7B2ED5B42000BF9548 /* SaveIconView.swift */; };
+		82909A7F2ED5BCB900BF9548 /* IconViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A7E2ED5BCB900BF9548 /* IconViewProtocol.swift */; };
+		82909A822ED5BD2400BF9548 /* IconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A812ED5BD2400BF9548 /* IconViewModel.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -120,6 +123,9 @@
 		82909A752ED571E300BF9548 /* CloudShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudShape.swift; sourceTree = "<group>"; };
 		82909A772ED574D200BF9548 /* UploadIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadIconView.swift; sourceTree = "<group>"; };
 		82909A792ED59A4800BF9548 /* CheckmarkShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkShape.swift; sourceTree = "<group>"; };
+		82909A7B2ED5B42000BF9548 /* SaveIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveIconView.swift; sourceTree = "<group>"; };
+		82909A7E2ED5BCB900BF9548 /* IconViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViewProtocol.swift; sourceTree = "<group>"; };
+		82909A812ED5BD2400BF9548 /* IconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViewModel.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,7 +200,7 @@
 				82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */,
 				8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */,
 				82909A672ED53FF200BF9548 /* LoaderView.swift */,
-				82909A772ED574D200BF9548 /* UploadIconView.swift */,
+				82909A7D2ED5B42700BF9548 /* IconView */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -261,6 +267,25 @@
 				82909A792ED59A4800BF9548 /* CheckmarkShape.swift */,
 			);
 			path = Shape;
+			sourceTree = "<group>";
+		};
+		82909A7D2ED5B42700BF9548 /* IconView */ = {
+			isa = PBXGroup;
+			children = (
+				82909A802ED5BD1B00BF9548 /* IconViewProtocol */,
+				82909A772ED574D200BF9548 /* UploadIconView.swift */,
+				82909A7B2ED5B42000BF9548 /* SaveIconView.swift */,
+			);
+			path = IconView;
+			sourceTree = "<group>";
+		};
+		82909A802ED5BD1B00BF9548 /* IconViewProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				82909A7E2ED5BCB900BF9548 /* IconViewProtocol.swift */,
+				82909A812ED5BD2400BF9548 /* IconViewModel.swift */,
+			);
+			path = IconViewProtocol;
 			sourceTree = "<group>";
 		};
 		82D7F4B32ECA813300A44A98 = {
@@ -572,9 +597,11 @@
 				8271620E2ECAFB2B00E52013 /* RequestType.swift in Sources */,
 				823DC2872ED28B15005367A2 /* DataBaseModel.swift in Sources */,
 				8271622B2ECB095800E52013 /* ViewSizeReaderModifier.swift in Sources */,
+				82909A7F2ED5BCB900BF9548 /* IconViewProtocol.swift in Sources */,
 				8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */,
 				82D7F5272ECAAF8700A44A98 /* CreateFileRequest.swift in Sources */,
 				82D7F52A2ECAB10100A44A98 /* MessageModel.swift in Sources */,
+				82909A822ED5BD2400BF9548 /* IconViewModel.swift in Sources */,
 				823DC2932ED29321005367A2 /* StoreKitSubscriptionStatusService.swift in Sources */,
 				823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */,
 				82D7F5182ECA8D2800A44A98 /* Keys.swift in Sources */,
@@ -598,6 +625,7 @@
 				823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */,
 				823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */,
 				823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */,
+				82909A7C2ED5B42000BF9548 /* SaveIconView.swift in Sources */,
 				82909A7A2ED59A4800BF9548 /* CheckmarkShape.swift in Sources */,
 				82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,

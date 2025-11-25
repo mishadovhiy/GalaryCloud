@@ -14,6 +14,11 @@ struct HomeView: View {
     
     var body: some View {
         TabView {
+            SaveIconView(isLoading: isLoading,
+                         canPressChanged: {
+                canPress = $0
+            })
+                .frame(width: 50, height: 50)
             UploadIconView(isLoading: isLoading, canPressChanged: {
                 canPress = $0
             })
