@@ -11,8 +11,35 @@ struct HomeView: View {
     
     @State var isLoading = true
     @State var canPress = true
+    @State var isLoggedIn: Bool = false
+    @EnvironmentObject private var db: DataBaseService
     
     var body: some View {
+        VStack {
+            if isLoggedIn {
+                homeView
+            } else {
+                AuthorizationView()
+            }
+        }
+        .onChange(of: db.checkIsUserLoggedIn) { newValue in
+            checkAuthorization()
+        }
+        .onAppear {
+            db.checkIsUserLoggedIn = true
+        }
+    }
+    
+    func checkAuthorization() {
+        let credinails = [
+            KeychainService.getToken(forKey: .userNameValue),
+            KeychainService.getToken(forKey: .userPasswordValue)
+        ]
+            
+        self.isLoggedIn = !credinails.contains(where: {$0?.isEmpty ?? true})
+    }
+    
+    var homeView: some View {
         TabView {
             HStack(spacing: 20) {
                 TrashIconView(isLoading: isLoading,
@@ -42,25 +69,6 @@ struct HomeView: View {
             }
         }
         .background(.black)
-        //        TabView {
-        //            FileListView()
-        //            LoaderView(isLoading: isLoading)
-        //                .padding(10)
-        //                .onAppear {
-        //                    isLoading = true
-        //                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
-        //                        self.isLoading = false
-        //                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
-        //                            self.isLoading = true
-        //                            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4), execute: {
-        //                                self.isLoading = false
-        //                            })
-        //                        })
-        //
-        //                    })
-        //                }
-        //        }
-        //        .tabViewStyle(.page)
     }
 }
 

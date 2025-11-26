@@ -11,8 +11,10 @@ import SwiftUI
 
 class DataBaseService: ObservableObject {
     private let dbkey = "db8"
+    #warning("todo: move to AppData")
     let imageCache = NSCache<NSString, UIImage>()
-
+    @Published var checkIsUserLoggedIn: Bool = false
+    
     @Published var db: DataBaseModel? {
         didSet {
             if db == nil {

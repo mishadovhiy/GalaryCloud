@@ -50,6 +50,7 @@
 		82909A842ED5E9F300BF9548 /* TrashShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A832ED5E9F300BF9548 /* TrashShape.swift */; };
 		82909A862ED5EA5500BF9548 /* TrashIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A852ED5EA5500BF9548 /* TrashIconView.swift */; };
 		82909A882ED658E700BF9548 /* TrashInsiderComponentShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A872ED658E700BF9548 /* TrashInsiderComponentShape.swift */; };
+		82909A8A2ED66BD200BF9548 /* AuthorizationFieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -132,6 +133,7 @@
 		82909A832ED5E9F300BF9548 /* TrashShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashShape.swift; sourceTree = "<group>"; };
 		82909A852ED5EA5500BF9548 /* TrashIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashIconView.swift; sourceTree = "<group>"; };
 		82909A872ED658E700BF9548 /* TrashInsiderComponentShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashInsiderComponentShape.swift; sourceTree = "<group>"; };
+		82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFieldsView.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				8232D4C12ED37841004A67EE /* AuthorizationView.swift */,
+				82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */,
 				8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */,
 			);
 			path = AuthorizationView;
@@ -610,6 +613,7 @@
 				8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */,
 				82D7F5272ECAAF8700A44A98 /* CreateFileRequest.swift in Sources */,
 				82D7F52A2ECAB10100A44A98 /* MessageModel.swift in Sources */,
+				82909A8A2ED66BD200BF9548 /* AuthorizationFieldsView.swift in Sources */,
 				82909A822ED5BD2400BF9548 /* IconViewModel.swift in Sources */,
 				823DC2932ED29321005367A2 /* StoreKitSubscriptionStatusService.swift in Sources */,
 				823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */,

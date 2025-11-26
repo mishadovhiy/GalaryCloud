@@ -10,6 +10,8 @@ import Security
 #warning("todo: calculate storage for all logged users indeed single user")
 enum KeychainKey: String, CaseIterable {
     case loggedUsers
+    case userNameValue
+    case userPasswordValue
 }
 
 struct KeychainService {

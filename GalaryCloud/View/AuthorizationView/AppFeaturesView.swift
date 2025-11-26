@@ -12,7 +12,10 @@ struct AppFeaturesView: View {
         Text("Cloud Photo Storage")
             .font(.largeTitle)
         TabView {
-            Text("Cheapest Cloud Pricing")
+            ForEach(data, id: \.title) { data in
+                Text(data.title)
+                Text(data.description)
+            }
         }
         .tabViewStyle(.page)
     }
