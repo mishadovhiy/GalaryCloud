@@ -17,7 +17,7 @@ struct PhotoPreviewView: View {
     var body: some View {
         VStack(content: {
             Spacer().frame(height: 30)
-            PageRepresentable(views: pageList.compactMap({
+            GalaryPageRepresentable(views: pageList.compactMap({
                 .galary(.init(username: "hi@mishadovhiy.com", fileName: $0.originalURL, date: $0.date))
             }), didDeleteImage: didDeleteImage) { newIndex in
                 imageSwiped(newIndex == 0 ? .left : .right)
@@ -32,10 +32,6 @@ struct PhotoPreviewView: View {
             imageSelection?.file ?? .init(originalURL: "", date: ""),
             (sideImages[.right] ?? .init(originalURL: "", date: "")) ?? .init(originalURL: "", date: "")
         ]
-        //.filter({
-//        $0 != nil && $0??.originalURL != nil
-//        })
-        //as! [FetchFilesResponse.File]
     }
     
     enum SwipeDirection {
@@ -43,42 +39,39 @@ struct PhotoPreviewView: View {
     }
 }
 
-struct PageRepresentable: UIViewControllerRepresentable {
-    let views: [CachedAsyncImage.PresentationType]
+struct GalaryPageRepresentable: UIViewControllerRepresentable {
+    let views: [CachedAsyncImageViewModel.PresentationType]
     let didDeleteImage:()->()
 
     var newIndex: ((_ newIndex: Int) -> ())? = nil
     @Environment(\.dismiss) private var dismiss
 
-    func setViewController(_ vc: PageController) {
+    func setViewController(_ vc: GalaryPageController) {
         print(views.count, " grefdwsa ")
         vc.pages = views
     }
     
-    func makeUIViewController(context: Context) -> PageController {
-        let vc = PageController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    func makeUIViewController(context: Context) -> GalaryPageController {
+        let vc = GalaryPageController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         vc.didDeleteImage = didDeleteImage
         setViewController(vc)
         vc.newIndex = newIndex
         return vc
     }
     
-    func updateUIViewController(_ uiViewController: PageController, context: Context) {
+    func updateUIViewController(_ uiViewController: GalaryPageController, context: Context) {
         if uiViewController.pages.first?.galaryModel == views.first?.galaryModel {
             return
         }
         uiViewController.didDeleteImage = didDeleteImage
         setViewController(uiViewController)
-//        uiViewController.setViewControllers([ uiViewController.pages[1]],
-//                              direction: .forward,
-//                              animated: false)
     }
 }
 
-class PageController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class GalaryPageController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     var didDeleteImage:(()->())?
 
-    var pages: [CachedAsyncImage.PresentationType] = [] {
+    var pages: [CachedAsyncImageViewModel.PresentationType] = [] {
         didSet {
             reloadViewControllers()
         }
@@ -119,11 +112,6 @@ class PageController: UIPageViewController, UIPageViewControllerDataSource, UIPa
 
         print("Animation finished → current page:", index)
         newIndex?(index)
-//        if !completed {
-//            return
-//        }
-//        newIndex?(Int(previousViewControllers.first?.view.layer.name ?? "") ?? 0)
-//        print(Int(previousViewControllers.first?.view.layer.name ?? "") ?? 0, " tgerfwed ")
 
     }
     

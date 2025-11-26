@@ -21,6 +21,8 @@
 		823DC28B2ED28C21005367A2 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC28A2ED28C21005367A2 /* DataBaseService.swift */; };
 		823DC2932ED29321005367A2 /* StoreKitSubscriptionStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */; };
 		823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2942ED29FAB005367A2 /* StoreKitView.swift */; };
+		8268DBDB2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDA2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift */; };
+		8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */; };
 		827162052ECACBFC00E52013 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162042ECACBFC00E52013 /* UIWindow.swift */; };
 		827162082ECACFF700E52013 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162072ECACFF700E52013 /* FileListView.swift */; };
 		8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620A2ECAD02700E52013 /* FileListViewModel.swift */; };
@@ -51,6 +53,8 @@
 		82909A862ED5EA5500BF9548 /* TrashIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A852ED5EA5500BF9548 /* TrashIconView.swift */; };
 		82909A882ED658E700BF9548 /* TrashInsiderComponentShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A872ED658E700BF9548 /* TrashInsiderComponentShape.swift */; };
 		82909A8A2ED66BD200BF9548 /* AuthorizationFieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */; };
+		82909A8C2ED6A16300BF9548 /* LoadingButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */; };
+		82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -110,6 +114,8 @@
 		823DC28A2ED28C21005367A2 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
 		823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionStatusService.swift; sourceTree = "<group>"; };
 		823DC2942ED29FAB005367A2 /* StoreKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitView.swift; sourceTree = "<group>"; };
+		8268DBDA2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPhotoLibraryModifierService.swift; sourceTree = "<group>"; };
+		8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImageViewModel.swift; sourceTree = "<group>"; };
 		827162042ECACBFC00E52013 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		827162072ECACFF700E52013 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
 		8271620A2ECAD02700E52013 /* FileListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListViewModel.swift; sourceTree = "<group>"; };
@@ -134,6 +140,8 @@
 		82909A852ED5EA5500BF9548 /* TrashIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashIconView.swift; sourceTree = "<group>"; };
 		82909A872ED658E700BF9548 /* TrashInsiderComponentShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashInsiderComponentShape.swift; sourceTree = "<group>"; };
 		82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFieldsView.swift; sourceTree = "<group>"; };
+		82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButtonModifier.swift; sourceTree = "<group>"; };
+		82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,17 +205,27 @@
 			isa = PBXGroup;
 			children = (
 				8232D4C12ED37841004A67EE /* AuthorizationView.swift */,
+				82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */,
 				82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */,
 				8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */,
 			);
 			path = AuthorizationView;
 			sourceTree = "<group>";
 		};
+		8268DBDC2ED796B0004FC985 /* CachedAsyncImage */ = {
+			isa = PBXGroup;
+			children = (
+				8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */,
+				8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */,
+			);
+			path = CachedAsyncImage;
+			sourceTree = "<group>";
+		};
 		827162062ECACF0500E52013 /* Component */ = {
 			isa = PBXGroup;
 			children = (
 				82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */,
-				8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */,
+				8268DBDC2ED796B0004FC985 /* CachedAsyncImage */,
 				82909A672ED53FF200BF9548 /* LoaderView.swift */,
 				82909A7D2ED5B42700BF9548 /* IconView */,
 			);
@@ -245,6 +263,7 @@
 			children = (
 				8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */,
 				823DC26A2ED18F78005367A2 /* AlertModifier.swift */,
+				82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */,
 			);
 			path = ViewModifier;
 			sourceTree = "<group>";
@@ -388,6 +407,7 @@
 				823DC2822ED1B202005367A2 /* KeychainService.swift */,
 				823DC28A2ED28C21005367A2 /* DataBaseService.swift */,
 				82909A6D2ED542A200BF9548 /* WasabiService.swift */,
+				8268DBDA2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift */,
 				82909A6F2ED542EB00BF9548 /* StoreKitServices */,
 				8271620F2ECAFB4100E52013 /* Network */,
 			);
@@ -631,6 +651,7 @@
 				82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */,
 				82909A682ED53FF200BF9548 /* LoaderView.swift in Sources */,
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
+				8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
@@ -641,6 +662,7 @@
 				82909A7C2ED5B42000BF9548 /* SaveIconView.swift in Sources */,
 				82909A7A2ED59A4800BF9548 /* CheckmarkShape.swift in Sources */,
 				82909A862ED5EA5500BF9548 /* TrashIconView.swift in Sources */,
+				82909A8C2ED6A16300BF9548 /* LoadingButtonModifier.swift in Sources */,
 				82909A882ED658E700BF9548 /* TrashInsiderComponentShape.swift in Sources */,
 				82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,
@@ -648,6 +670,7 @@
 				82909A712ED5607700BF9548 /* ArrowShape.swift in Sources */,
 				823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */,
 				82909A842ED5E9F300BF9548 /* TrashShape.swift in Sources */,
+				82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */,
 				82D7F51A2ECA8EF000A44A98 /* URLSession.swift in Sources */,
 				82D7F5082ECA837700A44A98 /* FetchFilesRequest.swift in Sources */,
 				82D7F51D2ECA91E900A44A98 /* UploadingProgressView.swift in Sources */,
@@ -657,6 +680,7 @@
 				82909A6E2ED542A200BF9548 /* WasabiService.swift in Sources */,
 				82D7F5162ECA861600A44A98 /* Requestable.swift in Sources */,
 				8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */,
+				8268DBDB2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift in Sources */,
 				8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */,
 				82D7F5102ECA843100A44A98 /* ErrorResponse.swift in Sources */,
 			);
@@ -847,7 +871,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
@@ -904,7 +928,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;

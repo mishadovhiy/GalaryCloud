@@ -10,6 +10,7 @@ import SwiftUI
 struct FileListView: View {
     
     @StateObject private var viewModel: FileListViewModel = .init()
+    @EnvironmentObject private var db: DataBaseService
     
     var body: some View {
         VStack(content: {
@@ -85,6 +86,10 @@ struct FileListView: View {
             Spacer()
             Text("b:\(viewModel.directorySizeResponse?.megabytes ?? "")")
                 .padding(.trailing, 5)
+                .onLongPressGesture {
+                    KeychainService.saveToken("", forKey: .userNameValue)
+                    db.checkIsUserLoggedIn = true
+                }
             if viewModel.fetchRequestLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
