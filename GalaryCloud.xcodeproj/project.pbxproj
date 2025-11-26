@@ -204,8 +204,7 @@
 		8232D4C32ED37CFA004A67EE /* AuthorizationView */ = {
 			isa = PBXGroup;
 			children = (
-				8232D4C12ED37841004A67EE /* AuthorizationView.swift */,
-				82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */,
+				8268DBDF2ED797E0004FC985 /* AuthorizationView */,
 				82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */,
 				8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */,
 			);
@@ -219,6 +218,15 @@
 				8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */,
 			);
 			path = CachedAsyncImage;
+			sourceTree = "<group>";
+		};
+		8268DBDF2ED797E0004FC985 /* AuthorizationView */ = {
+			isa = PBXGroup;
+			children = (
+				8232D4C12ED37841004A67EE /* AuthorizationView.swift */,
+				82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */,
+			);
+			path = AuthorizationView;
 			sourceTree = "<group>";
 		};
 		827162062ECACF0500E52013 /* Component */ = {
