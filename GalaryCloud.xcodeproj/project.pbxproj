@@ -10,6 +10,10 @@
 		820A9D482ED80B0A00498E35 /* MenuIconShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A9D472ED80B0A00498E35 /* MenuIconShape.swift */; };
 		820A9D4A2ED80B2700498E35 /* SidebarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A9D492ED80B2700498E35 /* SidebarModifier.swift */; };
 		820A9D4C2ED80B4500498E35 /* PinchMaskedScrollModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A9D4B2ED80B4500498E35 /* PinchMaskedScrollModifier.swift */; };
+		820A9D522ED8157F00498E35 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 820A9D512ED8157F00498E35 /* Lottie */; };
+		820A9D542ED8166700498E35 /* Morphing.json in Resources */ = {isa = PBXBuildFile; fileRef = 820A9D532ED8166700498E35 /* Morphing.json */; };
+		820A9D562ED816F600498E35 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A9D552ED816F600498E35 /* LottieView.swift */; };
+		820A9D582ED8172000498E35 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A9D572ED8172000498E35 /* WebView.swift */; };
 		8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232D4C12ED37841004A67EE /* AuthorizationView.swift */; };
 		8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */; };
 		823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC1F82ED0EFFF005367A2 /* Data.swift */; };
@@ -109,6 +113,9 @@
 		820A9D472ED80B0A00498E35 /* MenuIconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuIconShape.swift; sourceTree = "<group>"; };
 		820A9D492ED80B2700498E35 /* SidebarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarModifier.swift; sourceTree = "<group>"; };
 		820A9D4B2ED80B4500498E35 /* PinchMaskedScrollModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchMaskedScrollModifier.swift; sourceTree = "<group>"; };
+		820A9D532ED8166700498E35 /* Morphing.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Morphing.json; sourceTree = "<group>"; };
+		820A9D552ED816F600498E35 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		820A9D572ED8172000498E35 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8232D4C12ED37841004A67EE /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeaturesView.swift; sourceTree = "<group>"; };
 		823DC1F82ED0EFFF005367A2 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -192,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82909A642ED4E2A700BF9548 /* AWSSES in Frameworks */,
+				820A9D522ED8157F00498E35 /* Lottie in Frameworks */,
 				82909A602ED4E2A700BF9548 /* AWSEC2 in Frameworks */,
 				82909A5C2ED4E2A700BF9548 /* AWSConnect in Frameworks */,
 				82909A662ED4E2A700BF9548 /* AWSSNS in Frameworks */,
@@ -269,6 +277,8 @@
 				82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */,
 				8268DBDC2ED796B0004FC985 /* CachedAsyncImage */,
 				82909A672ED53FF200BF9548 /* LoaderView.swift */,
+				820A9D552ED816F600498E35 /* LottieView.swift */,
+				820A9D572ED8172000498E35 /* WebView.swift */,
 				8262A59A2ED7F87D005188F2 /* ClearBackgroundView.swift */,
 				8262A59C2ED7F992005188F2 /* SignInWithAppleButton.swift */,
 				82909A7D2ED5B42700BF9548 /* IconView */,
@@ -413,6 +423,7 @@
 				8271622C2ECB096400E52013 /* ViewModifier */,
 				82D7F4F02ECA82C300A44A98 /* Extension */,
 				82D7F4F12ECA82C300A44A98 /* Assets.xcassets */,
+				820A9D532ED8166700498E35 /* Morphing.json */,
 			);
 			path = GalaryCloud;
 			sourceTree = "<group>";
@@ -548,6 +559,7 @@
 				82909A612ED4E2A700BF9548 /* AWSS3 */,
 				82909A632ED4E2A700BF9548 /* AWSSES */,
 				82909A652ED4E2A700BF9548 /* AWSSNS */,
+				820A9D512ED8157F00498E35 /* Lottie */,
 			);
 			productName = GalaryCloud;
 			productReference = 82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */;
@@ -627,6 +639,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				82909A5A2ED4E2A700BF9548 /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */,
+				820A9D502ED8157F00498E35 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 82D7F4BD2ECA813300A44A98 /* Products */;
@@ -645,6 +658,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				820A9D542ED8166700498E35 /* Morphing.json in Resources */,
 				82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -703,6 +717,7 @@
 				82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */,
 				82909A682ED53FF200BF9548 /* LoaderView.swift in Sources */,
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
+				820A9D582ED8172000498E35 /* WebView.swift in Sources */,
 				8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,
@@ -737,6 +752,7 @@
 				8268DBDB2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift in Sources */,
 				8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */,
 				820A9D4A2ED80B2700498E35 /* SidebarModifier.swift in Sources */,
+				820A9D562ED816F600498E35 /* LottieView.swift in Sources */,
 				8262A5852ED7F4A1005188F2 /* AppleSignInService.swift in Sources */,
 				82D7F5102ECA843100A44A98 /* ErrorResponse.swift in Sources */,
 			);
@@ -1151,6 +1167,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		820A9D502ED8157F00498E35 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
 		82909A5A2ED4E2A700BF9548 /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aws-amplify/aws-sdk-ios-spm";
@@ -1162,6 +1186,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		820A9D512ED8157F00498E35 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 820A9D502ED8157F00498E35 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
 		82909A5B2ED4E2A700BF9548 /* AWSConnect */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 82909A5A2ED4E2A700BF9548 /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;

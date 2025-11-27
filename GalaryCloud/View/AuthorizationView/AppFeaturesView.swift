@@ -15,6 +15,8 @@ struct AppFeaturesView: View {
             TabView {
                 ForEach(data, id: \.title) { data in
                     VStack {
+                        LottieView(name: "Morphing")
+                            .frame(width: 150, height: 150)
                         Text(data.title)
                         Text(data.description)
                     }
@@ -24,7 +26,7 @@ struct AppFeaturesView: View {
             .tabViewStyle(.page)
         }
     }
-    #warning("todo: fetch in general request")
+#warning("todo: fetch in general request")
     let data: [TempFeature] = [
         .init(title: "Free up you iCloud and Device storage size", description: "Upload your photos directly to the cloud to save space on your device."),
         .init(title: "Download photos back to your photo library", description: "you can delete photos from your device and resave photos uploaded to our application"),
@@ -36,6 +38,7 @@ struct AppFeaturesView: View {
     struct TempFeature: Codable {
         let title: String
         let description: String
+        var gifURL: String = "uploading"
     }
 }
 

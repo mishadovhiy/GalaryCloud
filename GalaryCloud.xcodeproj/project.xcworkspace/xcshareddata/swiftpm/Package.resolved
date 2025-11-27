@@ -1,5 +1,5 @@
 {
-  "originHash" : "1766aeaa4acc33f51d4721e47b2c6baa3fd79fb263a4ecce86c0c021e05d81cc",
+  "originHash" : "51f06408af71b9126590681da88fecd3be96e695763c91255f08bbdec64f13a4",
   "pins" : [
     {
       "identity" : "aws-sdk-ios-spm",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "f2e9fbed08dd14a962f8d62d7e302d73b9ecb429",
         "version" : "2.41.0"
+      }
+    },
+    {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios.git",
+      "state" : {
+        "revision" : "a004050748dc197c56256a14dca49a035d74726c",
+        "version" : "4.5.2"
       }
     }
   ],

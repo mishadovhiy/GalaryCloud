@@ -89,7 +89,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                                 .lineLimit(1)
                                 .frame(width: 50)
                                 .frame(maxWidth: .infinity)
-                                .foregroundColor(.dark)
+                                .foregroundColor(.black)
                                 .shadow(radius: 10)
                         })
                         .clipped()
@@ -151,7 +151,7 @@ fileprivate extension SidebarModifier {
         .trim(
             to: model.isScrollActive ? scrollPercent : iconActive ? 1 : 0
         )
-        .stroke(.dark, lineWidth: 2)
+        .stroke(.black, lineWidth: 2)
         .shadow(radius: 4)
         .scaleEffect(model.isScrollActive ? scrollPercent : iconActive ? 1 : 0.5)
         .animation(.smooth, value: model.isOpened)
