@@ -8,7 +8,7 @@
 import Foundation
 
 struct LoginRequest: Requestable, Codable {
-    typealias Response = BaseResponse
+    typealias Response = LoginResponse
     
     static var path: String { "user/login" }
     
@@ -16,4 +16,12 @@ struct LoginRequest: Requestable, Codable {
     
     let username: String
     let password: String
+    let fastLogin: Int
+}
+
+struct LoginResponse: Codable {
+    let success: Bool
+    let user: String?
+    let responseMessage: String?
+    let code: Int?
 }

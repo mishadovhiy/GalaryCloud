@@ -21,10 +21,6 @@ struct PHPhotoLibraryModifierService {
                 DispatchQueue.main.async {
                     completion(success)
                 }
-//                let title = success ? "Saved to Photos!" : "Error saving"
-//                DispatchQueue.main.async {
-//                    messages.append(.init(title: title))
-//                }
             }
     }
 }

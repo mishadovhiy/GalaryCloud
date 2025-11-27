@@ -87,7 +87,7 @@ struct FileListView: View {
             Text("b:\(viewModel.directorySizeResponse?.megabytes ?? "")")
                 .padding(.trailing, 5)
                 .onLongPressGesture {
-                    KeychainService.saveToken("", forKey: .userNameValue)
+                    KeychainService.saveToken("", forKey: .userPasswordValue)
                     db.checkIsUserLoggedIn = true
                 }
             if viewModel.fetchRequestLoading {

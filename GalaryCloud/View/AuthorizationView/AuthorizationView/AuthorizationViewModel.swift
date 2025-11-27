@@ -14,11 +14,22 @@ class AuthorizationViewModel: ObservableObject {
     @Published var error: NSError?
     @Published var dissmiss: Bool = false
 
-    @Published var textFields: [NavigationLinkType: AuthorizationFieldsView.TextFieldsInput] = [:]
+    @Published var textFields: [NavigationLinkType: AuthorizationFieldsView.TextFieldsInput] = [:] {
+        didSet { isFastAuthorization = false }
+    }
+    private var isFastAuthorization: Bool = false
     @Published var authorizationType: AuthorizationType? {
         didSet { didSelectAuthorizationType() }
     }
     @Published var codeToEnter: String?
+    @Published var authorization: SignInService = .init()
+    private var authorizationCancelable: AnyCancellable?
+    
+    init() {
+        authorizationCancelable = authorization.objectWillChange.sink(receiveValue: { [weak self] in
+            self?.objectWillChange.send()
+        })
+    }
     
     private func didSelectAuthorizationType() {
         updateTextField(.credinails)
@@ -37,13 +48,13 @@ class AuthorizationViewModel: ObservableObject {
             case .login:
                 [
                     .email:"",
-                    .password:"",
-                    .repeatedPassword:""
+                    .password:""
                 ]
             case .createAccount:
                 [
                     .email:"",
-                    .password:""
+                    .password:"",
+                    .repeatedPassword:""
                 ]
             case .passwordReset:
                 [.email:""]
@@ -65,11 +76,9 @@ class AuthorizationViewModel: ObservableObject {
         .init {
             self.textFields[key] ?? [:]
         } set: {
-            print(key, " gdfsafdsgf " , $0)
             self.textFields.updateValue($0, forKey: key)
         }
     }
-    
     
     var needNextButton: Bool {
         !textFields.isEmpty
@@ -82,7 +91,9 @@ class AuthorizationViewModel: ObservableObject {
         }
         textFields.forEach { (key: NavigationLinkType, value: AuthorizationFieldsView.TextFieldsInput) in
             if value.contains(where: {$0.value.isEmpty}) {
-                self.error = .init(domain: "all fields are reuqered", code: -1)
+                if !(isFastAuthorization && authorizationType == .login) {
+                    self.error = .init(domain: "all fields are reuqered", code: -1)
+                }
                 return
             }
         }
@@ -159,13 +170,38 @@ class AuthorizationViewModel: ObservableObject {
     }
     
     private func loginRequest() {
+        let tf = textFields[.credinails]
+        guard let password = tf?[.password] else {
+            self.error = .init(domain: "enter password", code: -1)
+            return
+        }
+        let email = tf?[.email] ?? ""
+        if email.isEmpty && !isFastAuthorization {
+            isLoading = false
+            self.error = .init(domain: "enter email address", code: -1)
+            return
+        }
         isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-            self.isLoading = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-                self.setSuccessLogin(username: "hi@mishadovhiy.com", password: "Mishka16")
-            })
-        })
+
+        Task {
+            let task = await URLSession.shared.resumeTask(LoginRequest(username: email, password: password, fastLogin: self.isFastAuthorization ? 1 : 0))
+            await MainActor.run {
+                isLoading = false
+                switch task {
+                case .success(let response):
+                    if (self.textFields[.credinails]?[.email] ?? "") == "" {
+                        self.textFields[.credinails]?.updateValue(response.user ?? email, forKey: .email)
+                    }
+                    if response.success {
+                        self.setSuccessLogin(username: response.user ?? email, password: password)
+                    } else {
+                        self.error = .init(domain: "Login error", code: -5)
+                    }
+                case .failure(let error):
+                    self.error = error as NSError
+                }
+            }
+        }
     }
     
     private func setSuccessLogin(username: String,
@@ -177,13 +213,30 @@ class AuthorizationViewModel: ObservableObject {
     }
     
     private func createAccountRequest() {
+        let tf = textFields[.credinails]
+        guard let email = tf?[.email],
+                let password = tf?[.password] else {
+            self.error = .init(domain: "all fields are required", code: -1)
+            return
+        }
         isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-            self.isLoading = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-                self.setSuccessLogin(username: "hi@mishadovhiy.com", password: "Mishka16")
-            })
-        })
+
+        Task {
+            let task = await URLSession.shared.resumeTask(CreateUpdateAccountRequest(username: email, password: password))
+            await MainActor.run {
+                isLoading = false
+                switch task {
+                case .success(let response):
+                    if response.success {
+                        self.setSuccessLogin(username: email, password: password)
+                    } else {
+                        self.error = .init(domain: "Create account error", code: -5)
+                    }
+                case .failure(let error):
+                    self.error = error as NSError
+                }
+            }
+        }
     }
     
     private func sendPasswordResetCode() {
@@ -212,6 +265,30 @@ class AuthorizationViewModel: ObservableObject {
                 }
             }
         })
+    }
+    
+    func signInUserDidChange() {
+        
+        guard let newUser = self.authorization.user else {
+            return
+        }
+        if newUser.username != nil {
+            authorizationType = .createAccount
+            textFields.updateValue([
+                .email: newUser.username ?? "",
+                .password: newUser.password
+            ], forKey: .credinails)
+            isFastAuthorization = true
+            createAccountRequest()
+        } else {
+            authorizationType = .login
+            textFields.updateValue([
+                .password: newUser.password,
+                .email: ""
+            ], forKey: .credinails)
+            isFastAuthorization = true
+            nextButtonPressed()
+        }
     }
 }
 

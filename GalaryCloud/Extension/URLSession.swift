@@ -20,9 +20,14 @@ extension URLSession {
                     return .success(data as! T.Response)
                 }
                 let result = try T.Response.init(data)
+                #if DEBUG
+                print(String(data: data, encoding: .utf8), " networkresponse")
+                #endif
                 return .success(result)
             case .failure(let error):
-                print((error as NSError).domain)
+#if DEBUG
+                print((error as NSError).domain, " networkerror")
+#endif
                 return .failure(error)
             }
         } catch {
@@ -40,7 +45,7 @@ extension URLSession {
             let error = try? JSONDecoder()
                 .decode(ErrorResponse.self, from: data)
             if let error {
-                throw NSError(domain: error.message, code: URLError.errorDomain.hashValue)
+                throw NSError(domain: error.message, code: error.code ?? URLError.errorDomain.hashValue)
             }
             return .success(data)
         }

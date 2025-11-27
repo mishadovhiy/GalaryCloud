@@ -30,7 +30,7 @@ struct KeychainService {
             kSecAttrAccount as String: key.key,
             kSecValueData as String: data,
             kSecAttrSynchronizable as String: kCFBooleanTrue ?? true,
-            kSecAttrService as String: "com.mealPlanner.authorization",
+            kSecAttrService as String: appGroupName,
             kSecAttrAccessGroup as String: appGroupName,
             kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked
         ] as [String : Any]
@@ -43,7 +43,9 @@ struct KeychainService {
             return false
         } else {
             userHolder.updateValue(token, forKey: .loggedUsers)
-            print("Token Saved with status \(status)")
+#if DEBUG
+            print("Token Saved with status \(status) ", token)
+#endif
             return true
         }
     }
@@ -73,7 +75,7 @@ struct KeychainService {
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne,
             kSecAttrSynchronizable as String: kCFBooleanTrue ?? true,
-            kSecAttrService as String: "com.mealPlanner.authorization",
+            kSecAttrService as String: appGroupName,
             kSecAttrAccessGroup as String: appGroupName
         ] as [String : Any]
         
