@@ -12,14 +12,39 @@ struct AlertModifier: ViewModifier {
     @Binding var messages: [MessageModel]
     
     func body(content: Content) -> some View {
+        let currentAlert = messages.first
         content
-            .overlay {
-                VStack {
-                    Spacer()
-                    alertView
-                    
+            .alert("Error", isPresented: .init(get: {
+                currentAlert != nil
+            }, set: {
+                if !$0 {
+                    messages.removeFirst()
                 }
+            })) {
+                if currentAlert?.buttons.isEmpty ?? true {
+                    Button("OK") {
+                        isPresented.wrappedValue = false
+                    }
+                } else {
+                    ForEach(currentAlert?.buttons ?? [], id: \.title) { buttonModel in
+                        Button(buttonModel.title) {
+                            buttonModel.didPress?()
+                            isPresented.wrappedValue = false
+                        }
+                    }
+                }
+            } message: {
+                Text(currentAlert?.title ?? "")
             }
+
+//            .overlay {
+//                VStack {
+//                    Spacer()
+//                    alertView
+//                    
+//                }
+//            }
+        
         
     }
     

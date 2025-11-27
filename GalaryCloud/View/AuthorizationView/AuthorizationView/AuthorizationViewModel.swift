@@ -264,6 +264,11 @@ class AuthorizationViewModel: ObservableObject {
                     self.updateTextField(key)
                 }
             }
+            if newKeys.isEmpty {
+                withAnimation {
+                    self.authorizationType = nil
+                }
+            }
         })
     }
     

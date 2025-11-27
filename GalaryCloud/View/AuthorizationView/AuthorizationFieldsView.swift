@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct AuthorizationFieldsView: View {
+    
     typealias TextFieldsInput = [AuthorizationTextFieldType: String]
     @Binding var textFields: TextFieldsInput
     
     var body: some View {
-        ForEach(Array(textFields.keys), id: \.rawValue) { key in
+        ForEach(Array(textFields.keys.sorted(by: {
+            $0.rawValue.count <= $1.rawValue.count
+        })), id: \.rawValue) { key in
             TextField(key.rawValue, text: .init(get: {
                 textFields[key] ?? ""
             }, set: { newValue in

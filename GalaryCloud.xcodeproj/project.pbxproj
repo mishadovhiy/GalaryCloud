@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		820A9D482ED80B0A00498E35 /* MenuIconShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A9D472ED80B0A00498E35 /* MenuIconShape.swift */; };
+		820A9D4A2ED80B2700498E35 /* SidebarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A9D492ED80B2700498E35 /* SidebarModifier.swift */; };
+		820A9D4C2ED80B4500498E35 /* PinchMaskedScrollModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A9D4B2ED80B4500498E35 /* PinchMaskedScrollModifier.swift */; };
 		8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232D4C12ED37841004A67EE /* AuthorizationView.swift */; };
 		8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */; };
 		823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC1F82ED0EFFF005367A2 /* Data.swift */; };
@@ -103,6 +106,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		820A9D472ED80B0A00498E35 /* MenuIconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuIconShape.swift; sourceTree = "<group>"; };
+		820A9D492ED80B2700498E35 /* SidebarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarModifier.swift; sourceTree = "<group>"; };
+		820A9D4B2ED80B4500498E35 /* PinchMaskedScrollModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchMaskedScrollModifier.swift; sourceTree = "<group>"; };
 		8232D4C12ED37841004A67EE /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeaturesView.swift; sourceTree = "<group>"; };
 		823DC1F82ED0EFFF005367A2 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -211,6 +217,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		820A9D4D2ED80B5F00498E35 /* SidebarModifier */ = {
+			isa = PBXGroup;
+			children = (
+				820A9D492ED80B2700498E35 /* SidebarModifier.swift */,
+				820A9D4B2ED80B4500498E35 /* PinchMaskedScrollModifier.swift */,
+			);
+			path = SidebarModifier;
+			sourceTree = "<group>";
+		};
 		8232D4C32ED37CFA004A67EE /* AuthorizationView */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +307,7 @@
 			children = (
 				8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */,
 				823DC26A2ED18F78005367A2 /* AlertModifier.swift */,
+				820A9D4D2ED80B5F00498E35 /* SidebarModifier */,
 				82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */,
 			);
 			path = ViewModifier;
@@ -324,6 +340,7 @@
 				82909A832ED5E9F300BF9548 /* TrashShape.swift */,
 				82909A872ED658E700BF9548 /* TrashInsiderComponentShape.swift */,
 				82909A792ED59A4800BF9548 /* CheckmarkShape.swift */,
+				820A9D472ED80B0A00498E35 /* MenuIconShape.swift */,
 			);
 			path = Shape;
 			sourceTree = "<group>";
@@ -677,6 +694,7 @@
 				8268DBE12ED7CCD5004FC985 /* UserModel.swift in Sources */,
 				823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */,
 				82909A6A2ED5418700BF9548 /* ServiceConfig.swift in Sources */,
+				820A9D482ED80B0A00498E35 /* MenuIconShape.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82909A742ED5717800BF9548 /* UploadComponentShape.swift in Sources */,
 				82909A782ED574D200BF9548 /* UploadIconView.swift in Sources */,
@@ -690,6 +708,7 @@
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
 				82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */,
+				820A9D4C2ED80B4500498E35 /* PinchMaskedScrollModifier.swift in Sources */,
 				823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */,
 				823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */,
 				823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */,
@@ -717,6 +736,7 @@
 				8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */,
 				8268DBDB2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift in Sources */,
 				8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */,
+				820A9D4A2ED80B2700498E35 /* SidebarModifier.swift in Sources */,
 				8262A5852ED7F4A1005188F2 /* AppleSignInService.swift in Sources */,
 				82D7F5102ECA843100A44A98 /* ErrorResponse.swift in Sources */,
 			);
@@ -896,6 +916,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GalaryCloud/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save images we need access to your photolibrary";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -953,6 +974,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GalaryCloud/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save images we need access to your photolibrary";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;

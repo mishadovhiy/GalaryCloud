@@ -22,6 +22,7 @@ struct AuthorizationView: View {
                 AppFeaturesView()
                 contentView
             }
+            .padding(.top, 10)
             .animation(.bouncy, value: viewModel.authorizationType)
         }
         .onChange(of: viewModel.dissmiss) { newValue in
