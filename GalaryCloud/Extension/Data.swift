@@ -20,3 +20,9 @@ extension Data {
         }
     }
 }
+
+extension Int {
+    var megabytes: String {
+        .init(format: "%.2f", Double(self) / (1024 * 1024))
+    }
+}

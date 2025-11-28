@@ -19,7 +19,12 @@ struct HomeView: View {
             if isLoggedIn {
 //                homeView
                 FileListView()
-                    .modifier(SidebarModifier(viewWidth: 500, targedBackgroundView: sidebar, disabled: false))
+                    .modifier(
+                        SidebarModifier(
+                            viewWidth: 500,
+                            targedBackgroundView: SidebarView(),
+                            disabled: false)
+                    )
             } else {
                 AuthorizationView()
             }
@@ -74,11 +79,7 @@ struct HomeView: View {
                 })
             }
         }
-        .modifier(SidebarModifier(viewWidth: 500, targedBackgroundView: sidebar, disabled: false))
-    }
-    
-    var sidebar: some View {
-        Text("sidebar")
+        .modifier(SidebarModifier(viewWidth: 500, targedBackgroundView: SidebarView(), disabled: false))
     }
 }
 

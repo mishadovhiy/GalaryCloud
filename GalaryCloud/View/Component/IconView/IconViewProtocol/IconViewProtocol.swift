@@ -17,7 +17,7 @@ protocol IconViewProtocol: View {
 extension View where Self: IconViewProtocol {
     
     var shapeColor: Color {
-        .red
+        .blue
     }
     
     var shapeWidth: CGFloat {

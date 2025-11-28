@@ -9,8 +9,4 @@ import Foundation
 
 struct DirectorySizeResponse: Codable {
     let bytes: Int
-    
-    var megabytes: String {
-        .init(format: "%.2f", Double(bytes) / (1024 * 1024))
-    }
 }

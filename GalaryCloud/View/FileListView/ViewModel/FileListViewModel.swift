@@ -23,7 +23,6 @@ class FileListViewModel: ObservableObject {
     @Published var isPhotoLibraryPresenting: Bool = false
     @Published var selectedImagePreviewPresenting: ImageSelection?
     @Published var messages: [MessageModel] = []
-    @Published var storeKitPresenting: Bool = false
     #warning("remove photo library presenting bool, its not used imagePreviewPresenting used indeed")
     @Published var selectedFileIDs: Set<String> = []
     @Published var lastDroppedID: String?

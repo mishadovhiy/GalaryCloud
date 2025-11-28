@@ -52,6 +52,7 @@ struct SaveIconView: View, IconViewProtocol {
                 .scaleEffect(model.completed ? 1 : 0.8)
                 .animation(.smooth(duration: 0.9), value: model.completed)
         })
+        .frame(maxWidth: 40, maxHeight: 40)
         .id(id)
             .onChange(of: isLoading) { newValue in
                 animationActive = newValue

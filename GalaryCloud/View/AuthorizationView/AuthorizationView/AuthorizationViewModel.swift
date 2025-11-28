@@ -32,6 +32,9 @@ class AuthorizationViewModel: ObservableObject {
     }
     
     private func didSelectAuthorizationType() {
+        if authorizationType == nil {
+            return
+        }
         updateTextField(.credinails)
     }
     
@@ -252,7 +255,12 @@ class AuthorizationViewModel: ObservableObject {
     
     var navigationPath: Binding<[NavigationLinkType]> {
         .init(get: {
-            Array(self.textFields.keys.sorted(by: {$0.order <= $1.order}))
+            if self.textFields.isEmpty {
+                return []
+            } else {
+                return Array(self.textFields.keys.sorted(by: {$0.order <= $1.order}))
+            }
+            
         }, set: { newKeys in
             self.textFields.keys.forEach { key in
                 if !newKeys.contains(key) {
@@ -264,7 +272,8 @@ class AuthorizationViewModel: ObservableObject {
                     self.updateTextField(key)
                 }
             }
-            if newKeys.isEmpty {
+            print(self.textFields, " tgerfwedas ", newKeys)
+            if self.textFields.isEmpty {
                 withAnimation {
                     self.authorizationType = nil
                 }

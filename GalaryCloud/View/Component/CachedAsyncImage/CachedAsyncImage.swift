@@ -44,6 +44,7 @@ struct CachedAsyncImage: View {
     
     func imageView(_ image: UIImage) -> some View {
         VStack {
+            Spacer()
             Image(uiImage: image)
                 .resizable()
                 .scaledToFit()
@@ -67,10 +68,11 @@ struct CachedAsyncImage: View {
             SaveIconView(isLoading: viewModel.saveAnimating)
         }
         .disabled(viewModel.isLoading)
+        Spacer().frame(width: 40)
         Button {
             deleteImagePressed?()
         } label: {
-            SaveIconView(isLoading: viewModel.deleteAnimating)
+            TrashIconView(isLoading: viewModel.deleteAnimating)
         }
     }
 }

@@ -15,7 +15,8 @@ class DataBaseService: ObservableObject {
     let imageCache = NSCache<NSString, UIImage>()
     @Published var checkIsUserLoggedIn: Bool = false
     @Published var messages: [MessageModel] = []
-    
+    @Published var storageUsed: Int = 0
+    @Published var totalFileCount: Int = 0
     @Published var db: DataBaseModel? {
         didSet {
             if db == nil {

@@ -30,17 +30,28 @@ struct FileListView: View {
         .onAppear {
             viewModel.fetchList()
         }
-        .fullScreenCover(isPresented: $viewModel.isPhotoLibraryPresenting) {
-            PhotoLibraryPickerView { newImage in
-                viewModel.fetchDirectoruSizeRequest {
-                    viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
-                    viewModel.upload()
+        .sheet(isPresented: $viewModel.isPhotoLibraryPresenting) {
+            if #available(iOS 16.4, *) {
+                PhotoLibraryPickerView { newImage in
+                    viewModel.fetchDirectoruSizeRequest {
+                        viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
+                        viewModel.upload()
+                    }
                 }
+                    .presentationDetents([.medium, .large])
+                    .presentationBackgroundInteraction(.enabled)
+                    .presentationContentInteraction(.scrolls)
+            } else {
+                PhotoLibraryPickerView { newImage in
+                    viewModel.fetchDirectoruSizeRequest {
+                        viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
+                        viewModel.upload()
+                    }
+                }
+                    .presentationDetents([.medium, .large])
             }
         }
-        .sheet(isPresented: $viewModel.storeKitPresenting, content: {
-            StoreKitView()
-        })
+
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
             galaryPreview
         }
@@ -50,7 +61,16 @@ struct FileListView: View {
                 viewModel.messages.removeAll()
             }
         }
-        .background(.black)
+        .onChange(of: viewModel.directorySizeResponse?.bytes) { newValue in
+            db.storageUsed = newValue ?? 0
+        }
+        .onChange(of: viewModel.totalFileRecords) { newValue in
+            guard let newValue else {
+                return
+            }
+            db.totalFileCount = newValue
+        }
+        .background(.red)
     }
     
     @ViewBuilder
@@ -117,6 +137,8 @@ struct FileListView: View {
                         Text("\(viewModel.selectedFileIDs.count)")
                     }
                 }
+                .background(.blue.opacity(0.15))
+                .tint(.blue)
                 .disabled(viewModel.selectedFilesActionType != nil || !viewModel.photoLibrarySelectedURLs.isEmpty)
                 Spacer().frame(width: 50)
 
@@ -133,6 +155,8 @@ struct FileListView: View {
                         Text("\(viewModel.selectedFileIDs.count)")
                     }
                 })
+                .background(.blue.opacity(0.15))
+                .tint(.blue)
                 .disabled(viewModel.selectedFilesActionType != nil || !viewModel.photoLibrarySelectedURLs.isEmpty)
                 Spacer().frame(width: 50)
                 if viewModel.selectedFileIDs.isEmpty && !viewModel.errorFileNames.isEmpty {
@@ -143,12 +167,6 @@ struct FileListView: View {
                 
             }
             Spacer()
-            Text("b:\(viewModel.directorySizeResponse?.megabytes ?? "")")
-                .padding(.trailing, 5)
-                .onLongPressGesture {
-                    KeychainService.saveToken("", forKey: .userPasswordValue)
-                    db.checkIsUserLoggedIn = true
-                }
         }
         .frame(height: Constants.topStatusBarHeight)
         .overlay {
@@ -163,22 +181,30 @@ struct FileListView: View {
     
     var bottomStatusBar: some View {
         HStack {
-            Text("\(viewModel.totalFileRecords ?? 0)/\(viewModel.files.count)")
-            Button("upgrade") {
-                viewModel.storeKitPresenting = true
-            }
-            Spacer()
             Button {
                 viewModel.isPhotoLibraryPresenting = true
             } label: {
                 UploadIconView(isLoading: viewModel.uploadAnimating)
             }
             .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
-            
-            Spacer()
-            if viewModel.fetchRequestLoading {
-                ProgressView()
-                    .progressViewStyle(.circular)
+            .background(.white)
+            .tint(.blue)
+            .frame(width: Constants.bottomStatusBarHeight, height: Constants.bottomStatusBarHeight)
+            .cornerRadius(Constants.bottomStatusBarHeight / 2)
+            .overlay {
+                RoundedRectangle(cornerRadius: Constants.bottomStatusBarHeight / 2)
+                    .stroke(.blue, lineWidth: 1.5)
+            }
+            .shadow(radius: 8)
+        }
+        .overlay {
+            HStack {
+                Spacer()
+                if viewModel.fetchRequestLoading {
+                    Text("\(viewModel.totalFileRecords ?? 0)/\(viewModel.files.count)")
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                }
             }
         }
         .frame(height: Constants.bottomStatusBarHeight)
@@ -197,23 +223,30 @@ struct FileListView: View {
     }
     
     var galary: some View {
-        ScrollView(.vertical) {
-            VStack(content: {
-                Spacer()
-                    .frame(height: Constants.topStatusBarHeight)
-                LazyVGrid(columns: [.init(), .init()]) {
-                    ForEach(viewModel.files, id: \.originalURL) { item in
-                        galaryItem(item)
+        VStack {
+            ScrollView(.vertical) {
+                VStack(content: {
+                    Spacer()
+                        .frame(height: Constants.topStatusBarHeight)
+                    LazyVGrid(columns: [.init(), .init()]) {
+                        ForEach(viewModel.files, id: \.originalURL) { item in
+                            galaryItem(item)
+                        }
+                        
                     }
-                    
-                }
-                Spacer()
-                    .frame(height: Constants.bottomStatusBarHeight)
-            })
+                    Spacer()
+                        .frame(height: Constants.bottomStatusBarHeight)
+                })
+            }
+            .refreshable {
+                viewModel.fetchList(ignoreOffset: true, reload: true)
+            }
+            Spacer()
+                .frame(maxHeight: viewModel.isPhotoLibraryPresenting ? .infinity : 0)
+                .animation(.bouncy, value: viewModel.isPhotoLibraryPresenting)
         }
-        .refreshable {
-            viewModel.fetchList(ignoreOffset: true, reload: true)
-        }
+        .ignoresSafeArea(.all)
+
     }
     
     private func galaryItem(_ item: FileListViewModel.File) -> some View {
@@ -250,7 +283,7 @@ struct FileListView: View {
 
 extension FileListView {
     struct Constants {
-        static let bottomStatusBarHeight: CGFloat = 40
+        static let bottomStatusBarHeight: CGFloat = 50
         static let topStatusBarHeight: CGFloat = 40
     }
 }

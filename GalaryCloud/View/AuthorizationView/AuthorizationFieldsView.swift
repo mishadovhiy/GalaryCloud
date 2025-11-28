@@ -13,15 +13,18 @@ struct AuthorizationFieldsView: View {
     @Binding var textFields: TextFieldsInput
     
     var body: some View {
-        ForEach(Array(textFields.keys.sorted(by: {
-            $0.rawValue.count <= $1.rawValue.count
-        })), id: \.rawValue) { key in
-            TextField(key.rawValue, text: .init(get: {
-                textFields[key] ?? ""
-            }, set: { newValue in
-                textFields.updateValue(newValue, forKey: key)
-            }))
+        VStack {
+            ForEach(Array(textFields.keys.sorted(by: {
+                $0.rawValue.count <= $1.rawValue.count
+            })), id: \.rawValue) { key in
+                TextField(key.rawValue, text: .init(get: {
+                    textFields[key] ?? ""
+                }, set: { newValue in
+                    textFields.updateValue(newValue, forKey: key)
+                }))
+            }
         }
+        .background(.red)
     }
 }
 

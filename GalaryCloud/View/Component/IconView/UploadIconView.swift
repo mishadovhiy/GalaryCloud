@@ -37,6 +37,7 @@ struct UploadIconView: View, IconViewProtocol {
                     .animation(.smooth(duration: 0.9), value: model.completed)
             })
             .id(id)
+            .frame(maxWidth: 40, maxHeight: 40)
             .onChange(of: isLoading) { newValue in
                 animationActive = newValue
                 if !newValue {

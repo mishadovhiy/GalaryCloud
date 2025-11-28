@@ -37,6 +37,8 @@ struct TrashIconView: View, IconViewProtocol {
                     .scaleEffect(model.completed ? 1 : 0.8)
                     .animation(.smooth(duration: 0.9), value: model.completed)
             })
+            .frame(maxWidth: 40, maxHeight: 40)
+        
             .id(id)
                 .onChange(of: isLoading) { newValue in
                     animationActive = newValue
@@ -60,12 +62,12 @@ struct TrashIconView: View, IconViewProtocol {
         TrashShape()
             .trim(to: !isLoading ? 1 : (animationActive ? 1 : 0))
             .scale(isLoading ? (animationActive ? 1.05 : 0.95) : 1)
-            .stroke(.red, lineWidth: 0.8)
+            .stroke(self.shapeColor, lineWidth: 0.8)
             .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.25) : .default, value: animationActive)
         TrashInsiderComponentShape()
             .trim(to: !isLoading ? 1 : (!animationActive ? 1 : 0))
             .scale(isLoading ? (animationActive ? 1.05 : 0.95) : 1)
-            .stroke(.red, lineWidth: 0.8)
+            .stroke(shapeColor, lineWidth: 0.8)
             .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.65) : .default, value: animationActive)
             .padding(.top, 12)
             .padding(.bottom, 5)
