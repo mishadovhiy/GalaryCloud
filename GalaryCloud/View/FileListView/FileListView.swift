@@ -60,9 +60,6 @@ struct FileListView: View {
             .left: inx - 1 > 0 ? viewModel.files[inx - 1] : nil,
             .right: inx + 1 <= viewModel.files.count - 1 ? viewModel.files[inx + 1] : nil
         ], deleteImagePressed: {
-            print("deletePressed")
-//            viewModel.files.remove(at: inx)
-//            viewModel.imagePreviewPresenting = false
             guard let filename = viewModel.selectedImagePreviewPresenting?.file.originalURL else {
                 return
             }

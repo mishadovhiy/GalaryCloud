@@ -24,51 +24,13 @@ struct GalaryCloudApp: App {
 //                
 //            }
             HomeView()
+                .modifier(RootAlertConfigModifier())
                 .environmentObject(dataBaseService)
                 .onAppear {
                     let _ = ServiceConfig()
                 }
-                .onChange(of: dataBaseService.messages.last) { newValue in
-                    
-                    print("erfwedas")
-                    if newValue == nil {
-                        return
-                    }
-                    self.presentAlert()
-                }
+
         }
     }
-    
-    func presentAlert() {
-        guard let lastMessage = dataBaseService.messages.last else {
-            return
-        }
-        let topVC = UIApplication.shared.activeWindow?.rootViewController?.topViewController
-        if topVC is UIAlertController {
-            return
-        }
-        let alert = UIAlertController(title: "Error", message: lastMessage.title, preferredStyle: .alert)
-        if lastMessage.buttons.isEmpty {
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                alert.dismiss(animated: true) {
-                    if dataBaseService.messages.last != nil {
-                        dataBaseService.messages.removeLast()
-                    }
-                }
-            }))
-        } else {
-            lastMessage.buttons.forEach { button in
-                alert.addAction(UIAlertAction(title: button.title, style: .default, handler: { _ in
-                    button.didPress?()
-                    alert.dismiss(animated: true) {
-                        if dataBaseService.messages.last != nil {
-                            dataBaseService.messages.removeLast()
-                        }
-                    }
-                }))
-            }
-        }
-        topVC!.present(alert, animated: true, completion: nil)
-    }
-    
+        
 }

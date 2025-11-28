@@ -34,7 +34,6 @@ struct CachedAsyncImage: View {
                 }
             }
         }
-        .modifier(AlertModifier(messages: $viewModel.messages))
         .onAppear(perform: {
             viewModel.fetchImage(db: db, isSmallImageType: self.deleteImagePressed == nil)
         })
@@ -63,10 +62,11 @@ struct CachedAsyncImage: View {
     @ViewBuilder
     var buttons: some View {
         Button {
-            viewModel.performSaveImage()
+            viewModel.performSaveImage(db)
         } label: {
             Text("save")
         }
+        .disabled(viewModel.isLoading)
         Button {
             deleteImagePressed?()
         } label: {

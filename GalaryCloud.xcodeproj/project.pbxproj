@@ -19,7 +19,6 @@
 		823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC1F82ED0EFFF005367A2 /* Data.swift */; };
 		823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2522ED10AA3005367A2 /* AppDelegate.swift */; };
 		823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */; };
-		823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC26A2ED18F78005367A2 /* AlertModifier.swift */; };
 		823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC26C2ED195A0005367A2 /* FileManager.swift */; };
 		823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2822ED1B202005367A2 /* KeychainService.swift */; };
 		823DC2852ED27EEF005367A2 /* StoreKitPurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */; };
@@ -36,6 +35,7 @@
 		8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */; };
 		8268DBE12ED7CCD5004FC985 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBE02ED7CCD5004FC985 /* UserModel.swift */; };
 		826E6FDD2ED8DCAE00DE98BB /* DragAndDropModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826E6FDC2ED8DCAE00DE98BB /* DragAndDropModifier.swift */; };
+		826E6FDF2ED93B6C00DE98BB /* RootAlertConfigModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826E6FDE2ED93B6C00DE98BB /* RootAlertConfigModifier.swift */; };
 		827162052ECACBFC00E52013 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162042ECACBFC00E52013 /* UIWindow.swift */; };
 		827162082ECACFF700E52013 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162072ECACFF700E52013 /* FileListView.swift */; };
 		8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620A2ECAD02700E52013 /* FileListViewModel.swift */; };
@@ -124,7 +124,6 @@
 		823DC1FB2ED109B1005367A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		823DC2522ED10AA3005367A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFileRequest.swift; sourceTree = "<group>"; };
-		823DC26A2ED18F78005367A2 /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		823DC26C2ED195A0005367A2 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		823DC2822ED1B202005367A2 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitPurchaseService.swift; sourceTree = "<group>"; };
@@ -141,6 +140,7 @@
 		8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImageViewModel.swift; sourceTree = "<group>"; };
 		8268DBE02ED7CCD5004FC985 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		826E6FDC2ED8DCAE00DE98BB /* DragAndDropModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragAndDropModifier.swift; sourceTree = "<group>"; };
+		826E6FDE2ED93B6C00DE98BB /* RootAlertConfigModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootAlertConfigModifier.swift; sourceTree = "<group>"; };
 		827162042ECACBFC00E52013 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		827162072ECACFF700E52013 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
 		8271620A2ECAD02700E52013 /* FileListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListViewModel.swift; sourceTree = "<group>"; };
@@ -319,7 +319,7 @@
 			children = (
 				8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */,
 				826E6FDC2ED8DCAE00DE98BB /* DragAndDropModifier.swift */,
-				823DC26A2ED18F78005367A2 /* AlertModifier.swift */,
+				826E6FDE2ED93B6C00DE98BB /* RootAlertConfigModifier.swift */,
 				820A9D4D2ED80B5F00498E35 /* SidebarModifier */,
 				82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */,
 			);
@@ -722,6 +722,7 @@
 				82909A682ED53FF200BF9548 /* LoaderView.swift in Sources */,
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
 				820A9D582ED8172000498E35 /* WebView.swift in Sources */,
+				826E6FDF2ED93B6C00DE98BB /* RootAlertConfigModifier.swift in Sources */,
 				8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,
@@ -730,7 +731,6 @@
 				820A9D4C2ED80B4500498E35 /* PinchMaskedScrollModifier.swift in Sources */,
 				823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */,
 				823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */,
-				823DC26B2ED18F78005367A2 /* AlertModifier.swift in Sources */,
 				82909A7C2ED5B42000BF9548 /* SaveIconView.swift in Sources */,
 				82909A7A2ED59A4800BF9548 /* CheckmarkShape.swift in Sources */,
 				82909A862ED5EA5500BF9548 /* TrashIconView.swift in Sources */,

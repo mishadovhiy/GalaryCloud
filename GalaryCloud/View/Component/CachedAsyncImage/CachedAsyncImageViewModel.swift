@@ -95,10 +95,9 @@ class CachedAsyncImageViewModel: ObservableObject {
         }
     }
     
-    func performSaveImage() {
+    func performSaveImage(_ db: DataBaseService) {
         guard let data = self.image?.jpegData(compressionQuality: 1),
         let date = data.imageDate else {
-            fatalError()
             return
         }
         
@@ -106,7 +105,7 @@ class CachedAsyncImageViewModel: ObservableObject {
             data: data,
             date: date) { success in
                 let title = success ? "Saved to Photos!" : "Error saving"
-                self.messages.append(.init(title: title))
+                db.messages.append(.init(title: title))
             }
     }
     

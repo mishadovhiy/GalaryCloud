@@ -196,7 +196,7 @@ class FileListViewModel: ObservableObject {
                             }
                             
                             self.imagePreviewPresenting = false
-                            
+
                         })
                     ]))
                 }
@@ -208,6 +208,8 @@ class FileListViewModel: ObservableObject {
         messages.append(.init(title: "are you sure you wanna delete this?", buttons: [
             .init(title: "no"),
             .init(title: "yes", didPress: {
+                self.imagePreviewPresenting = false
+                self.fetchRequestLoading = true
                 self.deleteApiImage(filename)
             })
         ]))
@@ -255,7 +257,8 @@ class FileListViewModel: ObservableObject {
             ]))
             return
         }
-        self.selectedFilesActionType = task
+        selectedFilesActionType = task
+        fetchRequestLoading = true
         switch task {
         case .save:
             if let first = selectedFileIDs.first {
@@ -268,6 +271,7 @@ class FileListViewModel: ObservableObject {
                 }
             } else {
                 withAnimation {
+                    self.fetchRequestLoading = false
                     self.isEditingList = false
                     if self.errorFileNames.isEmpty {
                         self.selectedFilesActionType = nil
@@ -287,6 +291,7 @@ class FileListViewModel: ObservableObject {
                 }
             } else {
                 withAnimation {
+                    self.fetchRequestLoading = false
                     self.isEditingList = false
                     if self.errorFileNames.isEmpty {
                         self.selectedFilesActionType = nil
