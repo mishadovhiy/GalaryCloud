@@ -10,7 +10,7 @@ import SwiftUI
 struct PhotoPreviewView: View {
     let imageSelection: ImageSelection?
     let sideImages: [SwipeDirection: FetchFilesResponse.File?]
-    let didDeleteImage:()->()
+    let deleteImagePressed:()->()
     let imageSwiped: (_ direction: SwipeDirection) -> ()
     @State private var selection: Int = 1
     
@@ -19,7 +19,7 @@ struct PhotoPreviewView: View {
             Spacer().frame(height: 30)
             GalaryPageRepresentable(views: pageList.compactMap({
                 .galary(.init(username: "hi@mishadovhiy.com", fileName: $0.originalURL, date: $0.date))
-            }), didDeleteImage: didDeleteImage) { newIndex in
+            }), deleteImagePressed: deleteImagePressed) { newIndex in
                 imageSwiped(newIndex == 0 ? .left : .right)
             }
         })
@@ -41,7 +41,7 @@ struct PhotoPreviewView: View {
 
 struct GalaryPageRepresentable: UIViewControllerRepresentable {
     let views: [CachedAsyncImageViewModel.PresentationType]
-    let didDeleteImage:()->()
+    let deleteImagePressed:()->()
 
     var newIndex: ((_ newIndex: Int) -> ())? = nil
     @Environment(\.dismiss) private var dismiss
@@ -53,7 +53,7 @@ struct GalaryPageRepresentable: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> GalaryPageController {
         let vc = GalaryPageController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        vc.didDeleteImage = didDeleteImage
+        vc.deleteImagePressed = deleteImagePressed
         setViewController(vc)
         vc.newIndex = newIndex
         return vc
@@ -63,13 +63,13 @@ struct GalaryPageRepresentable: UIViewControllerRepresentable {
         if uiViewController.pages.first?.galaryModel == views.first?.galaryModel {
             return
         }
-        uiViewController.didDeleteImage = didDeleteImage
+        uiViewController.deleteImagePressed = deleteImagePressed
         setViewController(uiViewController)
     }
 }
 
 class GalaryPageController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-    var didDeleteImage:(()->())?
+    var deleteImagePressed:(()->())?
 
     var pages: [CachedAsyncImageViewModel.PresentationType] = [] {
         didSet {
@@ -90,7 +90,7 @@ class GalaryPageController: UIPageViewController, UIPageViewControllerDataSource
     
     func reloadViewControllers() {
         viewControllerList = pages.compactMap({
-            UIHostingController(rootView: CachedAsyncImage(presentationType: $0, didDeleteImage: didDeleteImage))
+            UIHostingController(rootView: CachedAsyncImage(presentationType: $0, deleteImagePressed: deleteImagePressed))
         })
         if viewControllerList.count >= 3 {
             viewControllerList.first?.view.alpha = 0

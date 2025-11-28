@@ -14,13 +14,7 @@ struct AlertModifier: ViewModifier {
     func body(content: Content) -> some View {
         let currentAlert = messages.first
         content
-            .alert("Error", isPresented: .init(get: {
-                currentAlert != nil
-            }, set: {
-                if !$0 {
-                    messages.removeFirst()
-                }
-            })) {
+            .alert("Error", isPresented: isPresented) {
                 if currentAlert?.buttons.isEmpty ?? true {
                     Button("OK") {
                         isPresented.wrappedValue = false
@@ -81,7 +75,9 @@ struct AlertModifier: ViewModifier {
             !messages.isEmpty
         } set: {
             if !$0 {
-                messages.removeLast()
+                if !messages.isEmpty {
+                    messages.removeLast()
+                }
             }
         }
     }

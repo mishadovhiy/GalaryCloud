@@ -35,6 +35,7 @@
 		8268DBDB2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDA2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift */; };
 		8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */; };
 		8268DBE12ED7CCD5004FC985 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBE02ED7CCD5004FC985 /* UserModel.swift */; };
+		826E6FDD2ED8DCAE00DE98BB /* DragAndDropModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826E6FDC2ED8DCAE00DE98BB /* DragAndDropModifier.swift */; };
 		827162052ECACBFC00E52013 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162042ECACBFC00E52013 /* UIWindow.swift */; };
 		827162082ECACFF700E52013 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162072ECACFF700E52013 /* FileListView.swift */; };
 		8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271620A2ECAD02700E52013 /* FileListViewModel.swift */; };
@@ -139,6 +140,7 @@
 		8268DBDA2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPhotoLibraryModifierService.swift; sourceTree = "<group>"; };
 		8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImageViewModel.swift; sourceTree = "<group>"; };
 		8268DBE02ED7CCD5004FC985 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		826E6FDC2ED8DCAE00DE98BB /* DragAndDropModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragAndDropModifier.swift; sourceTree = "<group>"; };
 		827162042ECACBFC00E52013 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		827162072ECACFF700E52013 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
 		8271620A2ECAD02700E52013 /* FileListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListViewModel.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */,
+				826E6FDC2ED8DCAE00DE98BB /* DragAndDropModifier.swift */,
 				823DC26A2ED18F78005367A2 /* AlertModifier.swift */,
 				820A9D4D2ED80B5F00498E35 /* SidebarModifier */,
 				82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */,
@@ -714,6 +717,7 @@
 				82909A782ED574D200BF9548 /* UploadIconView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
 				8262A5802ED7F457005188F2 /* SignInService.swift in Sources */,
+				826E6FDD2ED8DCAE00DE98BB /* DragAndDropModifier.swift in Sources */,
 				82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */,
 				82909A682ED53FF200BF9548 /* LoaderView.swift in Sources */,
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,

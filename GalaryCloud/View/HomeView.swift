@@ -17,7 +17,8 @@ struct HomeView: View {
     var body: some View {
         VStack {
             if isLoggedIn {
-                homeView
+                FileListView()
+                    .modifier(SidebarModifier(viewWidth: 500, targedBackgroundView: sidebar, disabled: false))
             } else {
                 AuthorizationView()
             }
@@ -68,7 +69,11 @@ struct HomeView: View {
                 }
             }
         }
-        .background(.black)
+        .modifier(SidebarModifier(viewWidth: 500, targedBackgroundView: sidebar, disabled: false))
+    }
+    
+    var sidebar: some View {
+        Text("sidebar")
     }
 }
 

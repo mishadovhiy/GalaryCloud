@@ -10,17 +10,17 @@ import Photos
 
 struct PHPhotoLibraryModifierService {
     func save(data: Data,
-                     date: String,
-                     completion: @escaping(_ success: Bool)->()) {
+              date: String,
+              completion: @escaping(_ success: Bool)->()) {
         PHPhotoLibrary.shared().performChanges({
-
-                let request = PHAssetCreationRequest.forAsset()
+            
+            let request = PHAssetCreationRequest.forAsset()
             request.creationDate = .init(string: date)
             request.addResource(with: .photo, data: data, options: nil)
-            }) { success, error in
-                DispatchQueue.main.async {
-                    completion(success)
-                }
+        }) { success, error in
+            DispatchQueue.main.async {
+                completion(success)
             }
+        }
     }
 }

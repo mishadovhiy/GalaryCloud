@@ -14,6 +14,7 @@ class DataBaseService: ObservableObject {
     #warning("todo: move to AppData")
     let imageCache = NSCache<NSString, UIImage>()
     @Published var checkIsUserLoggedIn: Bool = false
+    @Published var messages: [MessageModel] = []
     
     @Published var db: DataBaseModel? {
         didSet {

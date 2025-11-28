@@ -11,7 +11,7 @@ struct FetchFilesResponse: Codable {
     let totalRecords: Int
     let results: [File]
     
-    struct File: Codable {
+    struct File: Codable, Hashable {
         let originalURL: String
         let date: String
     }

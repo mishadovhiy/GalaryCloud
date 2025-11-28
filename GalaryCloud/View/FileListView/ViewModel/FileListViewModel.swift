@@ -25,6 +25,18 @@ class FileListViewModel: ObservableObject {
     @Published var messages: [MessageModel] = []
     @Published var storeKitPresenting: Bool = false
     #warning("remove photo library presenting bool, its not used imagePreviewPresenting used indeed")
+    @Published var selectedFileIDs: Set<String> = []
+    @Published var lastDroppedID: String?
+    @Published var isEditingList: Bool = false {
+        didSet {
+            if !isEditingList {
+                withAnimation {
+                    self.selectedFileIDs.removeAll()
+                }
+            }
+            
+        }
+    }
     var imagePreviewPresenting: Bool {
         get {
             selectedImagePreviewPresenting != nil
@@ -35,8 +47,10 @@ class FileListViewModel: ObservableObject {
             }
         }
     }
+    @Published var selectedFilesActionType: SelectedFilesActionType?
     private var requestOffset: Int = 0
-    
+    private let photoLibraryModifierService = PHPhotoLibraryModifierService()
+
     var totalFileRecords: Int?
     
     func fetchDirectoruSizeRequest(completion:(()->())? = nil) {
@@ -137,6 +151,7 @@ class FileListViewModel: ObservableObject {
                             self.fetchList(ignoreOffset: true)
                             
                         } else {
+                            self.files.insert(.init(originalURL: url.lastPathComponent, date: date ?? Date().string), at: 0)
                             self.upload()
                         }
                     }
@@ -146,5 +161,210 @@ class FileListViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    private func deleteApiImage(
+        _ filename: String, completed: ((_ ok: Bool)->())? = nil) {
+//        isLoading = true
+        Task {
+            let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: "hi@mishadovhiy.com", filename: filename))
+            FileManager.default.delete(path: "hi@mishadovhiy.com" + filename)
+            await MainActor.run {
+//                isLoading = false
+                let errorMessage: String?
+                switch request {
+                    
+                case .success(let data):
+                    errorMessage = data.success ? nil : "error deleting image"
+                    
+                case .failure(let error):
+                    errorMessage = error.localizedDescription
+                    
+                }
+                if let completed {
+                    self.files.removeAll(where: {
+                        $0.originalURL == filename
+                    })
+                    completed(errorMessage == nil)
+                } else {
+                    messages.append(.init(title: errorMessage ?? "Image Deleted", buttons: [
+                        .init(title: "OK", didPress: {
+                            if errorMessage == nil {
+                                self.files.removeAll(where: {
+                                    $0.originalURL == filename
+                                })
+                            }
+                            
+                            self.imagePreviewPresenting = false
+                            
+                        })
+                    ]))
+                }
+            }
+        }
+    }
+    
+    func deletePressed(filename: String) {
+        messages.append(.init(title: "are you sure you wanna delete this?", buttons: [
+            .init(title: "no"),
+            .init(title: "yes", didPress: {
+                self.deleteApiImage(filename)
+            })
+        ]))
+    }
+    
+    @Published var errorFileNames: [String] = []
+    
+    func performSaveImage(
+        image: UIImage,
+        completion:((_ ok: Bool)->())? = nil) {
+        guard let data = image.jpegData(compressionQuality: 1),
+        let date = data.imageDate else {
+            completion?(false)
+            return
+        }
+        
+        self.photoLibraryModifierService.save(
+            data: data,
+            date: date) { success in
+                if let completion {
+                    completion(success)
+                } else {
+                    let title = success ? "Saved to Photos!" : "Error saving"
+                    self.messages.append(.init(title: title))
+                }
+            }
+    }
+    
+    func retryTask(_ task: SelectedFilesActionType?) {
+        if let first = errorFileNames.first,
+            let task = task ?? selectedFilesActionType {
+            selectedFileIDs = Set(errorFileNames)
+            errorFileNames.removeAll()
+            startTask(task)
+        }
+    }
+    
+    func startTask(_ task: SelectedFilesActionType, confirm: Bool = false) {
+        if confirm {
+            self.messages.append(.init(title: "are you sure", buttons: [
+                .init(title: "no"),
+                .init(title: "yes", didPress: {
+                    self.startTask(task)
+                })
+            ]))
+            return
+        }
+        self.selectedFilesActionType = task
+        switch task {
+        case .save:
+            if let first = selectedFileIDs.first {
+                saveImagePressed(first) { ok in
+                    self.selectedFileIDs.remove(first)
+                    if !ok {
+                        self.errorFileNames.append(first)
+                    }
+                    self.startTask(task)
+                }
+            } else {
+                withAnimation {
+                    self.isEditingList = false
+                    if self.errorFileNames.isEmpty {
+                        self.selectedFilesActionType = nil
+                    }
+                }
+            }
+        case .upload:
+            self.upload()
+        case .delete:
+            if let first = selectedFileIDs.first {
+                deleteApiImage(first) { ok in
+                    self.selectedFileIDs.remove(first)
+                    if !ok {
+                        self.errorFileNames.append(first)
+                    }
+                    self.startTask(task)
+                }
+            } else {
+                withAnimation {
+                    self.isEditingList = false
+                    if self.errorFileNames.isEmpty {
+                        self.selectedFilesActionType = nil
+                    }
+                }
+            }
+        }
+    }
+    
+    private func saveImagePressed(
+        _ filename: String,
+        completion: @escaping(_ ok: Bool)->()) {
+        self.loadAPIImage(filename: filename) { image in
+            if let image {
+                self.performSaveImage(image: image) { ok in
+                    completion(ok)
+                }
+            } else {
+                completion(false)
+            }
+            
+        }
+    }
+    
+    func loadAPIImage(filename: String, completion:@escaping(_ image: UIImage?)->()) {
+        Task {
+            WasabiService.fetchURL(
+                username: "hi@mishadovhiy.com",
+                filename: filename
+            ) { url in
+                guard let url else {
+//                    self.isLoading = false
+                    return
+                }
+                self.loadApiImage(
+                    url: url) { image in
+                        completion(.init(data: image ?? .init()))
+                    }
+            }
+        }
+    }
+    
+    private func loadApiImage(
+        url: URL, completion: @escaping(_ image: Data?) -> ()
+    ) {
+        let urlTask = URLSession.shared.dataTask(with: .init(url: url)) { data, _, _ in
+            DispatchQueue.main.async {
+                completion(data)
+            }
+        }
+
+        urlTask.resume()
+    }
+    
+    func didSelectListItem(_ url: String) {
+        if selectedFileIDs.contains(url) {
+            selectedFileIDs.remove(url)
+        } else {
+            selectedFileIDs.insert(url)
+        }
+    }
+    
+    func presentCancelSelectionsIfNeeded() -> Bool {
+        if !selectedFileIDs.isEmpty && isEditingList {
+            messages.append(.init(title: "all your selected items would be removed from the memory", buttons: [
+                .init(title: "yes, remove", didPress: {
+                    withAnimation(.smooth) {
+                        self.isEditingList.toggle()
+                    }
+                }),
+                .init(title: "keep editing")
+            ]))
+            return true
+        }
+        return false
+    }
+    
+    enum SelectedFilesActionType: String {
+        case delete, upload, save
     }
 }

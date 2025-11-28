@@ -14,13 +14,13 @@ class CachedAsyncImageViewModel: ObservableObject {
     init(presentationType: PresentationType) {
         self.presentationType = presentationType
     }
-    private let photoLibraryModifierService = PHPhotoLibraryModifierService()
     @Published var image: UIImage?
     @Published var date: String = ""
     @Published var isLoading: Bool = true
     @Published var messages: [MessageModel] = []
     @Published var urlTask: URLSessionDataTask?
-    
+    private let photoLibraryModifierService = PHPhotoLibraryModifierService()
+
     private func fetchCachedImage(
         db: DataBaseService,
         isSmallImageType: Bool,
@@ -93,51 +93,15 @@ class CachedAsyncImageViewModel: ObservableObject {
                 }
             }
         }
-        
     }
     
-    private func deleteApiImage(
-        _ data: PresentationType.GalaryModel,
-        didDelete: @escaping()->()) {
-        isLoading = true
-        Task {
-            let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: data.username, filename: data.fileName))
-            FileManager.default.delete(path: data.username + data.fileName)
-            await MainActor.run {
-                isLoading = false
-                switch request {
-                case .success(let data):
-                    if data.success {
-                        messages.append(.init(title: "Image Deleted", buttons: [
-                            .init(title: "OK", didPress: {
-                                didDelete()
-                                self.isLoading = false
-                                
-                            })
-                        ]))
-                    }
-                default: break
-                }
-            }
-        }
-    }
-    
-    func deletePressed(didDelete: @escaping()->()) {
-        switch self.presentationType {
-        case .galary(let galaryModel):
-            messages.append(.init(title: "are you sure you wanna delete this?", buttons: [
-                .init(title: "no"),
-                .init(title: "yes", didPress: {
-                    self.deleteApiImage(galaryModel, didDelete: didDelete)
-                })
-            ]))
-        }
-    }
-    
-    func savePressed() {
-        guard let data = image?.jpegData(compressionQuality: 1) else {
+    func performSaveImage() {
+        guard let data = self.image?.jpegData(compressionQuality: 1),
+        let date = data.imageDate else {
+            fatalError()
             return
         }
+        
         self.photoLibraryModifierService.save(
             data: data,
             date: date) { success in
@@ -171,4 +135,5 @@ class CachedAsyncImageViewModel: ObservableObject {
         }
     }
 
+    
 }

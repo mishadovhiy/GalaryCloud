@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+internal import UniformTypeIdentifiers
 
 struct FileListView: View {
     
@@ -13,13 +14,9 @@ struct FileListView: View {
     @EnvironmentObject private var db: DataBaseService
     
     var body: some View {
-        VStack(content: {
-            if let error = viewModel.fetchError {
-                Text(error.localizedDescription)
-            }
-            galary
-            
-            bottomStatusBar
+        galary
+        .overlay(content: {
+            statusBarOverlay
         })
         .padding(.bottom, !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
         .overlay(content: {
@@ -47,7 +44,13 @@ struct FileListView: View {
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
             galaryPreview
         }
-        .modifier(AlertModifier(messages: $viewModel.messages))
+        .onChange(of: viewModel.messages) { newValue in
+            if !newValue.isEmpty {
+                db.messages.append(contentsOf: newValue)
+                viewModel.messages.removeAll()
+            }
+        }
+        .background(.black)
     }
     
     @ViewBuilder
@@ -56,10 +59,14 @@ struct FileListView: View {
         PhotoPreviewView(imageSelection: viewModel.selectedImagePreviewPresenting, sideImages: [
             .left: inx - 1 > 0 ? viewModel.files[inx - 1] : nil,
             .right: inx + 1 <= viewModel.files.count - 1 ? viewModel.files[inx + 1] : nil
-        ], didDeleteImage: {
+        ], deleteImagePressed: {
             print("deletePressed")
-            viewModel.files.remove(at: inx)
-            viewModel.imagePreviewPresenting = false
+//            viewModel.files.remove(at: inx)
+//            viewModel.imagePreviewPresenting = false
+            guard let filename = viewModel.selectedImagePreviewPresenting?.file.originalURL else {
+                return
+            }
+            self.viewModel.deletePressed(filename: filename)
         }) { direction in
             let inx = viewModel.selectedImagePreviewPresenting?.index ?? 0
 
@@ -67,6 +74,69 @@ struct FileListView: View {
             let isValid = inx + plusIndex <= viewModel.files.count - 1 && inx + plusIndex >= 0
             if isValid {
                 viewModel.selectedImagePreviewPresenting = .init(file: viewModel.files[inx + plusIndex], index: inx + plusIndex)
+            }
+        }
+    }
+    
+    var statusBarOverlay: some View {
+        VStack {
+            topStatusBarBar
+            Spacer()
+            bottomStatusBar
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 2)
+        
+    }
+    
+    var topStatusBarBar: some View {
+        HStack {
+            Spacer().frame(width: 100)
+            if !viewModel.files.isEmpty {
+                Button(viewModel.isEditingList ? "cancel" : "Edit") {
+                    if viewModel.presentCancelSelectionsIfNeeded() {
+                        return
+                    }
+                    withAnimation(.smooth) {
+                        self.viewModel.isEditingList.toggle()
+                    }
+                }
+            }
+        
+            Spacer()
+            if viewModel.isEditingList {
+                Button("delete \(viewModel.selectedFileIDs.count)") {
+                    viewModel.startTask(.delete, confirm: true)
+                }
+                .disabled(viewModel.selectedFilesActionType != nil || !viewModel.photoLibrarySelectedURLs.isEmpty)
+                Spacer().frame(width: 50)
+                Button("save \(viewModel.selectedFileIDs.count)") {
+                    viewModel.startTask(.save)
+                }
+                .disabled(viewModel.selectedFilesActionType != nil || !viewModel.photoLibrarySelectedURLs.isEmpty)
+                Spacer().frame(width: 50)
+                if viewModel.selectedFileIDs.isEmpty && !viewModel.errorFileNames.isEmpty {
+                    Button("Error \(viewModel.selectedFilesActionType?.rawValue ?? "?") \(viewModel.errorFileNames.count)") {
+                        viewModel.retryTask(nil)
+                    }
+                }
+                
+            }
+            Spacer()
+            Text("b:\(viewModel.directorySizeResponse?.megabytes ?? "")")
+                .padding(.trailing, 5)
+                .onLongPressGesture {
+                    KeychainService.saveToken("", forKey: .userPasswordValue)
+                    db.checkIsUserLoggedIn = true
+                }
+        }
+        .frame(height: Constants.topStatusBarHeight)
+        .overlay {
+            if let error = viewModel.fetchError {
+                VStack {
+                    Spacer().frame(height: Constants.topStatusBarHeight)
+                    Text(error.localizedDescription)
+                }
             }
         }
     }
@@ -84,17 +154,12 @@ struct FileListView: View {
             .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
             
             Spacer()
-            Text("b:\(viewModel.directorySizeResponse?.megabytes ?? "")")
-                .padding(.trailing, 5)
-                .onLongPressGesture {
-                    KeychainService.saveToken("", forKey: .userPasswordValue)
-                    db.checkIsUserLoggedIn = true
-                }
             if viewModel.fetchRequestLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
             }
         }
+        .frame(height: Constants.bottomStatusBarHeight)
     }
     
     var uploadingIndicator: some View {
@@ -111,14 +176,21 @@ struct FileListView: View {
     
     var galary: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: [.init(), .init()]) {
-                ForEach(viewModel.files, id: \.originalURL) { item in
-                    galaryItem(item)
+            VStack(content: {
+                Spacer()
+                    .frame(height: Constants.topStatusBarHeight)
+                LazyVGrid(columns: [.init(), .init()]) {
+                    ForEach(viewModel.files, id: \.originalURL) { item in
+                        galaryItem(item)
+                    }
+                    
                 }
-            }
-            .refreshable {
-                viewModel.fetchList(ignoreOffset: true)
-            }
+                Spacer()
+                    .frame(height: Constants.bottomStatusBarHeight)
+            })
+        }
+        .refreshable {
+            viewModel.fetchList(ignoreOffset: true, reload: true)
         }
     }
     
@@ -130,15 +202,34 @@ struct FileListView: View {
         )
         .frame(height: 200)
         .onTapGesture {
-            viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {
-                $0.originalURL == item.originalURL
-            })!)
+            if !viewModel.isEditingList {
+                viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {
+                    $0.originalURL == item.originalURL
+                })!)
+            } else {
+                viewModel.didSelectListItem(item.originalURL)
+            }
         }
+        .overlay(content: {
+            if viewModel.selectedFileIDs.contains(item.originalURL) {
+                Color.red.opacity(0.5)
+            }
+        })
+        .modifier(DragAndDropModifier(disabled: !viewModel.isEditingList, lastDroppedID: $viewModel.lastDroppedID, itemID: item.originalURL, didDrop: {
+            viewModel.didSelectListItem(item.originalURL)
+        }))
         .onAppear {
             if viewModel.files.last?.originalURL == item.originalURL {
                 viewModel.fetchList()
             }
         }
+    }
+}
+
+extension FileListView {
+    struct Constants {
+        static let bottomStatusBarHeight: CGFloat = 40
+        static let topStatusBarHeight: CGFloat = 40
     }
 }
 

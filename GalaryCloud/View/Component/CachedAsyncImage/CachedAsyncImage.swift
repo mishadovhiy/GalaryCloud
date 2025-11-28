@@ -10,12 +10,12 @@ import Combine
 
 struct CachedAsyncImage: View {
     
-    private let didDeleteImage: (()->())?
+    private let deleteImagePressed: (()->())?
     @StateObject private var viewModel: CachedAsyncImageViewModel
     @EnvironmentObject private var db: DataBaseService
 
-    init(presentationType: CachedAsyncImageViewModel.PresentationType, didDeleteImage: (() -> Void)? = nil) {
-        self.didDeleteImage = didDeleteImage
+    init(presentationType: CachedAsyncImageViewModel.PresentationType, deleteImagePressed: (() -> Void)? = nil) {
+        self.deleteImagePressed = deleteImagePressed
         self._viewModel = StateObject(wrappedValue: .init(presentationType: presentationType))
     }
     
@@ -36,7 +36,7 @@ struct CachedAsyncImage: View {
         }
         .modifier(AlertModifier(messages: $viewModel.messages))
         .onAppear(perform: {
-            viewModel.fetchImage(db: db, isSmallImageType: self.didDeleteImage == nil)
+            viewModel.fetchImage(db: db, isSmallImageType: self.deleteImagePressed == nil)
         })
         .onDisappear {
             viewModel.viewDidDisapear()
@@ -51,7 +51,7 @@ struct CachedAsyncImage: View {
             Spacer()
             HStack {
                 Text(viewModel.date)
-                if didDeleteImage != nil {
+                if deleteImagePressed != nil {
                     Spacer()
                     buttons
                 }
@@ -63,14 +63,12 @@ struct CachedAsyncImage: View {
     @ViewBuilder
     var buttons: some View {
         Button {
-            viewModel.savePressed()
+            viewModel.performSaveImage()
         } label: {
             Text("save")
         }
         Button {
-            viewModel.deletePressed(didDelete: {
-                self.didDeleteImage?()
-            })
+            deleteImagePressed?()
         } label: {
             Text("delete")
         }
