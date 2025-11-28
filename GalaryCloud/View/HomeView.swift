@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State var isLoading = true
+    @State var isLoading = false
     @State var canPress = true
     @State var isLoggedIn: Bool = false
     @EnvironmentObject private var db: DataBaseService
@@ -17,6 +17,7 @@ struct HomeView: View {
     var body: some View {
         VStack {
             if isLoggedIn {
+//                homeView
                 FileListView()
                     .modifier(SidebarModifier(viewWidth: 500, targedBackgroundView: sidebar, disabled: false))
             } else {
@@ -39,6 +40,7 @@ struct HomeView: View {
             
         self.isLoggedIn = !credinails.contains(where: {$0?.isEmpty ?? true})
     }
+    @State var id: UUID = .init()
     
     var homeView: some View {
         TabView {
@@ -67,6 +69,9 @@ struct HomeView: View {
                 withAnimation(.smooth) {
                     isLoading.toggle()
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                    isLoading = false
+                })
             }
         }
         .modifier(SidebarModifier(viewWidth: 500, targedBackgroundView: sidebar, disabled: false))

@@ -116,6 +116,15 @@ class FileListViewModel: ObservableObject {
             }
         }
     }
+
+    func didCompletedUploadingFiles() {
+        self.requestOffset = 0
+        self.files.removeAll()
+        self.directorySizeResponse = nil
+        FileManager.default.clearTempFolder()
+        self.fetchList(ignoreOffset: true)
+        self.uploadAnimating = false
+    }
     
     func upload() {
         //check gb limit, if cannot, show alert and present Uploading progress view
@@ -123,15 +132,18 @@ class FileListViewModel: ObservableObject {
         // on upload start - check storekit limit
         self.uploadError = nil
         guard let url = self.photoLibrarySelectedURLs.first else {
+            self.uploadAnimating = false
             return
         }
         
         guard let imageData = try? Data(contentsOf: url) else {
             if !self.photoLibrarySelectedURLs.isEmpty {
                 self.photoLibrarySelectedURLs.removeFirst()
+                self.uploadAnimating = false
             }
             return
         }
+        self.uploadAnimating = true
         let date = imageData.imageDate
         let apiData = CreateFileRequest.Image(url: url.lastPathComponent, date: date ?? Date().string, data: imageData.base64EncodedString())
         Task(priority: .userInitiated) {
@@ -144,12 +156,7 @@ class FileListViewModel: ObservableObject {
                     if result.success {
                         self.photoLibrarySelectedURLs.removeFirst()
                         if photoLibrarySelectedURLs.isEmpty {
-                            self.requestOffset = 0
-                            self.files.removeAll()
-                            self.directorySizeResponse = nil
-                            FileManager.default.clearTempFolder()
-                            self.fetchList(ignoreOffset: true)
-                            
+                            self.didCompletedUploadingFiles()
                         } else {
                             self.files.insert(.init(originalURL: url.lastPathComponent, date: date ?? Date().string), at: 0)
                             self.upload()
@@ -158,6 +165,7 @@ class FileListViewModel: ObservableObject {
                     
                 case .failure(let error):
                     self.uploadError = error as NSError
+                    self.uploadAnimating = false
                 }
             }
         }
@@ -247,6 +255,10 @@ class FileListViewModel: ObservableObject {
         }
     }
     
+    @Published var deleteAnimating = false
+    @Published var uploadAnimating = false
+    @Published var saveAnimating = false
+    
     func startTask(_ task: SelectedFilesActionType, confirm: Bool = false) {
         if confirm {
             self.messages.append(.init(title: "are you sure", buttons: [
@@ -262,6 +274,7 @@ class FileListViewModel: ObservableObject {
         switch task {
         case .save:
             if let first = selectedFileIDs.first {
+                saveAnimating = true
                 saveImagePressed(first) { ok in
                     self.selectedFileIDs.remove(first)
                     if !ok {
@@ -271,17 +284,15 @@ class FileListViewModel: ObservableObject {
                 }
             } else {
                 withAnimation {
+                    self.saveAnimating = false
                     self.fetchRequestLoading = false
-                    self.isEditingList = false
-                    if self.errorFileNames.isEmpty {
-                        self.selectedFilesActionType = nil
-                    }
                 }
             }
         case .upload:
             self.upload()
         case .delete:
             if let first = selectedFileIDs.first {
+                deleteAnimating = true
                 deleteApiImage(first) { ok in
                     self.selectedFileIDs.remove(first)
                     if !ok {
@@ -291,11 +302,8 @@ class FileListViewModel: ObservableObject {
                 }
             } else {
                 withAnimation {
+                    self.deleteAnimating = false
                     self.fetchRequestLoading = false
-                    self.isEditingList = false
-                    if self.errorFileNames.isEmpty {
-                        self.selectedFilesActionType = nil
-                    }
                 }
             }
         }

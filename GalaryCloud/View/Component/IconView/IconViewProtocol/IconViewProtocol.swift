@@ -11,6 +11,7 @@ protocol IconViewProtocol: View {
     var isLoading: Bool { get }
     var animationActive: Bool { get }
     var model: IconViewModel { get }
+    var id: UUID { get }
 }
 
 extension View where Self: IconViewProtocol {

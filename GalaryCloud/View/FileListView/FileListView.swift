@@ -102,14 +102,37 @@ struct FileListView: View {
         
             Spacer()
             if viewModel.isEditingList {
-                Button("delete \(viewModel.selectedFileIDs.count)") {
+                Button {
                     viewModel.startTask(.delete, confirm: true)
+
+                } label: {
+                    HStack {
+                        TrashIconView(isLoading: viewModel.deleteAnimating) {
+                            if $0 {
+                                self.viewModel.selectedFilesActionType = nil
+                                self.viewModel.isEditingList = false
+                            }
+                        
+                        }
+                        Text("\(viewModel.selectedFileIDs.count)")
+                    }
                 }
                 .disabled(viewModel.selectedFilesActionType != nil || !viewModel.photoLibrarySelectedURLs.isEmpty)
                 Spacer().frame(width: 50)
-                Button("save \(viewModel.selectedFileIDs.count)") {
+
+                Button(action: {
                     viewModel.startTask(.save)
-                }
+                }, label: {
+                    HStack {
+                        SaveIconView(isLoading: viewModel.saveAnimating) {
+                            if $0 {
+                                self.viewModel.selectedFilesActionType = nil
+                                self.viewModel.isEditingList = false
+                            }
+                        }
+                        Text("\(viewModel.selectedFileIDs.count)")
+                    }
+                })
                 .disabled(viewModel.selectedFilesActionType != nil || !viewModel.photoLibrarySelectedURLs.isEmpty)
                 Spacer().frame(width: 50)
                 if viewModel.selectedFileIDs.isEmpty && !viewModel.errorFileNames.isEmpty {
@@ -145,8 +168,10 @@ struct FileListView: View {
                 viewModel.storeKitPresenting = true
             }
             Spacer()
-            Button("upload") {
+            Button {
                 viewModel.isPhotoLibraryPresenting = true
+            } label: {
+                UploadIconView(isLoading: viewModel.uploadAnimating)
             }
             .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
             

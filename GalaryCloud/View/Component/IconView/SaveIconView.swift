@@ -13,9 +13,10 @@ struct SaveIconView: View, IconViewProtocol {
     let isLoading: Bool
     @State var animationActive: Bool = false
     @StateObject var model: IconViewModel
+    @State var id: UUID = .init()
     
     init(isLoading: Bool,
-         canPressChanged: @escaping (_: Bool) -> Void) {
+         canPressChanged: ((_: Bool) -> Void)? = nil) {
         self.isLoading = isLoading
         self._model = StateObject(wrappedValue: .init(canPressChanged: canPressChanged))
     }
@@ -51,10 +52,15 @@ struct SaveIconView: View, IconViewProtocol {
                 .scaleEffect(model.completed ? 1 : 0.8)
                 .animation(.smooth(duration: 0.9), value: model.completed)
         })
+        .id(id)
             .onChange(of: isLoading) { newValue in
                 animationActive = newValue
                 if !newValue {
-                    model.toggleSuccessAnimation()
+                    model.toggleSuccessAnimation {
+                        withAnimation {
+                            self.id = .init()
+                        }
+                    }
                 }
             }
             .onAppear {

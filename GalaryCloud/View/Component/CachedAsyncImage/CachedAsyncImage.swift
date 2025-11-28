@@ -64,13 +64,13 @@ struct CachedAsyncImage: View {
         Button {
             viewModel.performSaveImage(db)
         } label: {
-            Text("save")
+            SaveIconView(isLoading: viewModel.saveAnimating)
         }
         .disabled(viewModel.isLoading)
         Button {
             deleteImagePressed?()
         } label: {
-            Text("delete")
+            SaveIconView(isLoading: viewModel.deleteAnimating)
         }
     }
 }

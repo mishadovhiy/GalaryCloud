@@ -20,7 +20,8 @@ class CachedAsyncImageViewModel: ObservableObject {
     @Published var messages: [MessageModel] = []
     @Published var urlTask: URLSessionDataTask?
     private let photoLibraryModifierService = PHPhotoLibraryModifierService()
-
+    @Published var saveAnimating: Bool = false
+    @Published var deleteAnimating: Bool = false
     private func fetchCachedImage(
         db: DataBaseService,
         isSmallImageType: Bool,
