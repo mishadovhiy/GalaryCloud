@@ -18,6 +18,7 @@ struct PHPhotoLibraryModifierService {
             request.creationDate = .init(string: date)
             request.addResource(with: .photo, data: data, options: nil)
         }) { success, error in
+            print(success, " yhgetfrwd")
             DispatchQueue.main.async {
                 completion(success)
             }

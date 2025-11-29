@@ -97,7 +97,7 @@ struct FileListView: View {
     
     var statusBarOverlay: some View {
         VStack {
-            topStatusBarBar
+//            topStatusBarBar
             Spacer()
             bottomStatusBar
         }
@@ -106,66 +106,84 @@ struct FileListView: View {
         
     }
     
+    @ViewBuilder
+    var editingButtons: some View {
+        if viewModel.isEditingList {
+            Button {
+                viewModel.startTask(.delete, confirm: true)
+
+            } label: {
+                HStack {
+                    TrashIconView(isLoading: viewModel.deleteAnimating) {
+                        if $0 {
+                            self.viewModel.selectedFilesActionType = nil
+                            self.viewModel.isEditingList = false
+                        }
+                    
+                    }
+                    Text("\(viewModel.selectedFileIDs.count)")
+                }
+            }
+            .tint(.blue)
+            .padding(.horizontal, 10)
+            .background(.white)
+
+            .disabled(viewModel.selectedFilesActionType != nil)
+            Spacer().frame(width: 40)
+
+            Button(action: {
+                viewModel.startTask(.save)
+            }, label: {
+                HStack {
+                    SaveIconView(isLoading: viewModel.saveAnimating) {
+                        if $0 {
+                            self.viewModel.selectedFilesActionType = nil
+                            self.viewModel.isEditingList = false
+                        }
+                    }
+                    Text("\(viewModel.selectedFileIDs.count)")
+                }
+            })
+            .tint(.blue)
+            .padding(.horizontal, 10)
+            .background(.white)
+            .disabled(viewModel.selectedFilesActionType != nil)
+            if viewModel.selectedFileIDs.isEmpty && !viewModel.errorFileNames.isEmpty {
+                Spacer().frame(width: 40)
+                Button("Error \(viewModel.errorFileNames.count)") {
+                    viewModel.selectedFileIDs = Set(viewModel.errorFileNames)
+                    viewModel.errorFileNames.removeAll()
+                }
+            }
+            
+        }
+    }
+    var editButton: some View {
+        Button(!viewModel.isEditingList ? "edit" : "X") {
+            if viewModel.presentCancelSelectionsIfNeeded() {
+                return
+            }
+            withAnimation(.smooth) {
+                self.viewModel.isEditingList.toggle()
+            }
+        }
+        .tint(.blue)
+        .frame(height: 50)
+        .frame(minWidth: 50)
+        .padding(.horizontal, 5)
+        .background(.white)
+        .cornerRadius(7)
+    }
+    
     var topStatusBarBar: some View {
         HStack {
             Spacer().frame(width: 100)
             if !viewModel.files.isEmpty {
-                Button(viewModel.isEditingList ? "cancel" : "Edit") {
-                    if viewModel.presentCancelSelectionsIfNeeded() {
-                        return
-                    }
-                    withAnimation(.smooth) {
-                        self.viewModel.isEditingList.toggle()
-                    }
-                }
+                
             }
         
             Spacer()
-            if viewModel.isEditingList {
-                Button {
-                    viewModel.startTask(.delete, confirm: true)
-
-                } label: {
-                    HStack {
-                        TrashIconView(isLoading: viewModel.deleteAnimating) {
-                            if $0 {
-                                self.viewModel.selectedFilesActionType = nil
-                                self.viewModel.isEditingList = false
-                            }
-                        
-                        }
-                        Text("\(viewModel.selectedFileIDs.count)")
-                    }
-                }
-                .background(.blue.opacity(0.15))
-                .tint(.blue)
-                .disabled(viewModel.selectedFilesActionType != nil || !viewModel.photoLibrarySelectedURLs.isEmpty)
-                Spacer().frame(width: 50)
-
-                Button(action: {
-                    viewModel.startTask(.save)
-                }, label: {
-                    HStack {
-                        SaveIconView(isLoading: viewModel.saveAnimating) {
-                            if $0 {
-                                self.viewModel.selectedFilesActionType = nil
-                                self.viewModel.isEditingList = false
-                            }
-                        }
-                        Text("\(viewModel.selectedFileIDs.count)")
-                    }
-                })
-                .background(.blue.opacity(0.15))
-                .tint(.blue)
-                .disabled(viewModel.selectedFilesActionType != nil || !viewModel.photoLibrarySelectedURLs.isEmpty)
-                Spacer().frame(width: 50)
-                if viewModel.selectedFileIDs.isEmpty && !viewModel.errorFileNames.isEmpty {
-                    Button("Error \(viewModel.selectedFilesActionType?.rawValue ?? "?") \(viewModel.errorFileNames.count)") {
-                        viewModel.retryTask(nil)
-                    }
-                }
-                
-            }
+            
             Spacer()
         }
         .frame(height: Constants.topStatusBarHeight)
@@ -181,21 +199,28 @@ struct FileListView: View {
     
     var bottomStatusBar: some View {
         HStack {
+            Spacer()
             Button {
                 viewModel.isPhotoLibraryPresenting = true
             } label: {
                 UploadIconView(isLoading: viewModel.uploadAnimating)
             }
             .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
-            .background(.white)
             .tint(.blue)
-            .frame(width: Constants.bottomStatusBarHeight, height: Constants.bottomStatusBarHeight)
+            .frame(width: viewModel.isEditingList ? 0 : Constants.bottomStatusBarHeight, height: Constants.bottomStatusBarHeight)
+            .background(.white)
+
             .cornerRadius(Constants.bottomStatusBarHeight / 2)
             .overlay {
                 RoundedRectangle(cornerRadius: Constants.bottomStatusBarHeight / 2)
                     .stroke(.blue, lineWidth: 1.5)
             }
-            .shadow(radius: 8)
+            .clipped()
+            .shadow(radius: viewModel.isEditingList ? 0 : 8)
+            .animation(.bouncy, value: viewModel.isEditingList)
+            Spacer().frame(width: 40)
+            editButton
+            editingButtons
         }
         .overlay {
             HStack {
@@ -228,7 +253,9 @@ struct FileListView: View {
                 VStack(content: {
                     Spacer()
                         .frame(height: Constants.topStatusBarHeight)
-                    LazyVGrid(columns: [.init(), .init()]) {
+                    LazyVGrid( columns: [
+                        .init(.flexible(minimum: 40, maximum: 200)), .init(.flexible(minimum: 40, maximum: 200)), .init(.flexible(minimum: 40, maximum: 200)), .init(.flexible(minimum: 40, maximum: 200))
+                    ], spacing: 0) {
                         ForEach(viewModel.files, id: \.originalURL) { item in
                             galaryItem(item)
                         }
@@ -250,12 +277,19 @@ struct FileListView: View {
     }
     
     private func galaryItem(_ item: FileListViewModel.File) -> some View {
-        CachedAsyncImage(
-            presentationType: .galary(.init(username: "hi@mishadovhiy.com",
-                          fileName: item.originalURL,
-                                            date: item.date))
-        )
-        .frame(height: 200)
+        GeometryReader(content: { proxy in
+            CachedAsyncImage(
+                presentationType: .galary(.init(username: "hi@mishadovhiy.com",
+                              fileName: item.originalURL,
+                                                date: item.date))
+            )
+            .frame(width: proxy.size.width, height: proxy.size.width)
+            .clipped()
+
+        })
+        .aspectRatio(1, contentMode: .fill)
+        .clipped()
+        .background(.white)
         .onTapGesture {
             if !viewModel.isEditingList {
                 viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {

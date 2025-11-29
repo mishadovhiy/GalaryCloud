@@ -225,14 +225,16 @@ class FileListViewModel: ObservableObject {
     @Published var errorFileNames: [String] = []
     
     func performSaveImage(
-        image: UIImage,
+        image: UIImage, filename: String,
         completion:((_ ok: Bool)->())? = nil) {
         guard let data = image.jpegData(compressionQuality: 1),
-        let date = data.imageDate else {
+              let date = data.imageDate ?? self.files.first(where: {
+                  $0.originalURL == filename
+              })?.date
+            else {
             completion?(false)
             return
         }
-        
         self.photoLibraryModifierService.save(
             data: data,
             date: date) { success in
@@ -313,7 +315,7 @@ class FileListViewModel: ObservableObject {
         completion: @escaping(_ ok: Bool)->()) {
         self.loadAPIImage(filename: filename) { image in
             if let image {
-                self.performSaveImage(image: image) { ok in
+                self.performSaveImage(image: image, filename: filename) { ok in
                     completion(ok)
                 }
             } else {
@@ -331,6 +333,7 @@ class FileListViewModel: ObservableObject {
             ) { url in
                 guard let url else {
 //                    self.isLoading = false
+                    completion(nil)
                     return
                 }
                 self.loadApiImage(

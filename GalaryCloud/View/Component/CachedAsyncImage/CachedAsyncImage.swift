@@ -42,20 +42,38 @@ struct CachedAsyncImage: View {
         }
     }
     
-    func imageView(_ image: UIImage) -> some View {
-        VStack {
+    var dateView: some View {
+        HStack {
+            Text(viewModel.date)
+                .font(deleteImagePressed == nil ? .footnote : .body)
             Spacer()
+            if deleteImagePressed != nil {
+                buttons
+            }
+
+        }
+    }
+    
+    @ViewBuilder
+    func imageView(_ image: UIImage) -> some View {
+        if self.deleteImagePressed == nil {
             Image(uiImage: image)
                 .resizable()
-                .scaledToFit()
-            Spacer()
-            HStack {
-                Text(viewModel.date)
-                if deleteImagePressed != nil {
-                    Spacer()
-                    buttons
+                .scaledToFill()
+                .overlay {
+                    VStack {
+                        Spacer()
+                        dateView
+                    }
                 }
-
+        } else {
+            VStack {
+                Spacer()
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                Spacer()
+                dateView
             }
         }
     }

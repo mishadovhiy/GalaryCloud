@@ -97,11 +97,11 @@ class CachedAsyncImageViewModel: ObservableObject {
     }
     
     func performSaveImage(_ db: DataBaseService) {
-        guard let data = self.image?.jpegData(compressionQuality: 1),
-        let date = data.imageDate else {
+        guard let data = self.image?.jpegData(compressionQuality: 1) else {
+            print("error converting to data")
             return
         }
-        
+        let date = data.imageDate ?? date
         self.photoLibraryModifierService.save(
             data: data,
             date: date) { success in

@@ -14,11 +14,13 @@ struct FetchFilesRequest: Requestable, Codable {
     
     typealias Response = FetchFilesResponse
     
+    static fileprivate let requestLimit = 40
+    
     private let offset: Int
     let username: String
     
     init(offset: Int, username: String) {
-        self.offset = offset * 20
+        self.offset = offset * Self.requestLimit
         self.username = username
     }
 }
