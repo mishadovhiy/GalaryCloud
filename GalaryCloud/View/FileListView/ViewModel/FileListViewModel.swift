@@ -49,7 +49,6 @@ class FileListViewModel: ObservableObject {
     @Published var selectedFilesActionType: SelectedFilesActionType?
     private var requestOffset: Int = 0
     private let photoLibraryModifierService = PHPhotoLibraryModifierService()
-
     var totalFileRecords: Int?
     
     func fetchDirectoruSizeRequest(completion:(()->())? = nil) {
@@ -59,6 +58,7 @@ class FileListViewModel: ObservableObject {
                 switch response {
                 case .success(let response):
                     self.directorySizeResponse = response
+                    
                     completion?()
                 default: break
                 }
@@ -123,6 +123,28 @@ class FileListViewModel: ObservableObject {
         FileManager.default.clearTempFolder()
         self.fetchList(ignoreOffset: true)
         self.uploadAnimating = false
+    }
+    
+    func uploadFilePressed(_ db: DataBaseService) {
+        Task {
+            await db.storeKitService.fetchActiveProducts()
+            let gbUser = (self.directorySizeResponse?.bytes.megabytes ?? 0) / 1000
+            print(gbUser, "gb used")
+            if Double(db.storeKitService.activeSubscriptionGB) >= gbUser {
+                await MainActor.run {
+                    self.isPhotoLibraryPresenting = true
+                }
+            } else {
+                await MainActor.run {
+                    self.messages.append(.init(title: "Storage limit increesed, upgrade to pro to proceed", buttons: [
+                        .init(title: "cancel"),
+                        .init(title: "upgrade", didPress: {
+                            db.forcePresentUpgradeToPro = true
+                        })
+                    ]))
+                }
+            }
+        }
     }
     
     func upload() {

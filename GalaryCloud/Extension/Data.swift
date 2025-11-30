@@ -22,7 +22,17 @@ extension Data {
 }
 
 extension Int {
-    var megabytes: String {
-        .init(format: "%.2f", Double(self) / (1024 * 1024))
+    var megabytes: Double {
+        Double(self) / (1024 * 1024)
+    }
+    
+    var megabytesString: String {
+        .init(format: "%.2f", megabytes)
+    }
+}
+
+extension String {
+    var numbers: Int? {
+        Int(self.filter({$0.isNumber}))
     }
 }

@@ -17,6 +17,8 @@ class DataBaseService: ObservableObject {
     @Published var messages: [MessageModel] = []
     @Published var storageUsed: Int = 0
     @Published var totalFileCount: Int = 0
+    @Published var storeKitService: StoreKitService = .init(needAllProducts: false)
+    @Published var forcePresentUpgradeToPro: Bool = false
     @Published var db: DataBaseModel? {
         didSet {
             if db == nil {
@@ -40,5 +42,12 @@ class DataBaseService: ObservableObject {
             self.db = .init()
         }
         imageCache.totalCostLimit =  512 * 1024 * 1024
+        
+        storeKitCancellable = storeKitService.objectWillChange.sink(receiveValue: { [weak self] _ in
+            self?.objectWillChange.send()
+        })
     }
+    
+    private var storeKitCancellable: AnyCancellable?
+
 }

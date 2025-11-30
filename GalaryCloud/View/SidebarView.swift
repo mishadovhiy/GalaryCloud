@@ -16,23 +16,16 @@ struct SidebarView: View {
         NavigationView(content: {
             VStack {
                 NavigationLink("Logout") {
-                    VStack {
-                        Text("Are you sure?")
-                        HStack {
-                            Button("confirm") {
-                                KeychainService.saveToken("", forKey: .userPasswordValue)
-                                db.checkIsUserLoggedIn = true
-
-                            }
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background {
-                        ClearBackgroundView()
-                    }
-                    .background(.primaryContainer)
-
-                    
+                    MessageStaticView(
+                        message: .init(title: "Are you sure?",
+                                       buttons: [
+                                        .init(title: "Cancel"),
+                                        .init(title: "Logout", didPress: {
+                                            KeychainService.saveToken("", forKey: .userPasswordValue)
+                                            db.checkIsUserLoggedIn = true
+                                        })
+                                       ])
+                    )
                 }
                 Spacer()
                 
@@ -40,8 +33,10 @@ struct SidebarView: View {
                     StoreKitView()
                 } label: {
                     HStack {
-                        Text("MB:" + db.storageUsed.megabytes)
-                        Text(" | \(db.totalFileCount)")
+                        Text("MB:" + db.storageUsed.megabytesString + " / " + "\(db.storeKitService.activeSubscriptionGB)")
+                            .font(.title)
+                        Text(" | file count \(db.totalFileCount)")
+                            .font(.footnote)
                         Spacer()
                         Text("Upgrade")
                     }

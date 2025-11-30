@@ -10,20 +10,35 @@ import StoreKit
 
 struct StoreKitView: View {
     
-    @StateObject private var storeKitService: StoreKitPurchaseService = .init()
+    @StateObject private var storeKitService: StoreKitService = .init(needAllProducts: true)
+    @EnvironmentObject private var db: DataBaseService
     
     var body: some View {
         TabView {
-            ForEach(storeKitService.products, id: \.id) { product in
+            ForEach(storeKitService.allProducts, id: \.id) { product in
                 VStack(alignment: .leading) {
                     HStack {
                         Text(product.displayName)
                         Text(product.displayPrice)
                     }
                     Text(product.description)
-                    Text("\(product.subscription?.subscriptionPeriod.value ?? 0)")
                     Button("Buy") {
-                        
+                        Task {
+                            do {
+                                let request = await storeKitService.buy(product: product)
+                                switch request {
+                                case .success(let success):
+                                    print(success, " grvefcds")
+                                    if success {
+                                        Task {
+                                            await db.storeKitService.fetchActiveProducts(force: true)
+                                        }
+                                    }
+                                case .failure(let failure):
+                                    print(failure.localizedDescription, " grterfwdesa ")
+                                }
+                            }
+                        }
                     }
                 }
             }

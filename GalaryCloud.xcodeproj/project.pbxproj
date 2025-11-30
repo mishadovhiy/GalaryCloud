@@ -21,11 +21,10 @@
 		823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */; };
 		823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC26C2ED195A0005367A2 /* FileManager.swift */; };
 		823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2822ED1B202005367A2 /* KeychainService.swift */; };
-		823DC2852ED27EEF005367A2 /* StoreKitPurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */; };
+		823DC2852ED27EEF005367A2 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2842ED27EEF005367A2 /* StoreKitService.swift */; };
 		823DC2872ED28B15005367A2 /* DataBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2862ED28B15005367A2 /* DataBaseModel.swift */; };
 		823DC2892ED28B48005367A2 /* AppParametersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2882ED28B48005367A2 /* AppParametersResponse.swift */; };
 		823DC28B2ED28C21005367A2 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC28A2ED28C21005367A2 /* DataBaseService.swift */; };
-		823DC2932ED29321005367A2 /* StoreKitSubscriptionStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */; };
 		823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2942ED29FAB005367A2 /* StoreKitView.swift */; };
 		8255118D2ED9D59900C4094F /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255118C2ED9D59900C4094F /* SidebarView.swift */; };
 		825511A32EDB356400C4094F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825511A22EDB356400C4094F /* BlurView.swift */; };
@@ -71,6 +70,7 @@
 		82909A8A2ED66BD200BF9548 /* AuthorizationFieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */; };
 		82909A8C2ED6A16300BF9548 /* LoadingButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */; };
 		82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */; };
+		82D45BAF2EDCDD35000DF5D6 /* MessageStaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
 		82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4F22ECA82C300A44A98 /* HomeView.swift */; };
@@ -129,11 +129,10 @@
 		823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFileRequest.swift; sourceTree = "<group>"; };
 		823DC26C2ED195A0005367A2 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		823DC2822ED1B202005367A2 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
-		823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitPurchaseService.swift; sourceTree = "<group>"; };
+		823DC2842ED27EEF005367A2 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
 		823DC2862ED28B15005367A2 /* DataBaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseModel.swift; sourceTree = "<group>"; };
 		823DC2882ED28B48005367A2 /* AppParametersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppParametersResponse.swift; sourceTree = "<group>"; };
 		823DC28A2ED28C21005367A2 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
-		823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionStatusService.swift; sourceTree = "<group>"; };
 		823DC2942ED29FAB005367A2 /* StoreKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitView.swift; sourceTree = "<group>"; };
 		8255118C2ED9D59900C4094F /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		825511A22EDB356400C4094F /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
@@ -173,6 +172,7 @@
 		82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFieldsView.swift; sourceTree = "<group>"; };
 		82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButtonModifier.swift; sourceTree = "<group>"; };
 		82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
+		82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStaticView.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4D32ECA813500A44A98 /* GalaryCloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -338,6 +338,7 @@
 			children = (
 				827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */,
 				82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */,
+				82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -349,15 +350,6 @@
 				82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */,
 			);
 			path = ButtonModifier;
-			sourceTree = "<group>";
-		};
-		82909A6F2ED542EB00BF9548 /* StoreKitServices */ = {
-			isa = PBXGroup;
-			children = (
-				823DC2842ED27EEF005367A2 /* StoreKitPurchaseService.swift */,
-				823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */,
-			);
-			path = StoreKitServices;
 			sourceTree = "<group>";
 		};
 		82909A722ED5638700BF9548 /* Shape */ = {
@@ -485,8 +477,8 @@
 				823DC28A2ED28C21005367A2 /* DataBaseService.swift */,
 				82909A6D2ED542A200BF9548 /* WasabiService.swift */,
 				8268DBDA2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift */,
+				823DC2842ED27EEF005367A2 /* StoreKitService.swift */,
 				8262A5812ED7F45C005188F2 /* SignInService */,
-				82909A6F2ED542EB00BF9548 /* StoreKitServices */,
 				8271620F2ECAFB4100E52013 /* Network */,
 			);
 			path = Service;
@@ -718,13 +710,12 @@
 				8262A59B2ED7F87D005188F2 /* ClearBackgroundView.swift in Sources */,
 				82909A8A2ED66BD200BF9548 /* AuthorizationFieldsView.swift in Sources */,
 				82909A822ED5BD2400BF9548 /* IconViewModel.swift in Sources */,
-				823DC2932ED29321005367A2 /* StoreKitSubscriptionStatusService.swift in Sources */,
 				823DC26D2ED195A0005367A2 /* FileManager.swift in Sources */,
 				82D7F5182ECA8D2800A44A98 /* Keys.swift in Sources */,
 				82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */,
 				82D7F5062ECA836D00A44A98 /* FetchFilesResponse.swift in Sources */,
 				8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */,
-				823DC2852ED27EEF005367A2 /* StoreKitPurchaseService.swift in Sources */,
+				823DC2852ED27EEF005367A2 /* StoreKitService.swift in Sources */,
 				8268DBE12ED7CCD5004FC985 /* UserModel.swift in Sources */,
 				823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */,
 				82909A6A2ED5418700BF9548 /* ServiceConfig.swift in Sources */,
@@ -760,6 +751,7 @@
 				82D7F5142ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift in Sources */,
 				82909A712ED5607700BF9548 /* ArrowShape.swift in Sources */,
 				8255118D2ED9D59900C4094F /* SidebarView.swift in Sources */,
+				82D45BAF2EDCDD35000DF5D6 /* MessageStaticView.swift in Sources */,
 				823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */,
 				82909A842ED5E9F300BF9548 /* TrashShape.swift in Sources */,
 				82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */,

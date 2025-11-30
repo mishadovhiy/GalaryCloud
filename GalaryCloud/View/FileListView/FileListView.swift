@@ -32,26 +32,13 @@ struct FileListView: View {
         }
         .sheet(isPresented: $viewModel.isPhotoLibraryPresenting) {
             if #available(iOS 16.4, *) {
-                PhotoLibraryPickerView { newImage in
-                    viewModel.fetchDirectoruSizeRequest {
-                        viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
-                        viewModel.upload()
-                    }
-                }
-                    .presentationDetents([.medium, .large])
+                photoPickerSheet
                     .presentationBackgroundInteraction(.enabled)
                     .presentationContentInteraction(.scrolls)
             } else {
-                PhotoLibraryPickerView { newImage in
-                    viewModel.fetchDirectoruSizeRequest {
-                        viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
-                        viewModel.upload()
-                    }
-                }
-                    .presentationDetents([.medium, .large])
+                photoPickerSheet
             }
         }
-
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
             galaryPreview
         }
@@ -71,6 +58,16 @@ struct FileListView: View {
             db.totalFileCount = newValue
         }
         .background(.black)
+    }
+    
+    var photoPickerSheet: some View {
+        PhotoLibraryPickerView { newImage in
+            viewModel.fetchDirectoruSizeRequest {
+                viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
+                viewModel.upload()
+            }
+        }
+        .presentationDetents([.medium, .large])
     }
     
     @ViewBuilder
@@ -201,12 +198,12 @@ struct FileListView: View {
         HStack(alignment: .bottom) {
             Spacer()
             Button {
-                viewModel.isPhotoLibraryPresenting = true
+                viewModel.uploadFilePressed(db)
             } label: {
                 UploadIconView(isLoading: viewModel.uploadAnimating)
             }
 //            .frame(width: viewModel.isEditingList ? 0 : 70, height: 70)
-
+            .disabled(viewModel.directorySizeResponse == nil)
             .modifier(CircularButtonModifier(
                 isHidden: viewModel.isEditingList,
                 isAspectRatio: true
