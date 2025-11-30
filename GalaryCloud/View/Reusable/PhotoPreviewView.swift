@@ -23,7 +23,7 @@ struct PhotoPreviewView: View {
                 imageSwiped(newIndex == 0 ? .left : .right)
             }
         })
-        .background(.black)
+        .background(.primaryContainer)
     }
     
     var pageList: [FetchFilesResponse.File] {

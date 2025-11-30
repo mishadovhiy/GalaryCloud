@@ -15,7 +15,11 @@ class CachedAsyncImageViewModel: ObservableObject {
         self.presentationType = presentationType
     }
     @Published var image: UIImage?
-    @Published var date: String = ""
+    @Published var date: String = "" {
+        didSet {
+            print(date, " tgerfwd ", Date(string: date))
+        }
+    }
     @Published var isLoading: Bool = true
     @Published var messages: [MessageModel] = []
     @Published var urlTask: URLSessionDataTask?
@@ -101,12 +105,16 @@ class CachedAsyncImageViewModel: ObservableObject {
             print("error converting to data")
             return
         }
+        saveAnimating = true
         let date = data.imageDate ?? date
         self.photoLibraryModifierService.save(
             data: data,
             date: date) { success in
                 let title = success ? "Saved to Photos!" : "Error saving"
                 db.messages.append(.init(title: title))
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                    self.saveAnimating = false
+                })
             }
     }
     

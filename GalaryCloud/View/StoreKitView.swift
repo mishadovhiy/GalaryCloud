@@ -29,5 +29,9 @@ struct StoreKitView: View {
             }
         }
         .tabViewStyle(.page)
+        .background(content: {
+            ClearBackgroundView()
+        })
+        .background(.primaryContainer)
     }
 }

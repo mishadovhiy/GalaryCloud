@@ -40,18 +40,23 @@ struct CachedAsyncImage: View {
         .onDisappear {
             viewModel.viewDidDisapear()
         }
+        .background(.primaryContainer)
+        .background {
+            ClearBackgroundView()
+        }
     }
     
     var dateView: some View {
-        HStack {
+        HStack(spacing: 20) {
             Text(viewModel.date)
                 .font(deleteImagePressed == nil ? .footnote : .body)
             Spacer()
             if deleteImagePressed != nil {
                 buttons
+                    .frame(maxHeight: 50)
             }
-
         }
+        .padding(.horizontal, 10)
     }
     
     @ViewBuilder
@@ -68,29 +73,43 @@ struct CachedAsyncImage: View {
                 }
         } else {
             VStack {
+                dateView
                 Spacer()
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                 Spacer()
-                dateView
             }
         }
     }
     
     @ViewBuilder
     var buttons: some View {
-        Button {
+        Button(action: {
             viewModel.performSaveImage(db)
-        } label: {
+        }, label: {
             SaveIconView(isLoading: viewModel.saveAnimating)
-        }
+            .padding(.horizontal, 1)
+            .padding(.top, -5)
+            .padding(.bottom, -5)
+            .scaleEffect(0.8)
+            .opacity(viewModel.isLoading ? 0.5 : 1)
+        })
+        .modifier(CircularButtonModifier(isAspectRatio: true))
+        .aspectRatio(1, contentMode: .fit)
+        .frame(maxWidth: 50)
         .disabled(viewModel.isLoading)
-        Spacer().frame(width: 40)
+        
+        
         Button {
             deleteImagePressed?()
         } label: {
             TrashIconView(isLoading: viewModel.deleteAnimating)
+            .scaleEffect(1.15)
         }
+        .modifier(CircularButtonModifier(isAspectRatio: true))
+        .frame(maxWidth: 50)
+        .aspectRatio(1, contentMode: .fit)
+        
     }
 }

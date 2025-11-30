@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SidebarModifier<SomeView: View>: ViewModifier {
-    let viewWidth: CGFloat
     let targedBackgroundView: SomeView
     let disabled: Bool
 
@@ -17,12 +16,12 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
     func body(content: Content) -> some View {
         let dragPercent = model.dragPercent
         ZStack {
-            HStack(content: {
+            VStack(content: {
                 targedBackgroundView
-                    .frame(maxWidth: model.maxScrollX, alignment: .leading)
-                Spacer().frame(maxWidth: .infinity)
+                    .frame(maxHeight: model.maxScrollX, alignment: .leading)
+                Spacer().frame(maxHeight: .infinity)
             })
-            .frame(maxWidth: .infinity)
+            .frame(maxHeight: .infinity)
             .zIndex(model.sideBarZindex)
 
 
@@ -30,10 +29,10 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                 .disabled(model.isOpened)
                 .mask({
                     RoundedRectangle(cornerRadius: 32 * dragPercent)
-                        .offset(x: model.dragPositionX)
+                        .offset(y: model.dragPositionX)
                         .ignoresSafeArea(.all)
-                        .padding(.top, 27 * dragPercent)
-                        .padding(.bottom, 33 * dragPercent)
+                        .padding(.leading, 27 * dragPercent)
+                        .padding(.trailing, 33 * dragPercent)
                         .rotationEffect(.degrees(5 * dragPercent))
                         .animation(.smooth, value: model.isScrollActive)
                 })
@@ -43,12 +42,11 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                         .opacity(disabled ? 0 : 1)
                         .animation(.smooth, value: disabled)
                 })
-            sidebarButtonView
-                .opacity(disabled ? 0 : 1)
-                .animation(.bouncy, value: disabled)
-        }
-        .onChange(of: viewWidth) { newValue in
-            self.model.viewWidth = newValue
+                .modifier(ViewSizeReaderModifier(viewSize: .init(get: {
+                    .init(width: 0, height: model.viewWidth)
+                }, set: { new in
+                    model.viewWidth = new.height
+                })))
         }
         .onChange(of: disabled) { newValue in
             if model.isOpened {
@@ -57,10 +55,6 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                 }
 
             }
-
-        }
-        .onAppear {
-            self.model.viewWidth = viewWidth
         }
     }
 
@@ -111,23 +105,31 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
     }
 
     var draggableView: some View {
-        HStack {
+        VStack {
             RoundedRectangle(cornerRadius: 15)
+            
                 .fill(.white.opacity(0.001))
-                .frame(width: 30)
-                .offset(x: model.dragPositionX)
+                .overlay {
+                    HStack {
+                        sidebarButtonView
+                        Spacer()
+                    }
+                    .offset(y: -10 * model.dragPercent)
+                }
+                .frame(height: 30)
+                .offset(y: model.dragPositionX)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
                             model.scrollStarted()
-                            model.dragPositionX = value.translation.width + model.lastPosition
+                            model.dragPositionX = value.translation.height + model.lastPosition
                         }
                         .onEnded { _ in
                             model.lastPosition = model.dragPositionX
                             model.scrollEnded()
                         }
                 )
-            Spacer().frame(maxWidth: .infinity)
+            Spacer().frame(maxHeight: .infinity)
         }
     }
 }

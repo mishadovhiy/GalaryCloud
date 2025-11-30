@@ -112,8 +112,7 @@ struct FileListView: View {
     var editingButtons: some View {
         if viewModel.isEditingList {
             Button {
-//                viewModel.startTask(.delete, confirm: true)
-                viewModel.deleteAnimating.toggle()
+                viewModel.startTask(.delete, confirm: true)
             } label: {
                 TrashIconView(isLoading: viewModel.deleteAnimating) {
                     if $0 {
@@ -131,8 +130,7 @@ struct FileListView: View {
             .disabled(viewModel.selectedFilesActionType != nil)
 
             Button(action: {
-//                viewModel.startTask(.save)
-                viewModel.saveAnimating.toggle()
+                viewModel.startTask(.save)
             }, label: {
                 SaveIconView(isLoading: viewModel.saveAnimating) {
                     if $0 {
@@ -203,8 +201,7 @@ struct FileListView: View {
         HStack(alignment: .bottom) {
             Spacer()
             Button {
-                viewModel.uploadAnimating.toggle()
-//                viewModel.isPhotoLibraryPresenting = true
+                viewModel.isPhotoLibraryPresenting = true
             } label: {
                 UploadIconView(isLoading: viewModel.uploadAnimating)
             }

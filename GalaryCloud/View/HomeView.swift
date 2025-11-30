@@ -21,7 +21,6 @@ struct HomeView: View {
                 FileListView()
                     .modifier(
                         SidebarModifier(
-                            viewWidth: 500,
                             targedBackgroundView: SidebarView(),
                             disabled: false)
                     )
@@ -80,7 +79,7 @@ struct HomeView: View {
                 })
             }
         }
-        .modifier(SidebarModifier(viewWidth: 500, targedBackgroundView: SidebarView(), disabled: false))
+        .modifier(SidebarModifier( targedBackgroundView: SidebarView(), disabled: false))
     }
 }
 
