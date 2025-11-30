@@ -15,6 +15,9 @@ struct SaveIconView: View, IconViewProtocol {
     @StateObject var model: IconViewModel
     @State var id: UUID = .init()
     
+    let lineWidth: CGFloat = 1
+    let tint: Color = .primaryText
+    
     init(isLoading: Bool,
          canPressChanged: ((_: Bool) -> Void)? = nil) {
         self.isLoading = isLoading
@@ -30,11 +33,11 @@ struct SaveIconView: View, IconViewProtocol {
             UploadComponentShape()
                 .trim(to: !isLoading ? 1 : (animationActive ? 1 : 0))
                 .scale(isLoading ? (animationActive ? 1.05 : 0.95) : 1)
-                .stroke(shapeColor, lineWidth: shapeWidth)
+                .stroke(tint, lineWidth: lineWidth)
                 .padding(.bottom, 10)
                 .padding(.top, 10)
-//                .padding(.vertical, 10)
-//                .padding(.horizontal, 5)
+            //                .padding(.vertical, 10)
+            //                .padding(.horizontal, 5)
                 .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.65) : .default, value: animationActive)
             
         })
@@ -42,32 +45,32 @@ struct SaveIconView: View, IconViewProtocol {
         .scaleEffect(model.completed ? 0 : 1)
         .animation(.smooth, value: model.completed)
         .overlay {
-            LoaderView(isLoading: isLoading, trim: model.completed ? 1 : 0)
+            LoaderView(isLoading: isLoading, trim: model.completed ? 1 : 0, tint: tint, lineWidth: lineWidth)
                 .padding(model.completed ? -20 : 20)
         }
         .overlay(content: {
             CheckmarkShape()
                 .trim(to: model.completed ? 1 : 0)
-                .fill(shapeColor)
+                .fill(tint)
                 .scaleEffect(model.completed ? 1 : 0.8)
                 .animation(.smooth(duration: 0.9), value: model.completed)
         })
         .frame(maxWidth: 40, maxHeight: 40)
         .id(id)
-            .onChange(of: isLoading) { newValue in
-                animationActive = newValue
-                if !newValue {
-                    model.toggleSuccessAnimation {
-                        withAnimation {
-                            self.id = .init()
-                        }
+        .onChange(of: isLoading) { newValue in
+            animationActive = newValue
+            if !newValue {
+                model.toggleSuccessAnimation {
+                    withAnimation {
+                        self.id = .init()
                     }
                 }
             }
-            .onAppear {
-                if isLoading {
-                    animationActive.toggle()
-                }
+        }
+        .onAppear {
+            if isLoading {
+                animationActive.toggle()
             }
+        }
     }
 }

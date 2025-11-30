@@ -28,6 +28,7 @@
 		823DC2932ED29321005367A2 /* StoreKitSubscriptionStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */; };
 		823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2942ED29FAB005367A2 /* StoreKitView.swift */; };
 		8255118D2ED9D59900C4094F /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255118C2ED9D59900C4094F /* SidebarView.swift */; };
+		825511A32EDB356400C4094F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825511A22EDB356400C4094F /* BlurView.swift */; };
 		8262A5802ED7F457005188F2 /* SignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A57F2ED7F457005188F2 /* SignInService.swift */; };
 		8262A5852ED7F4A1005188F2 /* AppleSignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A5842ED7F4A1005188F2 /* AppleSignInService.swift */; };
 		8262A59B2ED7F87D005188F2 /* ClearBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A59A2ED7F87D005188F2 /* ClearBackgroundView.swift */; };
@@ -45,6 +46,7 @@
 		827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */; };
 		8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */; };
 		827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162502ECBA8C000E52013 /* FetchImageRequest.swift */; };
+		828FC26C2EDBCD7500374FDE /* CircularButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828FC26B2EDBCD7500374FDE /* CircularButtonModifier.swift */; };
 		82909A5C2ED4E2A700BF9548 /* AWSConnect in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A5B2ED4E2A700BF9548 /* AWSConnect */; };
 		82909A5E2ED4E2A700BF9548 /* AWSCore in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A5D2ED4E2A700BF9548 /* AWSCore */; };
 		82909A602ED4E2A700BF9548 /* AWSEC2 in Frameworks */ = {isa = PBXBuildFile; productRef = 82909A5F2ED4E2A700BF9548 /* AWSEC2 */; };
@@ -134,6 +136,7 @@
 		823DC2922ED29321005367A2 /* StoreKitSubscriptionStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionStatusService.swift; sourceTree = "<group>"; };
 		823DC2942ED29FAB005367A2 /* StoreKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitView.swift; sourceTree = "<group>"; };
 		8255118C2ED9D59900C4094F /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		825511A22EDB356400C4094F /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8262A57F2ED7F457005188F2 /* SignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInService.swift; sourceTree = "<group>"; };
 		8262A5842ED7F4A1005188F2 /* AppleSignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInService.swift; sourceTree = "<group>"; };
 		8262A59A2ED7F87D005188F2 /* ClearBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearBackgroundView.swift; sourceTree = "<group>"; };
@@ -151,6 +154,7 @@
 		827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryPickerView.swift; sourceTree = "<group>"; };
 		8271624E2ECBA81B00E52013 /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 		827162502ECBA8C000E52013 /* FetchImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchImageRequest.swift; sourceTree = "<group>"; };
+		828FC26B2EDBCD7500374FDE /* CircularButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularButtonModifier.swift; sourceTree = "<group>"; };
 		82909A672ED53FF200BF9548 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		82909A692ED5418700BF9548 /* ServiceConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
 		82909A6B2ED541E900BF9548 /* WasabiConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WasabiConfig.swift; sourceTree = "<group>"; };
@@ -284,6 +288,7 @@
 				820A9D552ED816F600498E35 /* LottieView.swift */,
 				820A9D572ED8172000498E35 /* WebView.swift */,
 				8262A59A2ED7F87D005188F2 /* ClearBackgroundView.swift */,
+				825511A22EDB356400C4094F /* BlurView.swift */,
 				8262A59C2ED7F992005188F2 /* SignInWithAppleButton.swift */,
 				82909A7D2ED5B42700BF9548 /* IconView */,
 			);
@@ -321,9 +326,9 @@
 			children = (
 				8271622A2ECB095800E52013 /* ViewSizeReaderModifier.swift */,
 				826E6FDC2ED8DCAE00DE98BB /* DragAndDropModifier.swift */,
+				828FC26D2EDBCFA100374FDE /* ButtonModifier */,
 				826E6FDE2ED93B6C00DE98BB /* RootAlertConfigModifier.swift */,
 				820A9D4D2ED80B5F00498E35 /* SidebarModifier */,
-				82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */,
 			);
 			path = ViewModifier;
 			sourceTree = "<group>";
@@ -335,6 +340,15 @@
 				82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */,
 			);
 			path = Reusable;
+			sourceTree = "<group>";
+		};
+		828FC26D2EDBCFA100374FDE /* ButtonModifier */ = {
+			isa = PBXGroup;
+			children = (
+				828FC26B2EDBCD7500374FDE /* CircularButtonModifier.swift */,
+				82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */,
+			);
+			path = ButtonModifier;
 			sourceTree = "<group>";
 		};
 		82909A6F2ED542EB00BF9548 /* StoreKitServices */ = {
@@ -729,8 +743,10 @@
 				8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,
+				828FC26C2EDBCD7500374FDE /* CircularButtonModifier.swift in Sources */,
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
 				82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */,
+				825511A32EDB356400C4094F /* BlurView.swift in Sources */,
 				820A9D4C2ED80B4500498E35 /* PinchMaskedScrollModifier.swift in Sources */,
 				823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */,
 				823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */,

@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct TrashIconView: View, IconViewProtocol {
+    
     let isLoading: Bool
     @State var animationActive: Bool = false
     @StateObject var model: IconViewModel
     @State var id: UUID = .init()
+    
+    let lineWidth: CGFloat = 1
+    let tint: Color = .primaryText
+    
     init(isLoading: Bool,
         canPressChanged: ((_: Bool) -> Void)? = nil) {
         self.isLoading = isLoading
@@ -27,13 +32,13 @@ struct TrashIconView: View, IconViewProtocol {
             .animation(.smooth, value: model.completed)
             .padding(10)
             .overlay {
-                LoaderView(isLoading: isLoading, trim: model.completed ? 1 : 0)
+                LoaderView(isLoading: isLoading, trim: model.completed ? 1 : 0, tint: tint, lineWidth: lineWidth)
                     .padding(-7)
             }
             .overlay(content: {
                 CheckmarkShape()
                     .trim(to: model.completed ? 1 : 0)
-                    .fill(shapeColor)
+                    .fill(tint)
                     .scaleEffect(model.completed ? 1 : 0.8)
                     .animation(.smooth(duration: 0.9), value: model.completed)
             })
@@ -62,12 +67,12 @@ struct TrashIconView: View, IconViewProtocol {
         TrashShape()
             .trim(to: !isLoading ? 1 : (animationActive ? 1 : 0))
             .scale(isLoading ? (animationActive ? 1.05 : 0.95) : 1)
-            .stroke(self.shapeColor, lineWidth: 0.8)
+            .stroke(tint, lineWidth: lineWidth)
             .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.25) : .default, value: animationActive)
         TrashInsiderComponentShape()
             .trim(to: !isLoading ? 1 : (!animationActive ? 1 : 0))
             .scale(isLoading ? (animationActive ? 1.05 : 0.95) : 1)
-            .stroke(shapeColor, lineWidth: 0.8)
+            .stroke(tint, lineWidth: lineWidth)
             .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.65) : .default, value: animationActive)
             .padding(.top, 12)
             .padding(.bottom, 5)

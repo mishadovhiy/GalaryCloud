@@ -35,6 +35,7 @@ struct HomeView: View {
         .onAppear {
             db.checkIsUserLoggedIn = true
         }
+        .background(.primaryContainer)
     }
     
     func checkAuthorization() {

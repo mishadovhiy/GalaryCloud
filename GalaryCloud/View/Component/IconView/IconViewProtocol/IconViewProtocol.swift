@@ -12,17 +12,11 @@ protocol IconViewProtocol: View {
     var animationActive: Bool { get }
     var model: IconViewModel { get }
     var id: UUID { get }
+    var tint: Color { get }
+    var lineWidth: CGFloat { get }
 }
 
 extension View where Self: IconViewProtocol {
-    
-    var shapeColor: Color {
-        .blue
-    }
-    
-    var shapeWidth: CGFloat {
-        2
-    }
     
     func arrowView(_ isTop: Bool) -> some View {
         VStack {
@@ -38,7 +32,7 @@ extension View where Self: IconViewProtocol {
                      .offset(y: !isLoading ? 0 : (animationActive ? (!isTop ? -5 : 0) : (!isTop ? 0 : 7)))
                      .scale(isLoading ? (animationActive ? 1 : 0.98) : 1)
                  */
-                    .stroke(shapeColor, lineWidth: 1.5)
+                    .stroke(tint, lineWidth: lineWidth)
                     .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.5) : .default, value: animationActive)
                 
             }

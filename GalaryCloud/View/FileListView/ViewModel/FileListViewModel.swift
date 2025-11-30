@@ -225,10 +225,9 @@ class FileListViewModel: ObservableObject {
     @Published var errorFileNames: [String] = []
     
     func performSaveImage(
-        image: UIImage, filename: String,
+        data: Data, filename: String,
         completion:((_ ok: Bool)->())? = nil) {
-        guard let data = image.jpegData(compressionQuality: 1),
-              let date = data.imageDate ?? self.files.first(where: {
+        guard let date = data.imageDate! ?? self.files.first(where: {
                   $0.originalURL == filename
               })?.date
             else {
@@ -315,7 +314,7 @@ class FileListViewModel: ObservableObject {
         completion: @escaping(_ ok: Bool)->()) {
         self.loadAPIImage(filename: filename) { image in
             if let image {
-                self.performSaveImage(image: image, filename: filename) { ok in
+                self.performSaveImage(data: image, filename: filename) { ok in
                     completion(ok)
                 }
             } else {
@@ -325,7 +324,7 @@ class FileListViewModel: ObservableObject {
         }
     }
     
-    func loadAPIImage(filename: String, completion:@escaping(_ image: UIImage?)->()) {
+    func loadAPIImage(filename: String, completion:@escaping(_ image: Data?)->()) {
         Task {
             WasabiService.fetchURL(
                 username: "hi@mishadovhiy.com",
@@ -338,7 +337,7 @@ class FileListViewModel: ObservableObject {
                 }
                 self.loadApiImage(
                     url: url) { image in
-                        completion(.init(data: image ?? .init()))
+                        completion(image)
                     }
             }
         }

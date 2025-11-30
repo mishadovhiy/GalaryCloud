@@ -70,7 +70,7 @@ struct FileListView: View {
             }
             db.totalFileCount = newValue
         }
-        .background(.red)
+        .background(.black)
     }
     
     @ViewBuilder
@@ -167,12 +167,9 @@ struct FileListView: View {
                 self.viewModel.isEditingList.toggle()
             }
         }
-        .tint(.blue)
-        .frame(height: 50)
-        .frame(minWidth: 50)
-        .padding(.horizontal, 5)
-        .background(.white)
-        .cornerRadius(7)
+        .padding(.horizontal, 15)
+        .modifier(CircularButtonModifier())
+        .animation(.smooth, value: viewModel.isEditingList)
     }
     
     var topStatusBarBar: some View {
@@ -201,22 +198,15 @@ struct FileListView: View {
         HStack {
             Spacer()
             Button {
-                viewModel.isPhotoLibraryPresenting = true
+                viewModel.uploadAnimating.toggle()
+//                viewModel.isPhotoLibraryPresenting = true
             } label: {
                 UploadIconView(isLoading: viewModel.uploadAnimating)
             }
-            .disabled(!viewModel.photoLibrarySelectedURLs.isEmpty)
-            .tint(.blue)
-            .frame(width: viewModel.isEditingList ? 0 : Constants.bottomStatusBarHeight, height: Constants.bottomStatusBarHeight)
-            .background(.white)
-
-            .cornerRadius(Constants.bottomStatusBarHeight / 2)
-            .overlay {
-                RoundedRectangle(cornerRadius: Constants.bottomStatusBarHeight / 2)
-                    .stroke(.blue, lineWidth: 1.5)
-            }
-            .clipped()
-            .shadow(radius: viewModel.isEditingList ? 0 : 8)
+            .modifier(CircularButtonModifier(
+                width: viewModel.isEditingList ? 0 : 70,
+                height: 70
+            ))
             .animation(.bouncy, value: viewModel.isEditingList)
             Spacer().frame(width: 40)
             editButton
@@ -254,8 +244,8 @@ struct FileListView: View {
                     Spacer()
                         .frame(height: Constants.topStatusBarHeight)
                     LazyVGrid( columns: [
-                        .init(.flexible(minimum: 40, maximum: 200)), .init(.flexible(minimum: 40, maximum: 200)), .init(.flexible(minimum: 40, maximum: 200)), .init(.flexible(minimum: 40, maximum: 200))
-                    ], spacing: 0) {
+                        .init(), .init(), .init(), .init()
+                    ], spacing: 8) {
                         ForEach(viewModel.files, id: \.originalURL) { item in
                             galaryItem(item)
                         }
@@ -264,6 +254,7 @@ struct FileListView: View {
                     Spacer()
                         .frame(height: Constants.bottomStatusBarHeight)
                 })
+                .padding(.horizontal, 4)
             }
             .refreshable {
                 viewModel.fetchList(ignoreOffset: true, reload: true)
@@ -288,8 +279,7 @@ struct FileListView: View {
 
         })
         .aspectRatio(1, contentMode: .fill)
-        .clipped()
-        .background(.white)
+        .cornerRadius(4)
         .onTapGesture {
             if !viewModel.isEditingList {
                 viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {

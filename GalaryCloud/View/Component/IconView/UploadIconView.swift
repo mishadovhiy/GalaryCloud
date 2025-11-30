@@ -13,7 +13,10 @@ struct UploadIconView: View, IconViewProtocol {
     @State var animationActive: Bool = false
     @StateObject var model: IconViewModel
     @State var id: UUID = .init()
-
+    
+    let lineWidth: CGFloat = 2
+    let tint: Color = .primaryText
+    
     init(isLoading: Bool,
          canPressChanged: ((_: Bool) -> Void)? = nil) {
         self.isLoading = isLoading
@@ -26,18 +29,24 @@ struct UploadIconView: View, IconViewProtocol {
             .scaleEffect(model.completed ? 0 : 1)
             .animation(.smooth, value: model.completed)
             .overlay {
-                LoaderView(isLoading: isLoading, trim: model.completed ? 1 : 0)
+                LoaderView(
+                    isLoading:
+                            isLoading,
+                    trim: model.completed ? 1 : 0,
+                    tint: tint,
+                    lineWidth: lineWidth
+                )
                     .padding(-10)
             }
             .overlay(content: {
                 CheckmarkShape()
                     .trim(to: model.completed ? 1 : 0)
-                    .fill(shapeColor)
+                    .fill(tint)
                     .scaleEffect(model.completed ? 1 : 0.8)
                     .animation(.smooth(duration: 0.9), value: model.completed)
             })
             .id(id)
-            .frame(maxWidth: 40, maxHeight: 40)
+            .frame(maxWidth: 60, maxHeight: 60)
             .onChange(of: isLoading) { newValue in
                 animationActive = newValue
                 if !newValue {
@@ -61,7 +70,7 @@ struct UploadIconView: View, IconViewProtocol {
             CloudShape()
                 .trim(to: !isLoading ? 1 : (animationActive ? 1 : 0))
                 .scale(isLoading ? (animationActive ? 1.05 : 0.95) : 1)
-                .stroke(shapeColor, lineWidth: 1.5)
+                .stroke(tint, lineWidth: lineWidth)
                 .padding(.bottom, 10)
                 .animation(isLoading ? .linear.repeatForever(autoreverses: true).speed(0.3) : .default, value: animationActive)
             

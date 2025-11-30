@@ -16,7 +16,7 @@ struct LoadingButtonModifier: ViewModifier {
         content
             .frame(maxWidth: isLoading ? 44 : .infinity, maxHeight: isHidden ? 0 : 44)
             .overlay(content: {
-                LoaderView(isLoading: isLoading)
+                LoaderView(isLoading: isLoading, tint: .blue)
             })
             .background(.blue)
             .font(.title)
