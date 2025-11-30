@@ -15,7 +15,7 @@ struct SaveIconView: View, IconViewProtocol {
     @StateObject var model: IconViewModel
     @State var id: UUID = .init()
     
-    let lineWidth: CGFloat = 1
+    let lineWidth: CGFloat = 2
     let tint: Color = .primaryText
     
     init(isLoading: Bool,
@@ -55,7 +55,8 @@ struct SaveIconView: View, IconViewProtocol {
                 .scaleEffect(model.completed ? 1 : 0.8)
                 .animation(.smooth(duration: 0.9), value: model.completed)
         })
-        .frame(maxWidth: 40, maxHeight: 40)
+        .frame(maxWidth: 50, maxHeight: 50)
+        .scaleEffect(0.7)
         .id(id)
         .onChange(of: isLoading) { newValue in
             animationActive = newValue

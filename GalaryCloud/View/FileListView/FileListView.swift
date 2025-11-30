@@ -106,50 +106,49 @@ struct FileListView: View {
         
     }
     
+    
+    
     @ViewBuilder
     var editingButtons: some View {
         if viewModel.isEditingList {
             Button {
-                viewModel.startTask(.delete, confirm: true)
-
+//                viewModel.startTask(.delete, confirm: true)
+                viewModel.deleteAnimating.toggle()
             } label: {
-                HStack {
-                    TrashIconView(isLoading: viewModel.deleteAnimating) {
-                        if $0 {
-                            self.viewModel.selectedFilesActionType = nil
-                            self.viewModel.isEditingList = false
-                        }
-                    
+                TrashIconView(isLoading: viewModel.deleteAnimating) {
+                    if $0 {
+                        self.viewModel.selectedFilesActionType = nil
+                        self.viewModel.isEditingList = false
                     }
-                    Text("\(viewModel.selectedFileIDs.count)")
+                
                 }
+                .scaleEffect(1.15)
             }
-            .tint(.blue)
-            .padding(.horizontal, 10)
-            .background(.white)
+            .modifier(CircularButtonModifier(isAspectRatio: true))
+            .frame(maxWidth: 60)
+            .aspectRatio(1, contentMode: .fit)
 
             .disabled(viewModel.selectedFilesActionType != nil)
-            Spacer().frame(width: 40)
 
             Button(action: {
-                viewModel.startTask(.save)
+//                viewModel.startTask(.save)
+                viewModel.saveAnimating.toggle()
             }, label: {
-                HStack {
-                    SaveIconView(isLoading: viewModel.saveAnimating) {
-                        if $0 {
-                            self.viewModel.selectedFilesActionType = nil
-                            self.viewModel.isEditingList = false
-                        }
+                SaveIconView(isLoading: viewModel.saveAnimating) {
+                    if $0 {
+                        self.viewModel.selectedFilesActionType = nil
+                        self.viewModel.isEditingList = false
                     }
-                    Text("\(viewModel.selectedFileIDs.count)")
                 }
+                .scaleEffect(0.8)
+                .padding(5)
             })
-            .tint(.blue)
-            .padding(.horizontal, 10)
-            .background(.white)
+            .modifier(CircularButtonModifier(isAspectRatio: true))
+            .aspectRatio(1, contentMode: .fit)
+            .frame(maxWidth: 60)
+
             .disabled(viewModel.selectedFilesActionType != nil)
             if viewModel.selectedFileIDs.isEmpty && !viewModel.errorFileNames.isEmpty {
-                Spacer().frame(width: 40)
                 Button("Error \(viewModel.errorFileNames.count)") {
                     viewModel.selectedFileIDs = Set(viewModel.errorFileNames)
                     viewModel.errorFileNames.removeAll()
@@ -167,8 +166,14 @@ struct FileListView: View {
                 self.viewModel.isEditingList.toggle()
             }
         }
+        .frame(maxHeight: .infinity)
         .padding(.horizontal, 15)
-        .modifier(CircularButtonModifier())
+        .frame(maxWidth: viewModel.isEditingList ? 60 : nil)
+        .background(content: {
+            Color.clear
+                .modifier(CircularButtonModifier(isAspectRatio: viewModel.isEditingList ? true : false))
+                .opacity(viewModel.isEditingList ? 1 : 0)
+        })
         .animation(.smooth, value: viewModel.isEditingList)
     }
     
@@ -195,7 +200,7 @@ struct FileListView: View {
     }
     
     var bottomStatusBar: some View {
-        HStack {
+        HStack(alignment: .bottom) {
             Spacer()
             Button {
                 viewModel.uploadAnimating.toggle()
@@ -203,14 +208,40 @@ struct FileListView: View {
             } label: {
                 UploadIconView(isLoading: viewModel.uploadAnimating)
             }
+//            .frame(width: viewModel.isEditingList ? 0 : 70, height: 70)
+
             .modifier(CircularButtonModifier(
-                width: viewModel.isEditingList ? 0 : 70,
-                height: 70
+                isHidden: viewModel.isEditingList,
+                isAspectRatio: true
             ))
+            .frame(maxWidth: viewModel.isEditingList ? 0 : 70, maxHeight: 70)
+            .clipped()
             .animation(.bouncy, value: viewModel.isEditingList)
-            Spacer().frame(width: 40)
-            editButton
-            editingButtons
+            Spacer().frame(width: 10)
+            HStack(spacing: 20) {
+                editButton
+                editingButtons
+            }
+            .padding(.horizontal, 15)
+            .padding(.trailing, viewModel.isEditingList ? 10 : 0)
+            .padding(.vertical, 5)
+            .modifier(CircularButtonModifier())
+            .frame(maxHeight: viewModel.isEditingList ? 70 : 45)
+            .padding(.bottom, viewModel.isEditingList ? 0 : 10)
+            .overlay(content: {
+                HStack {
+                    Spacer()
+                    Text("\(viewModel.selectedFileIDs.count)")
+                        .font(.footnote)
+                        .minimumScaleFactor(0.3)
+                        .modifier(CircularButtonModifier(isAspectRatio: true))
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(maxWidth: 20, maxHeight: 20)
+                        .offset(x: 0, y: -30)
+                        .opacity(viewModel.isEditingList ? 1 : 0)
+                    
+                }
+            })
         }
         .overlay {
             HStack {
@@ -222,7 +253,6 @@ struct FileListView: View {
                 }
             }
         }
-        .frame(height: Constants.bottomStatusBarHeight)
     }
     
     var uploadingIndicator: some View {
@@ -307,7 +337,7 @@ struct FileListView: View {
 
 extension FileListView {
     struct Constants {
-        static let bottomStatusBarHeight: CGFloat = 50
+        static let bottomStatusBarHeight: CGFloat = 60
         static let topStatusBarHeight: CGFloat = 40
     }
 }

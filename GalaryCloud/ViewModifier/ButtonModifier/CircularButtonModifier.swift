@@ -8,24 +8,24 @@
 import SwiftUI
 
 struct CircularButtonModifier: ViewModifier {
-    var width: CGFloat? = nil
-    var height: CGFloat = 40
-    
+    var isHidden: Bool = false
+    var isAspectRatio: Bool = false
     func body(content: Content) -> some View {
         content
             .tint(.primaryText)
-            .frame(width: width, height: height)
+            .frame(maxWidth: isAspectRatio ? .infinity : nil, maxHeight: .infinity)
+            //.frame(width: width, height: height)
             .background(content: {
                 BlurView()
                     .background(.primaryContainer.opacity(0.5))
             })
 
-            .cornerRadius(height / 2)
+            .cornerRadius(.infinity / 2)
             .overlay {
-                RoundedRectangle(cornerRadius: height / 2)
+                RoundedRectangle(cornerRadius: .infinity / 2)
                     .stroke(.outline, lineWidth: 1)
             }
             .clipped()
-            .shadow(radius: width == .zero ? .zero : 8)
+            .shadow(radius: isHidden ? .zero : 8)
     }
 }
