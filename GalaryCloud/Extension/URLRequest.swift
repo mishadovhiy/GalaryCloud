@@ -69,17 +69,28 @@ extension Date {
     init(string: String) {
         let formatter = Date.formatter()
         if let date = formatter.date(from: string) {
-            self = formatter.date(from: string)!
+            self = date
 
         } else {
             let formatter2 = Date.formatter(dateSeparetor: ":")
-            self = formatter2.date(from: string)!
+            if let date = formatter2.date(from: string) {
+                self = date
+            } else {
+                print("errorconverting date ", string)
+                let formatter3 = Date.formatter(dateSeparetor: ":", short: true)
+                if let date = formatter3.date(from: string) ?? Date.formatter(dateSeparetor: "-", short: true).date(from: string) {
+                    self = date
+                } else {
+                    self = .now
+                }
+            }
+            
         }
     }
     
-    fileprivate static func formatter(dateSeparetor: String = "-") -> DateFormatter {
+    fileprivate static func formatter(dateSeparetor: String = "-", short: Bool = false) -> DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy\(dateSeparetor)MM\(dateSeparetor)dd HH:mm:ss"
+        formatter.dateFormat = "yyyy\(dateSeparetor)MM\(dateSeparetor)dd" + (short ? "" : " HH:mm:ss")
         formatter.timeZone = .current
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter

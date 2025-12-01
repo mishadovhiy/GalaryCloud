@@ -269,11 +269,20 @@ struct FileListView: View {
                         .frame(height: Constants.topStatusBarHeight)
                     LazyVGrid( columns: [
                         .init(), .init(), .init(), .init()
-                    ], spacing: 8) {
-                        ForEach(viewModel.files, id: \.originalURL) { item in
-                            galaryItem(item)
+                    ], spacing: 8, pinnedViews: .sectionHeaders) {
+//                        ForEach(viewModel.files, id: \.originalURL) { item in
+//                            galaryItem(item)
+//                        }
+                        ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
+                            Section {
+                                ForEach(filesModel.files,id:\.originalURL) { file in
+                                    galaryItem(file)
+                                }
+                            } header: {
+                                Text(filesModel.dateString)
+                            }
+
                         }
-                        
                     }
                     Spacer()
                         .frame(height: Constants.bottomStatusBarHeight)
