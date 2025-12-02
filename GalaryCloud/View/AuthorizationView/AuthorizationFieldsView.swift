@@ -13,18 +13,31 @@ struct AuthorizationFieldsView: View {
     @Binding var textFields: TextFieldsInput
     
     var body: some View {
-        VStack {
-            ForEach(Array(textFields.keys.sorted(by: {
-                $0.rawValue.count <= $1.rawValue.count
-            })), id: \.rawValue) { key in
-                TextField(key.rawValue, text: .init(get: {
-                    textFields[key] ?? ""
-                }, set: { newValue in
-                    textFields.updateValue(newValue, forKey: key)
-                }))
+        ScrollView(.vertical, content: {
+            VStack {
+                ForEach(Array(textFields.keys.sorted(by: {
+                    $0.rawValue.count <= $1.rawValue.count
+                })), id: \.rawValue) { key in
+                    TextField(
+                        "",
+                        text: .init(get: {
+                        textFields[key] ?? ""
+                    }, set: { newValue in
+                        textFields.updateValue(newValue, forKey: key)
+                    }),
+                        prompt: Text(key.rawValue)
+                            .foregroundColor(.primaryText.opacity(0.3)))
+                    .foregroundColor(.primaryText)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 10)
+                    .background(.primaryContainer)
+                    .cornerRadius(7)
+                }
             }
-        }
-        .background(.red)
+        })
+        .scrollDismissesKeyboard(.interactively)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AuthorizationView.Constants.containerBackground)
     }
 }
 

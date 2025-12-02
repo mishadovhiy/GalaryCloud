@@ -296,7 +296,6 @@ struct FileListView: View {
                 .frame(maxHeight: viewModel.isPhotoLibraryPresenting ? .infinity : 0)
                 .animation(.bouncy, value: viewModel.isPhotoLibraryPresenting)
         }
-        .ignoresSafeArea(.all)
 
     }
     

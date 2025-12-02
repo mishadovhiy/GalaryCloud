@@ -310,7 +310,15 @@ extension AuthorizationViewModel {
     enum AuthorizationType: String, CaseIterable {
         case login, createAccount, passwordReset
         
-        var isMain: Bool {
+        var primaryStyle: Bool {
+            switch self {
+            case .login:
+                true
+            default: false
+            }
+    }
+        
+        var mainList: Bool {
             switch self {
             case .passwordReset: false
             default: true

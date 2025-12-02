@@ -12,6 +12,7 @@ struct AuthorizationView: View {
     
     @StateObject var viewModel: AuthorizationViewModel = .init()
     @EnvironmentObject private var db: DataBaseService
+    @FocusState var isKeyboardFocused: Bool
 
     var body: some View {
         ZStack {
@@ -19,7 +20,7 @@ struct AuthorizationView: View {
                 if let error = viewModel.error {
                     Text(error.localizedDescription)
                 }
-                AppFeaturesView()
+                AppFeaturesView(isKeyboardFocused: isKeyboardFocused)
                 contentView
             }
             .padding(.top, 10)
@@ -39,6 +40,11 @@ struct AuthorizationView: View {
                 rootView
                     .navigationDestination(for: AuthorizationViewModel.NavigationLinkType.self) { key in
                         AuthorizationFieldsView(textFields: viewModel.navigationValue(key))
+                            .navigationTitle(key.rawValue)
+                            .focused($isKeyboardFocused)
+                            .onChange(of: isKeyboardFocused) { newValue in
+                                print(newValue, " gterfedas ")
+                            }
                     }
                     .background {
                         ClearBackgroundView()
@@ -47,11 +53,17 @@ struct AuthorizationView: View {
             .navigationViewStyle(StackNavigationViewStyle())
             nextButton
         }
-        .padding(5)
-        .background(.red)
+        .padding(10)
+        .background(Constants.containerBackground)
         .cornerRadius(30)
+        .overlay(content: {
+            RoundedRectangle(cornerRadius: 30)
+                .stroke(.black, lineWidth: 1)
+        })
+        .shadow(radius: 10)
         .frame(maxHeight: viewModel.authorizationType == nil ? 200 : .infinity)
-        .padding(5)
+        .padding(.bottom, 5)
+        .padding(.horizontal, 15)
     }
     
     var nextButton: some View {
@@ -66,8 +78,7 @@ struct AuthorizationView: View {
     
     var rootView: some View {
         VStack(spacing: 10) {
-            Spacer()
-            ForEach(AuthorizationViewModel.AuthorizationType.allCases.filter(\.isMain), id: \.rawValue) { type in
+            ForEach(AuthorizationViewModel.AuthorizationType.allCases.filter(\.mainList), id: \.rawValue) { type in
                 Button {
                     withAnimation(.bouncy) {
                         self.viewModel.authorizationType = type
@@ -75,6 +86,11 @@ struct AuthorizationView: View {
                 } label: {
                     Text(type.rawValue.capitalized)
                 }
+                .tint(type.primaryStyle ? .primaryText : .black)
+                .padding(.vertical, 15)
+                .frame(maxWidth: .infinity)
+                .background(.black.opacity(type.primaryStyle ? 1 : 0.15))
+                .cornerRadius(12)
             }
             Spacer()
             HStack {
@@ -83,10 +99,7 @@ struct AuthorizationView: View {
                         self.viewModel.authorizationType = .passwordReset
                     }
                     .font(.footnote)
-                    .padding(.vertical, 5)
-                    .padding(.horizontal, 2)
-                    .background(.blue.opacity(0.15))
-                    .cornerRadius(6)
+                    .tint(.secondaryText)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -98,5 +111,11 @@ struct AuthorizationView: View {
             }
             .frame(height: 40)
         }
+    }
+}
+
+extension AuthorizationView {
+    struct Constants {
+        static let containerBackground: Color = .white
     }
 }
