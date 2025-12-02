@@ -19,10 +19,12 @@ struct MessageStaticView: View {
                     dismiss()
                 }
             } else {
-                ForEach(message.buttons, id: \.title) { button in
-                    Button(button.title) {
-                        dismiss()
-                        button.didPress?()
+                VStack(spacing: 20) {
+                    ForEach(message.buttons, id: \.title) { button in
+                        Button(button.title) {
+                            dismiss()
+                            button.didPress?()
+                        }
                     }
                 }
             }

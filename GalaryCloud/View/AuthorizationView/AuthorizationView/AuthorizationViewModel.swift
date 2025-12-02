@@ -122,7 +122,7 @@ class AuthorizationViewModel: ObservableObject {
                     self.error = .init(domain: "passwords not match", code: -2)
 
                 } else {
-                    self.sendCodeRequest()
+                    self.sendPasswordResetCode()
 
                 }
             }
@@ -149,6 +149,8 @@ class AuthorizationViewModel: ObservableObject {
                 if textFields[.password] != textFields[.password] {
                     self.error = .init(domain: "passwords not match", code: -2)
 
+                } else {
+                    self.apiChangePassword(textFields[.password]!)
                 }
             } else {
                 self.textFields.updateValue([
@@ -159,17 +161,23 @@ class AuthorizationViewModel: ObservableObject {
             
         }
     }
-        
-    private func sendCodeRequest() {
-        self.isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-            self.isLoading = false
-            self.codeToEnter = "1111"
-            print("fdsdfsfds")
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-                self.textFields.updateValue([.code:""], forKey: .createAccountCode)
-            })
-        })
+    
+    private func apiChangePassword(_ password: String) {
+        guard let email = self.textFields[.credinails]?[.email] else {
+            fatalError("error getting email")
+        }
+        Task {
+            let response = await URLSession.shared.resumeTask(CreateUpdateAccountRequest(username: email, password: password))
+            do {
+                if try response.get().success {
+                    self.setSuccessLogin(username: email, password: password)
+                } else {
+                    self.error = .init(domain: "error updating password", code: -20)
+                }
+            } catch {
+                self.error = error as NSError
+            }
+        }
     }
     
     private func loginRequest() {
@@ -243,14 +251,27 @@ class AuthorizationViewModel: ObservableObject {
     }
     
     private func sendPasswordResetCode() {
+        guard let email = self.textFields[.credinails]?[.email] else {
+            fatalError("error getting email")
+        }
         self.isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-            self.isLoading = false
-            self.codeToEnter = "1111"
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-                self.textFields.updateValue([.code:""], forKey: .passwordResetCode)
-            })
-        })
+        Task {
+            let request = await URLSession.shared.resumeTask(CodeRequest(emailTo: email, resetCode: "1111"))
+            await MainActor.run {
+                do {
+                    if try request.get().success {
+                        self.codeToEnter = "1111"
+                        self.textFields.updateValue([.code:""], forKey: .passwordResetCode)
+
+                    } else {
+                        self.error = .init(domain: "error sending request", code: -10)
+
+                    }
+                } catch {
+                    self.error = error as NSError
+                }
+            }
+        }
     }
     
     var navigationPath: Binding<[NavigationLinkType]> {

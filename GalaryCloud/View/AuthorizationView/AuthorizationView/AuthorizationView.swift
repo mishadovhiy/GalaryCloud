@@ -42,9 +42,6 @@ struct AuthorizationView: View {
                         AuthorizationFieldsView(textFields: viewModel.navigationValue(key))
                             .navigationTitle(key.rawValue)
                             .focused($isKeyboardFocused)
-                            .onChange(of: isKeyboardFocused) { newValue in
-                                print(newValue, " gterfedas ")
-                            }
                     }
                     .background {
                         ClearBackgroundView()
