@@ -18,6 +18,12 @@
 		8230C99F2EDDD2E300CF0B5F /* cloudStorage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8230C99A2EDDD2E300CF0B5F /* cloudStorage.json */; };
 		8230C9A02EDDD2E300CF0B5F /* save.json in Resources */ = {isa = PBXBuildFile; fileRef = 8230C99C2EDDD2E300CF0B5F /* save.json */; };
 		8230C9A12EDDD2E300CF0B5F /* giftDiscount.json in Resources */ = {isa = PBXBuildFile; fileRef = 8230C99B2EDDD2E300CF0B5F /* giftDiscount.json */; };
+		8230C9A42EDEEFAB00CF0B5F /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9A32EDEEFAB00CF0B5F /* SupportView.swift */; };
+		8230C9A62EDEFA5D00CF0B5F /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9A52EDEFA5D00CF0B5F /* PrivacyPolicyView.swift */; };
+		8230C9A92EDEFBF800CF0B5F /* SupportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9A82EDEFBF800CF0B5F /* SupportRequest.swift */; };
+		8230C9AB2EDEFC9800CF0B5F /* CodeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9AA2EDEFC9800CF0B5F /* CodeRequest.swift */; };
+		8230C9AD2EDF130E00CF0B5F /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9AC2EDF130E00CF0B5F /* ShareView.swift */; };
+		8230C9AF2EDF13FF00CF0B5F /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9AE2EDF13FF00CF0B5F /* String.swift */; };
 		8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232D4C12ED37841004A67EE /* AuthorizationView.swift */; };
 		8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */; };
 		823DC1F92ED0EFFF005367A2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC1F82ED0EFFF005367A2 /* Data.swift */; };
@@ -128,6 +134,12 @@
 		8230C99B2EDDD2E300CF0B5F /* giftDiscount.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = giftDiscount.json; sourceTree = "<group>"; };
 		8230C99C2EDDD2E300CF0B5F /* save.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = save.json; sourceTree = "<group>"; };
 		8230C99D2EDDD2E300CF0B5F /* uploading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = uploading.json; sourceTree = "<group>"; };
+		8230C9A32EDEEFAB00CF0B5F /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
+		8230C9A52EDEFA5D00CF0B5F /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		8230C9A82EDEFBF800CF0B5F /* SupportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportRequest.swift; sourceTree = "<group>"; };
+		8230C9AA2EDEFC9800CF0B5F /* CodeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeRequest.swift; sourceTree = "<group>"; };
+		8230C9AC2EDF130E00CF0B5F /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		8230C9AE2EDF13FF00CF0B5F /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		8232D4C12ED37841004A67EE /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		8232D4C42ED37D5D004A67EE /* AppFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeaturesView.swift; sourceTree = "<group>"; };
 		823DC1F82ED0EFFF005367A2 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -262,6 +274,17 @@
 			path = lottileFiles;
 			sourceTree = "<group>";
 		};
+		8230C9A72EDEFA7500CF0B5F /* SidebarView */ = {
+			isa = PBXGroup;
+			children = (
+				8255118C2ED9D59900C4094F /* SidebarView.swift */,
+				823DC2942ED29FAB005367A2 /* StoreKitView.swift */,
+				8230C9A32EDEEFAB00CF0B5F /* SupportView.swift */,
+				8230C9A52EDEFA5D00CF0B5F /* PrivacyPolicyView.swift */,
+			);
+			path = SidebarView;
+			sourceTree = "<group>";
+		};
 		8232D4C32ED37CFA004A67EE /* AuthorizationView */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +381,7 @@
 			children = (
 				827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */,
 				82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */,
+				8230C9AC2EDF130E00CF0B5F /* ShareView.swift */,
 				82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */,
 			);
 			path = Reusable;
@@ -433,6 +457,7 @@
 				827162042ECACBFC00E52013 /* UIWindow.swift */,
 				82D7F5192ECA8EF000A44A98 /* URLSession.swift */,
 				82D7F51E2ECA93DC00A44A98 /* URLRequest.swift */,
+				8230C9AE2EDF13FF00CF0B5F /* String.swift */,
 				823DC26C2ED195A0005367A2 /* FileManager.swift */,
 				823DC1F82ED0EFFF005367A2 /* Data.swift */,
 			);
@@ -480,8 +505,7 @@
 			isa = PBXGroup;
 			children = (
 				82D7F4F22ECA82C300A44A98 /* HomeView.swift */,
-				8255118C2ED9D59900C4094F /* SidebarView.swift */,
-				823DC2942ED29FAB005367A2 /* StoreKitView.swift */,
+				8230C9A72EDEFA7500CF0B5F /* SidebarView */,
 				8232D4C32ED37CFA004A67EE /* AuthorizationView */,
 				827162092ECAD01500E52013 /* FileListView */,
 				827162062ECACF0500E52013 /* Component */,
@@ -542,6 +566,8 @@
 				82D7F5112ECA855A00A44A98 /* LoginRequest.swift */,
 				82D7F5132ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift */,
 				82D7F5262ECAAF8700A44A98 /* CreateFileRequest.swift */,
+				8230C9A82EDEFBF800CF0B5F /* SupportRequest.swift */,
+				8230C9AA2EDEFC9800CF0B5F /* CodeRequest.swift */,
 				823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */,
 				827162502ECBA8C000E52013 /* FetchImageRequest.swift */,
 				82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */,
@@ -723,6 +749,7 @@
 				82D7F5122ECA855A00A44A98 /* LoginRequest.swift in Sources */,
 				82D7F51F2ECA93DC00A44A98 /* URLRequest.swift in Sources */,
 				823DC2892ED28B48005367A2 /* AppParametersResponse.swift in Sources */,
+				8230C9AF2EDF13FF00CF0B5F /* String.swift in Sources */,
 				82909A762ED571E300BF9548 /* CloudShape.swift in Sources */,
 				8271620E2ECAFB2B00E52013 /* RequestType.swift in Sources */,
 				823DC2872ED28B15005367A2 /* DataBaseModel.swift in Sources */,
@@ -746,8 +773,10 @@
 				820A9D482ED80B0A00498E35 /* MenuIconShape.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82909A742ED5717800BF9548 /* UploadComponentShape.swift in Sources */,
+				8230C9A62EDEFA5D00CF0B5F /* PrivacyPolicyView.swift in Sources */,
 				82909A782ED574D200BF9548 /* UploadIconView.swift in Sources */,
 				82D7F4F72ECA82C300A44A98 /* HomeView.swift in Sources */,
+				8230C9A42EDEEFAB00CF0B5F /* SupportView.swift in Sources */,
 				8262A5802ED7F457005188F2 /* SignInService.swift in Sources */,
 				826E6FDD2ED8DCAE00DE98BB /* DragAndDropModifier.swift in Sources */,
 				82E06A232ECE50760003474F /* DirectorySizeResponse.swift in Sources */,
@@ -755,8 +784,10 @@
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
 				820A9D582ED8172000498E35 /* WebView.swift in Sources */,
 				826E6FDF2ED93B6C00DE98BB /* RootAlertConfigModifier.swift in Sources */,
+				8230C9AB2EDEFC9800CF0B5F /* CodeRequest.swift in Sources */,
 				8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
+				8230C9AD2EDF130E00CF0B5F /* ShareView.swift in Sources */,
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,
 				828FC26C2EDBCD7500374FDE /* CircularButtonModifier.swift in Sources */,
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
@@ -777,6 +808,7 @@
 				8255118D2ED9D59900C4094F /* SidebarView.swift in Sources */,
 				82D45BAF2EDCDD35000DF5D6 /* MessageStaticView.swift in Sources */,
 				823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */,
+				8230C9A92EDEFBF800CF0B5F /* SupportRequest.swift in Sources */,
 				82909A842ED5E9F300BF9548 /* TrashShape.swift in Sources */,
 				82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */,
 				8262A59D2ED7F992005188F2 /* SignInWithAppleButton.swift in Sources */,

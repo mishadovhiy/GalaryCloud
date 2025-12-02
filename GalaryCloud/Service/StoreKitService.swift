@@ -137,4 +137,11 @@ class StoreKitService: NSObject, ObservableObject {
             return .failure(error)
         }
     }
+    
+    func requestAppStoreReview() {
+        if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
+        {
+            SKStoreReviewController.requestReview(in: windowScene)
+        }
+    }
 }

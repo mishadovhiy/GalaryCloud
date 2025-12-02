@@ -10,11 +10,11 @@ import SwiftUI
 struct LoadingButtonModifier: ViewModifier {
     
     let isLoading: Bool
-    let isHidden: Bool
+    var isHidden: Bool = false
     
     func body(content: Content) -> some View {
         content
-            .frame(maxWidth: isLoading ? 44 : .infinity, maxHeight: isHidden ? 0 : 44)
+            .frame(maxWidth: isLoading ? 44 : nil, maxHeight: isHidden ? 0 : 44)
             .overlay(content: {
                 LoaderView(isLoading: isLoading, tint: .blue)
             })
