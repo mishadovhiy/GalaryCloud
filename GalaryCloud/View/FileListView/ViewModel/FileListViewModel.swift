@@ -175,9 +175,6 @@ class FileListViewModel: ObservableObject {
     }
     
     func upload() {
-        //check gb limit, if cannot, show alert and present Uploading progress view
-        //item uploaded, add file manually
-        // on upload start - check storekit limit
         self.uploadError = nil
         guard let url = self.photoLibrarySelectedURLs.first else {
             self.uploadAnimating = false

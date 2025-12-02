@@ -18,7 +18,6 @@ struct FileListView: View {
         .overlay(content: {
             statusBarOverlay
         })
-        .padding(.bottom, !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
         .overlay(content: {
             uploadingIndicator
         })
@@ -91,10 +90,13 @@ struct FileListView: View {
 //            topStatusBarBar
             Spacer()
             bottomStatusBar
+            Spacer()
+                .frame(height: !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 2)
-        
+        .animation(.bouncy, value: viewModel.photoLibrarySelectedURLs)
+
     }
     
     
@@ -262,7 +264,7 @@ struct FileListView: View {
         VStack {
             Spacer()
             if !viewModel.photoLibrarySelectedURLs.isEmpty {
-                UploadingProgressView(uploadingFilesCount: viewModel.photoLibrarySelectedURLs.count, error: viewModel.uploadError, resendPressed: {
+                UploadingProgressView(currentItem: viewModel.photoLibrarySelectedURLs.first!, uploadingFilesCount: viewModel.photoLibrarySelectedURLs.count, error: viewModel.uploadError, resendPressed: {
                     viewModel.upload()
                 })
                 .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
@@ -273,42 +275,45 @@ struct FileListView: View {
     var galary: some View {
         VStack {
             ScrollView(.vertical) {
-                LazyVGrid( columns: [
-                    .init(), .init(), .init(), .init()
-                ], spacing: 8, pinnedViews: .sectionHeaders) {
-                    ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
-                        Section {
-                            ForEach(filesModel.files,id:\.originalURL) { file in
-                                galaryItem(file)
+                VStack {
+                    LazyVGrid( columns: [
+                        .init(), .init(), .init(), .init()
+                    ], spacing: 8, pinnedViews: .sectionHeaders) {
+                        ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
+                            Section {
+                                ForEach(filesModel.files,id:\.originalURL) { file in
+                                    galaryItem(file)
+                                }
+                            } header: {
+                                HStack {
+                                    ZStack(content: {
+                                        Text(filesModel.dateString)
+                                            .blendMode(.destinationOut)
+                                        Text(filesModel.dateString)
+                                            .opacity(0.2)
+                                    })
+                                    .foregroundColor(.primaryText)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 3)
+                                        .modifier(CircularButtonModifier())
+                                        .compositingGroup()
+                                    Spacer()
+                                }
                             }
-                        } header: {
-                            HStack {
-                                ZStack(content: {
-                                    Text(filesModel.dateString)
-                                        .blendMode(.destinationOut)
-                                    Text(filesModel.dateString)
-                                        .opacity(0.2)
-                                })
-                                .foregroundColor(.primaryText)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 3)
-                                    .modifier(CircularButtonModifier())
-                                    .compositingGroup()
-                                Spacer()
-                            }
-                        }
 
+                        }
                     }
+                    .padding(.horizontal, 4)
+                    .padding(.bottom, Constants.bottomStatusBarHeight)
+                    Spacer()
+                        .frame(height: !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
+                        .animation(.bouncy, value: viewModel.photoLibrarySelectedURLs.isEmpty)
                 }
-                .padding(.horizontal, 4)
-                .padding(.bottom, Constants.bottomStatusBarHeight)
             }
             .refreshable {
                 viewModel.fetchList(ignoreOffset: true, reload: true)
             }
-            Spacer()
-                .frame(maxHeight: viewModel.isPhotoLibraryPresenting ? .infinity : 0)
-                .animation(.bouncy, value: viewModel.isPhotoLibraryPresenting)
+            
         }
 
     }
