@@ -31,13 +31,7 @@ struct FileListView: View {
             viewModel.fetchList()
         }
         .sheet(isPresented: $viewModel.isPhotoLibraryPresenting) {
-            if #available(iOS 16.4, *) {
-                photoPickerSheet
-                    .presentationBackgroundInteraction(.enabled)
-                    .presentationContentInteraction(.scrolls)
-            } else {
-                photoPickerSheet
-            }
+            photoPickerSheet
         }
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
             galaryPreview
@@ -67,7 +61,7 @@ struct FileListView: View {
                 viewModel.upload()
             }
         }
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.large])
     }
     
     @ViewBuilder
@@ -152,23 +146,37 @@ struct FileListView: View {
             
         }
     }
+    
+    var closeButton: some View {
+        MenuIconShape(type: .close)
+            .stroke(.primaryText, lineWidth: 3)
+            .frame(width: viewModel.isEditingList ? 15 : 0, height: 15)
+            .offset(x: 1, y: 2)
+            .clipped()
+    }
+    
     var editButton: some View {
-        Button(!viewModel.isEditingList ? "edit" : "X") {
+        Button(action: {
             if viewModel.presentCancelSelectionsIfNeeded() {
                 return
             }
             withAnimation(.smooth) {
                 self.viewModel.isEditingList.toggle()
             }
-        }
+        }, label: {
+            HStack(spacing: 0) {
+                ZStack {
+                    closeButton
+                        .blendMode(.destinationOut)
+                    closeButton
+                        .opacity(0.2)
+                }
+                Text("Select")
+                    .frame(maxWidth: viewModel.isEditingList ? 0 : nil)
+            }
+        })
         .frame(maxHeight: .infinity)
         .padding(.horizontal, 15)
-        .frame(maxWidth: viewModel.isEditingList ? 60 : nil)
-        .background(content: {
-            Color.clear
-                .modifier(CircularButtonModifier(isAspectRatio: viewModel.isEditingList ? true : false))
-                .opacity(viewModel.isEditingList ? 1 : 0)
-        })
         .animation(.smooth, value: viewModel.isEditingList)
     }
     
@@ -212,14 +220,15 @@ struct FileListView: View {
             .clipped()
             .animation(.bouncy, value: viewModel.isEditingList)
             Spacer().frame(width: 10)
-            HStack(spacing: 20) {
+            HStack(spacing: 10) {
                 editButton
                 editingButtons
             }
-            .padding(.horizontal, 15)
-            .padding(.trailing, viewModel.isEditingList ? 10 : 0)
+            .padding(.horizontal, 5)
+            .padding(.trailing, viewModel.isEditingList ? 7 : 0)
             .padding(.vertical, 5)
             .modifier(CircularButtonModifier())
+            .compositingGroup()
             .frame(maxHeight: viewModel.isEditingList ? 70 : 45)
             .padding(.bottom, viewModel.isEditingList ? 0 : 10)
             .overlay(content: {

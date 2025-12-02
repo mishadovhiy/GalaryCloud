@@ -26,6 +26,8 @@ class CachedAsyncImageViewModel: ObservableObject {
     private let photoLibraryModifierService = PHPhotoLibraryModifierService()
     @Published var saveAnimating: Bool = false
     @Published var deleteAnimating: Bool = false
+    private let filemamager = FileManagerService()
+
     private func fetchCachedImage(
         db: DataBaseService,
         isSmallImageType: Bool,
@@ -36,7 +38,7 @@ class CachedAsyncImageViewModel: ObservableObject {
             isLoading = false
             return true
         }
-        if let imageData = FileManager.default.load(path: dataModel.username + dataModel.fileName, quality: .middle) {
+        if let imageData = filemamager.load(path: dataModel.username + dataModel.fileName, quality: .middle) {
             self.image = .init(data: imageData)
             if isSmallImageType {
                 self.isLoading = false
@@ -62,7 +64,7 @@ class CachedAsyncImageViewModel: ObservableObject {
                     let image = UIImage(data: data) {
                     self.image = .init(data: data)
                     db.imageCache.setObject(image, forKey: dataModel.fileName as NSString, cost: data.count)
-                    FileManager.default.save(data: data, path: dataModel.username + dataModel.fileName)
+                    self.filemamager.save(data: data, path: dataModel.username + dataModel.fileName)
                 }
                 self.isLoading = false
             }

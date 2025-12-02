@@ -15,8 +15,9 @@ struct PhotoLibraryPickerView: UIViewControllerRepresentable {
     var imageSelected: (_ newImage: [URL]) -> ()
     
     class Coordinator: NSObject, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
-        #warning("todo: move to services")
-        
+
+        private let filemamager = FileManagerService()
+
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             DispatchQueue.main.async {
                 picker.dismiss(animated: true)
@@ -25,7 +26,7 @@ struct PhotoLibraryPickerView: UIViewControllerRepresentable {
             results.forEach { result in
                 result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
                     if let url,
-                       let newURL = FileManager.default.copyFile(from: url)
+                       let newURL = self.filemamager.copyFile(from: url)
                     {
                         selectedURLs.append(newURL)
                     }

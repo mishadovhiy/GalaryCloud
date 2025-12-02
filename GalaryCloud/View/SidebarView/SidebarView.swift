@@ -11,7 +11,9 @@ struct SidebarView: View {
     
     @EnvironmentObject private var db: DataBaseService
     @State var sharePresenting: Bool = false
-    
+    private let filemamager = FileManagerService()
+    @State var directorySize: [FileManagerService.URLType: Int64] = [:]
+
     var body: some View {
         NavigationView(content: {
             rootView
@@ -25,18 +27,13 @@ struct SidebarView: View {
         }
     }
     
-    @State var directorySize1: Int64 = 0
-    @State var directorySize2: Int64 = 0
-
     var fileManagerView: some View {
         VStack {
-            Button("uploaded photos \(directorySize1)") {
-                FileManager.default.clearTempFolder()
-                calculateDirectorySizes()
-            }
-            Button("cached photos \(directorySize2)") {
-                FileManager.default.clearTempFolder(url: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!)
-                calculateDirectorySizes()
+            ForEach(FileManagerService.URLType.allCases, id: \.url.absoluteString) { type in
+                Button("uploaded photos \(directorySize[type] ?? 0)") {
+                    filemamager.clear(url: type)
+                    calculateDirectorySizes()
+                }
             }
         }
         .background(Constants.background)
@@ -46,8 +43,52 @@ struct SidebarView: View {
     }
     
     func calculateDirectorySizes() {
-        directorySize1 = FileManager.default.directorySize(url: FileManager.default.temporaryDirectory)
-        directorySize2 = FileManager.default.directorySize(url: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!)
+        FileManagerService.URLType.allCases.forEach { type in
+            self.directorySize.updateValue(filemamager.directorySize(type), forKey: type)
+        }
+    }
+    
+    var helpSupportView: some View {
+        VStack {
+            NavigationLink("Support") {
+                SupportView()
+            }
+            .modifier(LinkButtonModifier())
+            
+            NavigationLink("Privacy policy") {
+                PrivacyPolicyView()
+            }
+            .modifier(LinkButtonModifier())
+        }
+    }
+    
+    var appUtilitiesView: some View {
+        VStack {
+            NavigationLink("Local storage") {
+                fileManagerView
+            }
+            .modifier(LinkButtonModifier())
+
+            HStack {
+                Button("Rate us") {
+                    db.storeKitService.requestAppStoreReview()
+                }
+                .modifier(LinkButtonModifier())
+                
+                Button("Website") {
+                    if let url = URL(string: Keys.websiteURL.rawValue),
+                       UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                .modifier(LinkButtonModifier())
+                
+                Button("Share app") {
+                    sharePresenting = true
+                }
+                .modifier(LinkButtonModifier())
+            }
+        }
     }
     
     var rootView: some View {
@@ -55,30 +96,21 @@ struct SidebarView: View {
             NavigationLink("Logout") {
                 logoutView
             }
-            NavigationLink("Support") {
-                SupportView()
-            }
-            NavigationLink("Privacy policy") {
-                PrivacyPolicyView()
-            }
-            NavigationLink("Local storage") {
-                fileManagerView
-            }
-
-            Button("Rate us") {
-                db.storeKitService.requestAppStoreReview()
-            }
+            .modifier(LinkButtonModifier(disctructive: true))
             
-            Button("Website") {
-                if let url = URL(string: Keys.websiteURL.rawValue),
-                   UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url)
+            HStack {
+                NavigationLink("Help & Support") {
+                    helpSupportView
                 }
+                .modifier(LinkButtonModifier())
+                
+                NavigationLink("App Utilities & Links") {
+                    appUtilitiesView
+                }
+                .modifier(LinkButtonModifier())
             }
             
-            Button("Share app") {
-                sharePresenting = true
-            }
+
             Spacer()
             
             NavigationLink {

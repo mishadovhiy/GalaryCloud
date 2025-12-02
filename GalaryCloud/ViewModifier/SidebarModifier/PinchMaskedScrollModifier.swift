@@ -18,8 +18,10 @@ class PinchMaskedScrollModifierModel: ObservableObject {
 
     var lastPosition: CGFloat = 0
     var scrollingToOpen: Bool = false
-    let maxPercent = 0.55
-    let openPercent = 0.2
+    let maxPercent = 0.28
+    var openPercent: CGFloat {
+        maxPercent / 2
+    }
     /// percent to opened position
     let closePercent = 0.74
 

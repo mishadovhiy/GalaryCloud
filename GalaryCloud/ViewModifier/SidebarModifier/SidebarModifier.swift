@@ -18,6 +18,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
         ZStack {
             VStack(content: {
                 targedBackgroundView
+                    .padding(.bottom, 20)
                     .frame(maxHeight: model.maxScrollX, alignment: .leading)
                 Spacer().frame(maxHeight: .infinity)
             })

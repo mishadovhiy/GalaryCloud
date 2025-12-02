@@ -72,6 +72,7 @@ class FileListViewModel: ObservableObject {
             }
         }
     }
+    private let filemamager = FileManagerService()
     @Published var selectedFilesActionType: SelectedFilesActionType?
     private var requestOffset: Int = 0
     private let photoLibraryModifierService = PHPhotoLibraryModifierService()
@@ -146,7 +147,7 @@ class FileListViewModel: ObservableObject {
         self.requestOffset = 0
         self.files.removeAll()
         self.directorySizeResponse = nil
-        FileManager.default.clearTempFolder()
+        filemamager.clear()
         self.fetchList(ignoreOffset: true)
         self.uploadAnimating = false
     }
@@ -223,7 +224,7 @@ class FileListViewModel: ObservableObject {
 //        isLoading = true
         Task {
             let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: "hi@mishadovhiy.com", filename: filename))
-            FileManager.default.delete(path: "hi@mishadovhiy.com" + filename)
+            filemamager.delete(path: "hi@mishadovhiy.com" + filename)
             await MainActor.run {
 //                isLoading = false
                 let errorMessage: String?
