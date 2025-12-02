@@ -25,6 +25,31 @@ struct SidebarView: View {
         }
     }
     
+    @State var directorySize1: Int64 = 0
+    @State var directorySize2: Int64 = 0
+
+    var fileManagerView: some View {
+        VStack {
+            Button("uploaded photos \(directorySize1)") {
+                FileManager.default.clearTempFolder()
+                calculateDirectorySizes()
+            }
+            Button("cached photos \(directorySize2)") {
+                FileManager.default.clearTempFolder(url: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!)
+                calculateDirectorySizes()
+            }
+        }
+        .background(Constants.background)
+        .onAppear {
+            calculateDirectorySizes()
+        }
+    }
+    
+    func calculateDirectorySizes() {
+        directorySize1 = FileManager.default.directorySize(url: FileManager.default.temporaryDirectory)
+        directorySize2 = FileManager.default.directorySize(url: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!)
+    }
+    
     var rootView: some View {
         VStack(spacing: 20) {
             NavigationLink("Logout") {
@@ -36,12 +61,15 @@ struct SidebarView: View {
             NavigationLink("Privacy policy") {
                 PrivacyPolicyView()
             }
+            NavigationLink("Local storage") {
+                fileManagerView
+            }
 
             Button("Rate us") {
                 db.storeKitService.requestAppStoreReview()
             }
             
-            Button("website") {
+            Button("Website") {
                 if let url = URL(string: Keys.websiteURL.rawValue),
                    UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url)

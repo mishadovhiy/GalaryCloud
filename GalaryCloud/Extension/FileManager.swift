@@ -9,8 +9,24 @@ import Foundation
 import UIKit
 
 extension FileManager {
-    func clearTempFolder() {
-        let temporaryDirectory = temporaryDirectory
+    func directorySize(url: URL) -> Int64 {
+        var size: Int64 = 0
+        
+        if let enumerator = FileManager.default.enumerator(at: url,
+                                                           includingPropertiesForKeys: [.fileSizeKey],
+                                                           options: [.skipsHiddenFiles]) {
+            
+            for case let fileURL as URL in enumerator {
+                let resourceValues = try? fileURL.resourceValues(forKeys: [.fileSizeKey])
+                size += Int64(resourceValues?.fileSize ?? 0)
+            }
+        }
+        
+        return size
+    }
+    
+    func clearTempFolder(url: URL? = nil) {
+        let temporaryDirectory = url ?? temporaryDirectory
         
         let tempFiles = try? contentsOfDirectory(at: temporaryDirectory, includingPropertiesForKeys: nil)
         
