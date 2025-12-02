@@ -9,15 +9,36 @@ import SwiftUI
 
 struct LinkButtonModifier: ViewModifier {
     
-    var disctructive = false
+    var type: Type = .default
     
     func body(content: Content) -> some View {
         content
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
-            .background(disctructive ? .primaryText.opacity(0.15) : .red.opacity(0.15))
+            .background(background)
             .cornerRadius(8)
-            .tint(disctructive ? .red : .primaryText)
+            .tint(tint)
             .font(.system(size: 12, weight: .medium))
+    }
+    
+    private var background: Color {
+        switch type {
+        case .default: .primaryText
+        default: tint.opacity(0.15)
+        }
+    }
+    
+    private var tint: Color {
+        switch type {
+        case .link: .blue
+        case .distructive: .red
+        case .default: .primaryContainer
+        }
+    }
+    
+    enum `Type` {
+        case distructive
+        case `default`
+        case link
     }
 }

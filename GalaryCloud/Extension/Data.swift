@@ -31,6 +31,12 @@ extension Int {
     }
 }
 
+extension Double {
+    var formated: String {
+        .init(format: "%.2f", self)
+    }
+}
+
 extension String {
     var numbers: Int? {
         Int(self.filter({$0.isNumber}))

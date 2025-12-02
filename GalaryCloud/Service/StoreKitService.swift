@@ -21,7 +21,7 @@ class StoreKitService: NSObject, ObservableObject {
         activeProducts.sorted(by: {$0.price > $1.price}).first
     }
     var activeSubscriptionGB: Int {
-        activeSubscription?.description.numbers ?? 15
+        (activeSubscription?.description.numbers ?? 15)
     }
 #warning("todo: load on app launch")
     private let productIDs: [String] = [

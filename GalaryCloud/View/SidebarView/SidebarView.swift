@@ -49,7 +49,7 @@ struct SidebarView: View {
     }
     
     var helpSupportView: some View {
-        VStack {
+        VStack(alignment: .leading) {
             NavigationLink("Support") {
                 SupportView()
             }
@@ -59,11 +59,15 @@ struct SidebarView: View {
                 PrivacyPolicyView()
             }
             .modifier(LinkButtonModifier())
+            Spacer()
         }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Constants.background)
     }
     
     var appUtilitiesView: some View {
-        VStack {
+        VStack(alignment: .leading) {
             NavigationLink("Local storage") {
                 fileManagerView
             }
@@ -88,17 +92,21 @@ struct SidebarView: View {
                 }
                 .modifier(LinkButtonModifier())
             }
+            Spacer()
         }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Constants.background)
     }
     
     var rootView: some View {
-        VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 10) {
             NavigationLink("Logout") {
                 logoutView
             }
-            .modifier(LinkButtonModifier(disctructive: true))
+            .modifier(LinkButtonModifier(type: .distructive))
             
-            HStack {
+            HStack(spacing: 10) {
                 NavigationLink("Help & Support") {
                     helpSupportView
                 }
@@ -122,7 +130,7 @@ struct SidebarView: View {
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 5)
-        
+        .frame(alignment: .leading)
         .background {
             ClearBackgroundView()
         }
@@ -142,17 +150,49 @@ struct SidebarView: View {
         )
     }
     
+    @ViewBuilder
     var storageUsedView: some View {
-        HStack {
-            Text("MB:" + db.storageUsed.megabytesString + " / " + "\(db.storeKitService.activeSubscriptionGB)")
-                .font(.title)
-            Text(" | file count \(db.totalFileCount)")
-                .font(.footnote)
+        let subscriptionGB = db.storeKitService.activeSubscriptionGB
+        HStack() {
+            VStack(alignment: .leading) {
+                Text("Cloud storage used")
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .tint(.secondaryText)
+                    .opacity(0.4)
+                    .padding(.bottom, 1)
+                HStack(alignment: .firstTextBaseline, spacing: 3) {
+                    Text((db.storageUsed.megabytes / 1024).formated + " / " + "\(subscriptionGB)")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.leading)
+                        .tint(.primaryText)
+                    Text("MB")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.leading)
+                        .tint(.primaryText)
+                }
+                .frame(alignment: .leading)
+                Text("Number of files: \(db.totalFileCount)")
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .tint(.secondaryText)
+                    .frame(alignment: .leading)
+            }
             Spacer()
             Text("Upgrade")
+                .modifier(LinkButtonModifier(type: .link))
         }
-        .padding(.vertical, 26)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 15)
         .padding(.horizontal, 10)
+        .overlay(content: {
+            VStack {
+                Spacer()
+                ProgressView(value: db.storageUsed.megabytes / Double(subscriptionGB * 1024), total: Double(subscriptionGB * 1024))
+                    .progressViewStyle(.linear)
+            }
+            .padding(.horizontal, 10)
+        })
         .background(.secondaryContainer)
         .cornerRadius(16)
     }
