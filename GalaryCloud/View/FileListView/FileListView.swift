@@ -273,30 +273,35 @@ struct FileListView: View {
     var galary: some View {
         VStack {
             ScrollView(.vertical) {
-                VStack(content: {
-                    Spacer()
-                        .frame(height: Constants.topStatusBarHeight)
-                    LazyVGrid( columns: [
-                        .init(), .init(), .init(), .init()
-                    ], spacing: 8, pinnedViews: .sectionHeaders) {
-//                        ForEach(viewModel.files, id: \.originalURL) { item in
-//                            galaryItem(item)
-//                        }
-                        ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
-                            Section {
-                                ForEach(filesModel.files,id:\.originalURL) { file in
-                                    galaryItem(file)
-                                }
-                            } header: {
-                                Text(filesModel.dateString)
+                LazyVGrid( columns: [
+                    .init(), .init(), .init(), .init()
+                ], spacing: 8, pinnedViews: .sectionHeaders) {
+                    ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
+                        Section {
+                            ForEach(filesModel.files,id:\.originalURL) { file in
+                                galaryItem(file)
                             }
-
+                        } header: {
+                            HStack {
+                                ZStack(content: {
+                                    Text(filesModel.dateString)
+                                        .blendMode(.destinationOut)
+                                    Text(filesModel.dateString)
+                                        .opacity(0.2)
+                                })
+                                .foregroundColor(.primaryText)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 3)
+                                    .modifier(CircularButtonModifier())
+                                    .compositingGroup()
+                                Spacer()
+                            }
                         }
+
                     }
-                    Spacer()
-                        .frame(height: Constants.bottomStatusBarHeight)
-                })
+                }
                 .padding(.horizontal, 4)
+                .padding(.bottom, Constants.bottomStatusBarHeight)
             }
             .refreshable {
                 viewModel.fetchList(ignoreOffset: true, reload: true)
@@ -332,7 +337,9 @@ struct FileListView: View {
         }
         .overlay(content: {
             if viewModel.selectedFileIDs.contains(item.originalURL) {
-                Color.red.opacity(0.5)
+                Color.red.opacity(0.3)
+                    .allowsHitTesting(false)
+                    .disabled(true)
             }
         })
         .modifier(DragAndDropModifier(disabled: !viewModel.isEditingList, lastDroppedID: $viewModel.lastDroppedID, itemID: item.originalURL, didDrop: {

@@ -28,6 +28,17 @@ class PinchMaskedScrollModifierModel: ObservableObject {
     var validatedPosition: CGFloat {
         dragPositionX >= 0 ? dragPositionX : 0
     }
+    
+    var maxDragPercent: CGFloat {
+        let value = dragPercent
+        if value > 1 {
+            return 1
+        } else if value < 0 {
+            return 0
+        }
+        return value
+    }
+    
     var dragPercent: CGFloat {
         let value = dragPositionX / (viewWidth * maxPercent)
         if value >= .zero {

@@ -59,47 +59,86 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
         }
     }
 
-    var sidebarButtonView: some View {
-        VStack {
-            HStack {
-                Button {
-                    model.toggleMenuPressed()
-                } label: {
-                    HStack(spacing:0, content: {
-                        ZStack(
-                            content: {
-                                menuIcon(.menu,
-                                         scrollPercent: model.toOpenScrollingPercent)
-
-                                menuIcon(.close,
-                                         scrollPercent: model.toCloseScrollingPercent)
-                            })
-                        .frame(width: 16, height: 16)
-                        .padding(5)
-                        .background(.white.opacity(0.5))
-                        .cornerRadius(6)
-                        .padding(3)
-                        ZStack(content: {
-                            Text("menu")
-                                .lineLimit(1)
-                                .frame(width: 50)
-                                .frame(maxWidth: .infinity)
-                                .foregroundColor(.black)
-                                .shadow(radius: 10)
-                        })
-                        .clipped()
-
-                            .frame(width: 50 * model.dragPercent, alignment: .leading)
-
-                    })
-
-                    .background(.white.opacity(0.2))
-                    .cornerRadius(7)
-                    .padding(.top, 5)
-                    .padding(.leading, 5)
+    var scrollIcons: some View {
+        ZStack(
+            content: {
+                ZStack {
+                    menuIcon(.menu,
+                             scrollPercent: model.toOpenScrollingPercent)
+                    .blendMode(.destinationOut)
+                    menuIcon(.menu,
+                             scrollPercent: model.toOpenScrollingPercent)
+                    .opacity(0.4)
                 }
+                ZStack {
+                    menuIcon(.close,
+                             scrollPercent: model.toCloseScrollingPercent)
+                    .blendMode(.destinationOut)
+                    menuIcon(.close,
+                             scrollPercent: model.toCloseScrollingPercent)
+                    .opacity(0.4)
+                }
+            })
+    }
+    
+    var scrollText: some View {
+        ZStack(content: {
+            Text("menu")
+                .lineLimit(1)
+                .frame(width: 50)
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.primaryText)
+                .shadow(radius: 10)
+                .opacity(0.4)
+                .blendMode(.destinationOut)
+            Text("menu")
+                .lineLimit(1)
+                .frame(width: 50)
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.primaryText)
+                .shadow(radius: 10)
+                .opacity(0.4)
+        })
+        .clipped()
 
-                Spacer().frame(maxWidth: .infinity)
+            .frame(width: 50 * model.dragPercent, alignment: .leading)
+    }
+    
+    var sidebarButtonView: some View {
+        VStack(alignment: .center) {
+            Button {
+                model.toggleMenuPressed()
+            } label: {
+                HStack(spacing:0, content: {
+                    scrollIcons
+                    .frame(width: 16 + (10 * (1 - model.maxDragPercent)), height: 3 + (13 * model.maxDragPercent))
+                    .padding(5)
+                    .background(content: {
+                        BlurView()
+                    })
+                    .background(.secondaryContainer.opacity(0.3 + (0.2 * model.dragPercent)))
+                    .overlay(content: {
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color(.outline), lineWidth: 1)
+                    })
+                    .cornerRadius(6)
+                    .padding(3)
+                    scrollText
+
+                })
+                .background(content: {
+                    BlurView()
+                })
+                .background(.secondaryContainer.opacity(0.2))
+                .cornerRadius(7)
+                .overlay(content: {
+                    RoundedRectangle(cornerRadius: 7)
+                        .stroke(Color(.outline), lineWidth: 1)
+                })
+                .padding(.top, 5)
+                .padding(.leading, 5)
+                .compositingGroup()
+
             }
             Spacer().frame(maxHeight: .infinity)
         }
@@ -111,13 +150,10 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
             
                 .fill(.white.opacity(0.001))
                 .overlay {
-                    HStack {
-                        sidebarButtonView
-                        Spacer()
-                    }
-                    .offset(y: -10 * model.dragPercent)
+                    sidebarButtonView
+                    .offset(y: -15 * model.dragPercent)
                 }
-                .frame(height: 30)
+                .frame(maxHeight: model.isOpened ? .infinity : 30)
                 .offset(y: model.dragPositionX)
                 .gesture(
                     DragGesture()
@@ -130,7 +166,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                             model.scrollEnded()
                         }
                 )
-            Spacer().frame(maxHeight: .infinity)
+            Spacer().frame(maxHeight: model.isOpened ? 0 : .infinity)
         }
     }
 }
@@ -154,7 +190,7 @@ fileprivate extension SidebarModifier {
         .trim(
             to: model.isScrollActive ? scrollPercent : iconActive ? 1 : 0
         )
-        .stroke(.black, lineWidth: 2)
+        .stroke(.primaryText, lineWidth: 2)
         .shadow(radius: 4)
         .scaleEffect(model.isScrollActive ? scrollPercent : iconActive ? 1 : 0.5)
         .animation(.smooth, value: model.isOpened)

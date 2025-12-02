@@ -21,12 +21,9 @@ struct MenuIconShape: Shape {
             path.move(to: CGPoint(x: 0.82991*width, y: 0.03333*height))
             path.addLine(to: CGPoint(x: 0.0619*width, y: 0.8*height))
         case .menu:
-            path.move(to: CGPoint(x: 0.02174*width, y: 0.03333*height))
-            path.addLine(to: CGPoint(x: 0.8913*width, y: 0.03333*height))
-            path.move(to: CGPoint(x: 0.02174*width, y: 0.43333*height))
-            path.addLine(to: CGPoint(x: 0.47826*width, y: 0.43333*height))
-            path.move(to: CGPoint(x: 0.02174*width, y: 0.83333*height))
-            path.addLine(to: CGPoint(x: 0.69565*width, y: 0.83333*height))
+            path.move(to: CGPoint(x: 0, y: 0.5*height))
+            path.addLine(to: CGPoint(x: 1*width, y: 0.5*height))
+
         }
         return path
     }

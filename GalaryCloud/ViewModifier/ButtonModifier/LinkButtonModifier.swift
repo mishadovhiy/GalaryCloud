@@ -17,7 +17,7 @@ struct LinkButtonModifier: ViewModifier {
             .padding(.vertical, 4)
             .background(disctructive ? .primaryText.opacity(0.15) : .red.opacity(0.15))
             .cornerRadius(8)
-            .tint(disctructive ? .red : .black)
+            .tint(disctructive ? .red : .primaryText)
             .font(.system(size: 12, weight: .medium))
     }
 }
