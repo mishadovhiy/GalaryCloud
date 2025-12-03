@@ -207,6 +207,9 @@ struct FileListView: View {
                 VStack {
                     Spacer().frame(height: Constants.topStatusBarHeight)
                     Text(error.localizedDescription)
+                        .foregroundColor(.red)
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
         }

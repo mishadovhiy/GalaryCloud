@@ -43,6 +43,8 @@ struct KeychainService {
             return false
         } else {
             userHolder.updateValue(token, forKey: .loggedUsers)
+            userHolder.updateValue(token, forKey: key)
+
 #if DEBUG
             print("Token Saved with status \(status) ", token)
 #endif

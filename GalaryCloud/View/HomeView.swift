@@ -17,7 +17,6 @@ struct HomeView: View {
     var body: some View {
         VStack {
             if isLoggedIn {
-//                homeView
                 FileListView()
                     .modifier(
                         SidebarModifier(
@@ -29,7 +28,11 @@ struct HomeView: View {
             }
         }
         .onChange(of: db.checkIsUserLoggedIn) { newValue in
-            checkAuthorization()
+            if newValue {
+                db.checkIsUserLoggedIn = false
+                checkAuthorization()
+            }
+            
         }
         .onAppear {
             db.checkIsUserLoggedIn = true
@@ -42,7 +45,6 @@ struct HomeView: View {
             KeychainService.getToken(forKey: .userNameValue),
             KeychainService.getToken(forKey: .userPasswordValue)
         ]
-            
         self.isLoggedIn = !credinails.contains(where: {$0?.isEmpty ?? true})
     }
     @State var id: UUID = .init()

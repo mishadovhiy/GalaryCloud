@@ -79,7 +79,7 @@ extension Int {
     }
 }
 
-extension Double {
+extension CVarArg {
     var formated: String {
         .init(format: "%.2f", self)
     }

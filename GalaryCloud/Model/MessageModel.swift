@@ -8,10 +8,12 @@
 import Foundation
 
 struct MessageModel: Codable, Equatable {
+    var header: String = "Error"
     let title: String
     let buttons: [ButtonModel]
     
-    init(title: String, buttons: [ButtonModel] = []) {
+    init(header: String = "Error", title: String, buttons: [ButtonModel] = []) {
+        self.header = header
         self.title = title
         self.buttons = buttons
     }
@@ -23,6 +25,7 @@ struct ButtonModel: Codable, Equatable {
     }
     
     let title: String
+    var type: LinkButtonModifier.`Type` = .link
     var didPress: (() -> Void)? = nil
     
     enum CodingKeys: CodingKey {

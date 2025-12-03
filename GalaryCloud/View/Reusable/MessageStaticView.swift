@@ -14,25 +14,42 @@ struct MessageStaticView: View {
     var body: some View {
         VStack {
             Text(message.title)
+                .font(.title)
+                .foregroundColor(.primaryText)
+            Spacer().frame(height: 15)
             if message.buttons.isEmpty {
                 Button("ok") {
                     dismiss()
                 }
+                .modifier(LinkButtonModifier(type: .default))
             } else {
-                VStack(spacing: 20) {
-                    ForEach(message.buttons, id: \.title) { button in
-                        Button(button.title) {
-                            dismiss()
-                            button.didPress?()
-                        }
+                if message.buttons.count <= 2 {
+                    HStack(spacing: 20) {
+                        buttonsView
+                    }
+                } else {
+                    VStack(spacing: 20) {
+                        buttonsView
                     }
                 }
+                
             }
         }
+        .navigationTitle(message.header)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
             ClearBackgroundView()
         }
         .background(.primaryContainer)
+    }
+    
+    var buttonsView: some View {
+        ForEach(message.buttons, id: \.title) { button in
+            Button(button.title) {
+                dismiss()
+                button.didPress?()
+            }
+            .modifier(LinkButtonModifier(type: button.type))
+        }
     }
 }

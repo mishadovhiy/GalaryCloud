@@ -58,6 +58,7 @@ struct SidebarView: View {
         VStack(alignment: .leading) {
             NavigationLink("Support") {
                 SupportView()
+                    .navigationTitle("Support")
             }
             .modifier(LinkButtonModifier())
             
@@ -76,6 +77,7 @@ struct SidebarView: View {
         VStack(alignment: .leading) {
             NavigationLink("Local storage") {
                 fileManagerView
+                    .navigationTitle("Local storage")
             }
             .modifier(LinkButtonModifier())
 
@@ -109,17 +111,20 @@ struct SidebarView: View {
         VStack(alignment: .leading, spacing: 10) {
             NavigationLink("Logout") {
                 logoutView
+                    .navigationTitle("Logout")
             }
             .modifier(LinkButtonModifier(type: .distructive))
             
             HStack(spacing: 10) {
                 NavigationLink("Help & Support") {
                     helpSupportView
+                        .navigationTitle("Help & Support")
                 }
                 .modifier(LinkButtonModifier())
                 
                 NavigationLink("App Utilities & Links") {
                     appUtilitiesView
+                        .navigationTitle("App Utilities & Links")
                 }
                 .modifier(LinkButtonModifier())
             }
@@ -145,10 +150,10 @@ struct SidebarView: View {
     
     var logoutView: some View {
         MessageStaticView(
-            message: .init(title: "Are you sure?",
+            message: .init(header:"Logout", title: "Are you sure?",
                            buttons: [
                             .init(title: "Cancel"),
-                            .init(title: "Logout", didPress: {
+                            .init(title: "Logout", type: .distructive, didPress: {
                                 KeychainService.saveToken("", forKey: .userPasswordValue)
                                 db.checkIsUserLoggedIn = true
                             })

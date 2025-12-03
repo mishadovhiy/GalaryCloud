@@ -19,6 +19,9 @@ struct SupportView: View {
         VStack {
             if let error {
                 Text(error.localizedDescription)
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             TextField(
                 "",
