@@ -32,12 +32,16 @@ struct SupportView: View {
             )
             .padding(.vertical, 3)
             .padding(.horizontal, 5)
+            .background(.secondaryContainer)
+            .cornerRadius(8)
             TextEditor(text: .init(get: {
                 supportRequest.body
             }, set: {
                 supportRequest.body = $0
             }))
+            .background(.secondaryContainer)
                 .scrollContentBackground(.hidden)
+                .cornerRadius(8)
                 .overlay {
                     VStack {
                         
@@ -55,11 +59,12 @@ struct SupportView: View {
                 .foregroundColor(.primaryText)
             HStack {
                 Spacer()
-                Button("send") {
+                Button("Send") {
                     self.sendRequest()
                 }
+                .padding(.vertical, 4)
                 .padding(.horizontal, 15)
-                .modifier(LoadingButtonModifier(isLoading: isLoading))
+                .modifier(LoadingButtonModifier(isLoading: isLoading, type: .small))
             }
         }
         .padding(.horizontal, 10)

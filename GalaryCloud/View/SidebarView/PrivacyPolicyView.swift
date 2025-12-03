@@ -37,7 +37,7 @@ struct PrivacyPolicyView: View {
         <head>
         </head>
         <style>
-        html, body{background: #886DC7;}
+        html, body{background: #0A0A0A;}
         h2{ font-size: 18px; color: white; }h1{font-size: 32px; color: white;}
         p{font-size: 12px; color: white;}
         h1, h2, p{margin-left:10px;margin-right:10px;}

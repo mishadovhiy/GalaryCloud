@@ -94,7 +94,7 @@ struct FileManagerService {
 }
 
 extension FileManagerService {
-    enum URLType: CaseIterable {
+    enum URLType: String, CaseIterable {
         case caches
         case temporary
         

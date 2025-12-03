@@ -28,14 +28,20 @@ struct SidebarView: View {
     }
     
     var fileManagerView: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Select directory, you would like to clear:")
+                .foregroundColor(.primaryText)
             ForEach(FileManagerService.URLType.allCases, id: \.url.absoluteString) { type in
-                Button("uploaded photos \(directorySize[type] ?? 0)") {
+                Button("\(type.rawValue.capitalized) \(directorySize[type] ?? 0) MB") {
                     filemamager.clear(url: type)
                     calculateDirectorySizes()
                 }
+                .modifier(LinkButtonModifier())
             }
+            Spacer()
         }
+        .padding(10)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(Constants.background)
         .onAppear {
             calculateDirectorySizes()
