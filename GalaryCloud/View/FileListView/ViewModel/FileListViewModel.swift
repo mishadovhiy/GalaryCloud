@@ -164,11 +164,8 @@ class FileListViewModel: ObservableObject {
                 }
             } else {
                 await MainActor.run {
-                    self.messages.append(.init(title: "Storage limit increesed, upgrade to pro to proceed", buttons: [
-                        .init(title: "cancel"),
-                        .init(title: "upgrade", didPress: {
-                            db.forcePresentUpgradeToPro = true
-                        })
+                    self.messages.append(.init(header:"Error", title: "Storage limit increesed, upgrade to pro to proceed", buttons: [
+                        .init(title: "cancel")
                     ]))
                 }
             }
@@ -241,7 +238,7 @@ class FileListViewModel: ObservableObject {
                     })
                     completed(errorMessage == nil)
                 } else {
-                    messages.append(.init(title: errorMessage ?? "Image Deleted", buttons: [
+                    messages.append(.init(header:errorMessage == nil ? "Success" : "Error", title: errorMessage ?? "Image Deleted", buttons: [
                         .init(title: "OK", didPress: {
                             if errorMessage == nil {
                                 self.files.removeAll(where: {
@@ -259,7 +256,7 @@ class FileListViewModel: ObservableObject {
     }
     
     func deletePressed(filename: String) {
-        messages.append(.init(title: "are you sure you wanna delete this?", buttons: [
+        messages.append(.init(title: "are you sure you want to delete photo?", buttons: [
             .init(title: "no"),
             .init(title: "yes", didPress: {
                 self.imagePreviewPresenting = false
@@ -288,7 +285,7 @@ class FileListViewModel: ObservableObject {
                     completion(success)
                 } else {
                     let title = success ? "Saved to Photos!" : "Error saving"
-                    self.messages.append(.init(title: title))
+                    self.messages.append(.init(header:success ? "Success" : "Error", title: title))
                 }
             }
     }
@@ -308,7 +305,7 @@ class FileListViewModel: ObservableObject {
     
     func startTask(_ task: SelectedFilesActionType, confirm: Bool = false) {
         if confirm {
-            self.messages.append(.init(title: "are you sure", buttons: [
+            self.messages.append(.init(title: "Are you sure", buttons: [
                 .init(title: "no"),
                 .init(title: "yes", didPress: {
                     self.startTask(task)
@@ -412,7 +409,7 @@ class FileListViewModel: ObservableObject {
     
     func presentCancelSelectionsIfNeeded() -> Bool {
         if !selectedFileIDs.isEmpty && isEditingList {
-            messages.append(.init(title: "all your selected items would be removed from the memory", buttons: [
+            messages.append(.init(header:"Confirmation", title: "all your selected items would be removed from the memory", buttons: [
                 .init(title: "yes, remove", didPress: {
                     withAnimation(.smooth) {
                         self.isEditingList.toggle()

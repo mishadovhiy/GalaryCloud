@@ -32,7 +32,7 @@ struct RootAlertConfigModifier: ViewModifier {
         if topVC is UIAlertController {
             return
         }
-        let alert = UIAlertController(title: "Error", message: lastMessage.title, preferredStyle: .alert)
+        let alert = UIAlertController(title: lastMessage.header, message: lastMessage.title, preferredStyle: .alert)
         addActions(alert)
         
         topVC?.present(alert, animated: true, completion: nil)

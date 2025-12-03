@@ -8,11 +8,11 @@
 import Foundation
 
 struct MessageModel: Codable, Equatable {
-    var header: String = "Error"
+    let header: String
     let title: String
     let buttons: [ButtonModel]
     
-    init(header: String = "Error", title: String, buttons: [ButtonModel] = []) {
+    init(header: String = "Success", title: String, buttons: [ButtonModel] = []) {
         self.header = header
         self.title = title
         self.buttons = buttons

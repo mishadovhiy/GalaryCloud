@@ -23,7 +23,7 @@ struct FileListView: View {
         })
         .onChange(of: viewModel.uploadError) { newValue in
             if let newValue {
-                viewModel.messages.append(.init(title: newValue.unparcedDescription))
+                viewModel.messages.append(.init(header:"Error", title: newValue.unparcedDescription))
             }
         }
         .onAppear {

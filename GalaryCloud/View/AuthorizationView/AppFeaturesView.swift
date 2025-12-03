@@ -45,7 +45,7 @@ struct AppFeaturesView: View {
     
 #warning("todo: fetch in general request")
     let data: [FeatureModel] = [
-        .init(title: "Free up you iCloud and Device storage size", description: "Upload your photos directly to the cloud to save space on your device.", gifURL: "cloudStorage"),
+        .init(title: "Free up you Device storage", description: "Upload your photos directly to the cloud to save space on your device.", gifURL: "cloudStorage"),
         .init(title: "Download photos back to your photo library", description: "you can delete photos from your device and resave photos uploaded to our application", gifURL: "save"),
         .init(title: "Cheapest Cloud Pricing", description: "Store large amounts of photos at prices far lower than any cloud storage.", gifURL: "giftDiscount"),
         .init(title: "Ultra-Low App Size and Zero Local Storage", description: "controll how much data can be cached or torn off caching to reduce app size.\nYou can delete cach anytime", gifURL: "uploading"),

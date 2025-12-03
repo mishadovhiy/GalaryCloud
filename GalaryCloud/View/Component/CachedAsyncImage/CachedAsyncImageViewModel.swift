@@ -109,7 +109,7 @@ class CachedAsyncImageViewModel: ObservableObject {
             data: data,
             date: date) { success in
                 let title = success ? "Saved to Photos!" : "Error saving"
-                db.messages.append(.init(title: title))
+                db.messages.append(.init(header:success ? "Success" : "Error", title: title))
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
                     self.saveAnimating = false
                 })
