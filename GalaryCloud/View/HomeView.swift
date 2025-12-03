@@ -17,8 +17,7 @@ struct HomeView: View {
     var body: some View {
         VStack {
             if !appeared {
-                LoaderView(isLoading: true)
-                    .frame(width: 40, height: 40)
+                AppLaunchView()
             } else {
                 if isLoggedIn {
                     FileListView()

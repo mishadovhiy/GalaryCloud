@@ -33,8 +33,7 @@ struct GalaryCloudApp: App {
     @ViewBuilder
     var contentView: some View {
         if isLoading {
-            LoaderView(isLoading: true)
-                .frame(width: 30, height: 30)
+            AppLaunchView()
         } else {
             HomeView()
                 .modifier(RootAlertConfigModifier())

@@ -18,7 +18,7 @@ struct SupportView: View {
     var body: some View {
         VStack {
             if let error {
-                Text(error.localizedDescription)
+                Text(error.unparcedDescription)
                     .foregroundColor(.red)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)

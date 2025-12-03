@@ -291,11 +291,12 @@ class AuthorizationViewModel: ObservableObject {
         }
         self.isLoading = true
         Task {
-            let request = await URLSession.shared.resumeTask(CodeRequest(emailTo: email, resetCode: "1111"))
+            let code = "\(Int.random(in: 0..<9))\(Int.random(in: 0..<9))\(Int.random(in: 0..<9))\(Int.random(in: 0..<9))"
+            let request = await URLSession.shared.resumeTask(CodeRequest(emailTo: email, resetCode: code))
             await MainActor.run {
                 do {
                     if try request.get().success {
-                        self.codeToEnter = "1111"
+                        self.codeToEnter = code
                         self.textFields.updateValue([.code:""], forKey: type)
                         
                     } else {
@@ -380,6 +381,10 @@ extension AuthorizationViewModel {
             default: true
             }
         }
+        
+        var title: String {
+            rawValue.addSpaceBeforeCapitalizedLetters.capitalized
+        }
     }
     
     enum NavigationLinkType: String, CaseIterable, Hashable {
@@ -388,6 +393,14 @@ extension AuthorizationViewModel {
         case passwordResetEmail
         case passwordResetCode
         case passwordResetCreatePassword
+        
+        var title: String? {
+            switch self {
+            case .credinails:
+                nil
+            default: rawValue.addSpaceBeforeCapitalizedLetters.capitalized
+            }
+        }
         
         var order: Int {
             Self.allCases.firstIndex(of: self) ?? 0

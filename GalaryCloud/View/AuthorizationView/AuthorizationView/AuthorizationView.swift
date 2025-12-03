@@ -18,7 +18,7 @@ struct AuthorizationView: View {
         ZStack {
             VStack {
                 if let error = viewModel.error {
-                    Text(error.localizedDescription)
+                    Text(error.unparcedDescription)
                         .modifier(ErrorViewModifier())
                         .animation(.bouncy, value: viewModel.error != nil)
                         .transition(.move(edge: .top))
@@ -56,7 +56,7 @@ struct AuthorizationView: View {
                             textFields: viewModel.navigationValue(key), nextButtonPressed: {
                             self.viewModel.nextButtonPressed()
                         })
-                        .navigationTitle(key.rawValue)
+                        .navigationTitle((key.title ?? viewModel.authorizationType?.title) ?? "")
                         .focused($isKeyboardFocused)
                         .onAppear {
                             withAnimation {
@@ -107,7 +107,8 @@ struct AuthorizationView: View {
                     }
                 } label: {
                     Text(type.rawValue.addSpaceBeforeCapitalizedLetters.capitalized)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.headline)
+                        .shadow(radius: 3)
                 }
                 .tint(type.primaryStyle ? .primaryText : .black)
                 .padding(.vertical, 15)

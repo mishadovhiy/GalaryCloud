@@ -42,6 +42,9 @@
 		8250E2CC2EDFDD2C00A81E91 /* AppConfigRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CB2EDFDD2C00A81E91 /* AppConfigRequest.swift */; };
 		8250E2CE2EDFEB3E00A81E91 /* ErrorViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CD2EDFEB3E00A81E91 /* ErrorViewModifier.swift */; };
 		8250E2D02EDFF64800A81E91 /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CF2EDFF64800A81E91 /* NoDataView.swift */; };
+		8250E2E62EE0023B00A81E91 /* AppLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2E52EE0023B00A81E91 /* AppLaunchView.swift */; };
+		8250E2E82EE0056400A81E91 /* NotificationCenterConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2E72EE0056400A81E91 /* NotificationCenterConfig.swift */; };
+		8250E2EA2EE0076900A81E91 /* NSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2E92EE0076900A81E91 /* NSError.swift */; };
 		8255118D2ED9D59900C4094F /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255118C2ED9D59900C4094F /* SidebarView.swift */; };
 		825511A32EDB356400C4094F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825511A22EDB356400C4094F /* BlurView.swift */; };
 		8262A5802ED7F457005188F2 /* SignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A57F2ED7F457005188F2 /* SignInService.swift */; };
@@ -166,6 +169,9 @@
 		8250E2CB2EDFDD2C00A81E91 /* AppConfigRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigRequest.swift; sourceTree = "<group>"; };
 		8250E2CD2EDFEB3E00A81E91 /* ErrorViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModifier.swift; sourceTree = "<group>"; };
 		8250E2CF2EDFF64800A81E91 /* NoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
+		8250E2E52EE0023B00A81E91 /* AppLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchView.swift; sourceTree = "<group>"; };
+		8250E2E72EE0056400A81E91 /* NotificationCenterConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterConfig.swift; sourceTree = "<group>"; };
+		8250E2E92EE0076900A81E91 /* NSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSError.swift; sourceTree = "<group>"; };
 		8255118C2ED9D59900C4094F /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		825511A22EDB356400C4094F /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8262A57F2ED7F457005188F2 /* SignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInService.swift; sourceTree = "<group>"; };
@@ -397,6 +403,7 @@
 				8250E2CF2EDFF64800A81E91 /* NoDataView.swift */,
 				8230C9AC2EDF130E00CF0B5F /* ShareView.swift */,
 				82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */,
+				8250E2E52EE0023B00A81E91 /* AppLaunchView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -474,6 +481,7 @@
 				82D7F51E2ECA93DC00A44A98 /* URLRequest.swift */,
 				8230C9AE2EDF13FF00CF0B5F /* String.swift */,
 				8230C9CA2EDF894700CF0B5F /* UIImage.swift */,
+				8250E2E92EE0076900A81E91 /* NSError.swift */,
 				823DC1F82ED0EFFF005367A2 /* Data.swift */,
 			);
 			path = Extension;
@@ -607,6 +615,7 @@
 				82D7F5172ECA8D2800A44A98 /* Keys.swift */,
 				82909A692ED5418700BF9548 /* ServiceConfig.swift */,
 				8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */,
+				8250E2E72EE0056400A81E91 /* NotificationCenterConfig.swift */,
 				82909A6B2ED541E900BF9548 /* WasabiConfig.swift */,
 			);
 			path = AppConfig;
@@ -791,6 +800,7 @@
 				823DC2552ED12CD4005367A2 /* DeleteFileRequest.swift in Sources */,
 				82909A6A2ED5418700BF9548 /* ServiceConfig.swift in Sources */,
 				820A9D482ED80B0A00498E35 /* MenuIconShape.swift in Sources */,
+				8250E2E82EE0056400A81E91 /* NotificationCenterConfig.swift in Sources */,
 				8250E2CA2EDFC7E600A81E91 /* AppearenceConfig.swift in Sources */,
 				827162082ECACFF700E52013 /* FileListView.swift in Sources */,
 				82909A742ED5717800BF9548 /* UploadComponentShape.swift in Sources */,
@@ -833,6 +843,7 @@
 				82D45BAF2EDCDD35000DF5D6 /* MessageStaticView.swift in Sources */,
 				823DC2832ED1B202005367A2 /* KeychainService.swift in Sources */,
 				8230C9A92EDEFBF800CF0B5F /* SupportRequest.swift in Sources */,
+				8250E2E62EE0023B00A81E91 /* AppLaunchView.swift in Sources */,
 				82909A842ED5E9F300BF9548 /* TrashShape.swift in Sources */,
 				82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */,
 				8262A59D2ED7F992005188F2 /* SignInWithAppleButton.swift in Sources */,
@@ -851,6 +862,7 @@
 				820A9D562ED816F600498E35 /* LottieView.swift in Sources */,
 				8262A5852ED7F4A1005188F2 /* AppleSignInService.swift in Sources */,
 				82D7F5102ECA843100A44A98 /* ErrorResponse.swift in Sources */,
+				8250E2EA2EE0076900A81E91 /* NSError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1010,7 +1022,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GalaryCloud/GalaryCloud.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1029,7 +1041,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GalaryCloud/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save images we need access to your photolibrary";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save photos on your device, we need access to your photolibrary";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -1068,7 +1080,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GalaryCloud/GalaryCloud.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1087,7 +1099,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GalaryCloud/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save images we need access to your photolibrary";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save photos on your device, we need access to your photolibrary";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

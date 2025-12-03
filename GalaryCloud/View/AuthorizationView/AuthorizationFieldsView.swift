@@ -45,6 +45,8 @@ struct AuthorizationFieldsView: View {
                     .background(.black.opacity(0.15))
                     .cornerRadius(8)
                     .focused($activeTextField, equals: key)
+                    .textContentType(textFieldType(key))
+                    .shadow(color: .black.opacity(0.15), radius: 3)
                     .onSubmit {
                         if self.textFields[key]?.isEmpty ?? true {
                             self.activeTextField = nil
@@ -66,6 +68,16 @@ struct AuthorizationFieldsView: View {
             withAnimation {
                 self.activeTextField = textFields.first
             }
+        }
+    }
+    
+    func textFieldType(_ key: AuthorizationTextFieldType) -> UITextContentType? {
+        switch key {
+        case .password: .password
+        case .repeatedPassword: .newPassword
+        case .email: .username
+        case .code: .oneTimeCode
+        default: nil
         }
     }
 }

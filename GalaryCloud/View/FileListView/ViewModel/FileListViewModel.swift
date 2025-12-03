@@ -232,7 +232,7 @@ class FileListViewModel: ObservableObject {
                     errorMessage = data.success ? nil : "error deleting image"
                     
                 case .failure(let error):
-                    errorMessage = error.localizedDescription
+                    errorMessage = error.unparcedDescription
                     
                 }
                 if let completed {

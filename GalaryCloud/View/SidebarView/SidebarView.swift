@@ -75,12 +75,6 @@ struct SidebarView: View {
     
     var appUtilitiesView: some View {
         VStack(alignment: .leading) {
-            NavigationLink("Local storage") {
-                fileManagerView
-                    .navigationTitle("Local storage")
-            }
-            .modifier(LinkButtonModifier())
-
             HStack {
                 Button("Rate us") {
                     db.storeKitService.requestAppStoreReview()
@@ -122,13 +116,17 @@ struct SidebarView: View {
                 }
                 .modifier(LinkButtonModifier())
                 
-                NavigationLink("App Utilities & Links") {
+                NavigationLink("External Links") {
                     appUtilitiesView
                         .navigationTitle("App Utilities & Links")
                 }
                 .modifier(LinkButtonModifier())
             }
-            
+            NavigationLink("Local storage") {
+                fileManagerView
+                    .navigationTitle("Local storage")
+            }
+            .modifier(LinkButtonModifier())
 
             Spacer()
             
@@ -154,7 +152,10 @@ struct SidebarView: View {
                            buttons: [
                             .init(title: "Cancel"),
                             .init(title: "Logout", type: .distructive, didPress: {
-                                KeychainService.saveToken("", forKey: .userPasswordValue)
+                                FileManagerService.URLType.allCases.forEach {
+                                    filemamager.clear(url: $0)
+                                }
+                                let _ = KeychainService.saveToken("", forKey: .userPasswordValue)
                                 db.checkIsUserLoggedIn = true
                             })
                            ])

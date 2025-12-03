@@ -23,7 +23,7 @@ struct FileListView: View {
         })
         .onChange(of: viewModel.uploadError) { newValue in
             if let newValue {
-                viewModel.messages.append(.init(title: newValue.localizedDescription))
+                viewModel.messages.append(.init(title: newValue.unparcedDescription))
             }
         }
         .onAppear {
@@ -209,7 +209,7 @@ struct FileListView: View {
             if let error = viewModel.fetchError {
                 VStack {
                     Spacer().frame(height: Constants.topStatusBarHeight)
-                    Text(error.localizedDescription)
+                    Text(error.unparcedDescription)
                         .modifier(ErrorViewModifier())
                 }
             }

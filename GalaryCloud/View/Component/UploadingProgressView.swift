@@ -26,7 +26,7 @@ struct UploadingProgressView: View {
                         .stroke(.outline, lineWidth: 0.6)
                 }
             VStack(alignment: .leading) {
-                Text(error?.localizedDescription ?? "Uploading \(uploadingFilesCount)")
+                Text(error?.unparcedDescription ?? "Uploading \(uploadingFilesCount)")
                     .foregroundColor(error != nil ? .red : .secondaryContainer)
                     .lineLimit(error == nil ? 1 : 0)
                     .multilineTextAlignment(.leading)

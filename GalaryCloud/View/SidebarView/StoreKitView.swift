@@ -48,7 +48,7 @@ struct StoreKitView: View {
                                             }
                                         }
                                     case .failure(let failure):
-                                        print(failure.localizedDescription, " grterfwdesa ")
+                                        print(failure.unparcedDescription, " grterfwdesa ")
                                     }
                                 }
                             }
