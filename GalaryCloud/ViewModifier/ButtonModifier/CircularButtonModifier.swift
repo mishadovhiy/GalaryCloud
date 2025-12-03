@@ -13,11 +13,11 @@ struct CircularButtonModifier: ViewModifier {
     var cornerRadius: CGFloat? = nil
     var isHidden: Bool = false
     var isAspectRatio: Bool = false
-    
+    var maxHeight: CGFloat? = .infinity
     func body(content: Content) -> some View {
         content
             .tint(.primaryText)
-            .frame(maxWidth: isAspectRatio ? .infinity : nil, maxHeight: .infinity)
+            .frame(maxWidth: isAspectRatio ? .infinity : nil, maxHeight: maxHeight)
             //.frame(width: width, height: height)
             .background(content: {
                 BlurView()

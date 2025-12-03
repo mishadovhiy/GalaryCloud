@@ -26,11 +26,8 @@ struct CachedAsyncImage: View {
             }
             if viewModel.isLoading {
                 VStack {
-                    ProgressView().progressViewStyle(.circular)
-                    if viewModel.image == nil {
-                        Text(viewModel.date)
-                    }
-                    
+                    LoaderView(isLoading: viewModel.isLoading)
+                        .frame(maxWidth: 15)
                 }
             }
         }
@@ -40,23 +37,38 @@ struct CachedAsyncImage: View {
         .onDisappear {
             viewModel.viewDidDisapear()
         }
-        .background(.primaryContainer)
+        .background(deleteImagePressed == nil ? .clear : .primaryContainer)
         .background {
             ClearBackgroundView()
         }
     }
     
+    @ViewBuilder
     var dateView: some View {
+        let date = DateComponents(string: viewModel.date)
         HStack(spacing: 20) {
-            Text(viewModel.date)
-                .font(deleteImagePressed == nil ? .footnote : .body)
-            Spacer()
             if deleteImagePressed != nil {
+                VStack(alignment: .leading) {
+                    Text(date.stringDate)
+                        .font(deleteImagePressed == nil ? .footnote : .body)
+                        .multilineTextAlignment(.leading)
+                    Text(date.stringTime)
+                        .font(.system(size: 9))
+                        .opacity(0.6)
+                        .multilineTextAlignment(.leading)
+                }
+                .frame(alignment: .leading)
+                Spacer()
                 buttons
                     .frame(maxHeight: 50)
+            } else {
+                Text("\(date.day ?? 0)")
+                    .font(.system(size: 9))
             }
+            
         }
         .padding(.horizontal, 10)
+        .foregroundColor(.primaryText)
     }
     
     @ViewBuilder
@@ -65,12 +77,6 @@ struct CachedAsyncImage: View {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
-                .overlay {
-                    VStack {
-                        Spacer()
-                        dateView
-                    }
-                }
         } else {
             VStack {
                 dateView

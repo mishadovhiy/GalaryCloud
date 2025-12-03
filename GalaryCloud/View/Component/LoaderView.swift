@@ -15,7 +15,7 @@ struct LoaderView: View {
     
     init(isLoading: Bool,
          trim: CGFloat? = nil,
-         tint: Color,
+         tint: Color = .primaryText,
          lineWidth: CGFloat = 1
     ) {
         self.isLoading = isLoading

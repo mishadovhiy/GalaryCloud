@@ -15,11 +15,7 @@ class CachedAsyncImageViewModel: ObservableObject {
         self.presentationType = presentationType
     }
     @Published var image: UIImage?
-    @Published var date: String = "" {
-        didSet {
-            print(date, " tgerfwd ", Date(string: date))
-        }
-    }
+    @Published var date: String = ""
     @Published var isLoading: Bool = true
     @Published var messages: [MessageModel] = []
     @Published var urlTask: URLSessionDataTask?

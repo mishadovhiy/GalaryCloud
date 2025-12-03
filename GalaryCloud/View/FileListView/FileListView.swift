@@ -88,6 +88,14 @@ struct FileListView: View {
     var statusBarOverlay: some View {
         VStack {
 //            topStatusBarBar
+            if viewModel.fetchRequestLoading {
+                
+                HStack {
+                    Spacer()
+                    LoaderView(isLoading: viewModel.fetchRequestLoading)
+                        .frame(width: 10)
+                }
+            }
             Spacer()
             bottomStatusBar
             Spacer()
@@ -248,16 +256,6 @@ struct FileListView: View {
                 }
             })
         }
-        .overlay {
-            HStack {
-                Spacer()
-                if viewModel.fetchRequestLoading {
-                    Text("\(viewModel.totalFileRecords ?? 0)/\(viewModel.files.count)")
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                }
-            }
-        }
     }
     
     var uploadingIndicator: some View {
@@ -327,7 +325,21 @@ struct FileListView: View {
             )
             .frame(width: proxy.size.width, height: proxy.size.width)
             .clipped()
-
+            .overlay {
+                VStack(alignment: .leading) {
+                    Spacer()
+                    Text("\(DateComponents(string: item.date).day ?? 0)")
+                        .blendMode(.destinationOut)
+                        .multilineTextAlignment(.leading)
+                        .font(.system(size: 7, weight: .medium))
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 2)
+                        .modifier(CircularButtonModifier(maxHeight: nil))
+                        .compositingGroup()
+                    
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
         })
         .aspectRatio(1, contentMode: .fill)
         .cornerRadius(4)
