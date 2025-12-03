@@ -10,8 +10,14 @@ import StoreKit
 
 struct StoreKitView: View {
     
-    @StateObject private var storeKitService: StoreKitService = .init(needAllProducts: true)
+    @StateObject private var storeKitService: StoreKitService
     @EnvironmentObject private var db: DataBaseService
+    
+    init(db: DataBaseService) {
+        self._storeKitService = StateObject(wrappedValue: .init(needAllProducts: true, productIDs: db.db?.generalAppParameters?.storeKitSubscription.proGroup.compactMap({
+            $0.id
+        }) ?? []))
+    }
     
     var body: some View {
         TabView {

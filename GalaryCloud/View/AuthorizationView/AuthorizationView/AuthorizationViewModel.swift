@@ -13,7 +13,7 @@ class AuthorizationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var error: NSError?
     @Published var dissmiss: Bool = false
-
+    @Published var appeared = false
     @Published var textFields: [NavigationLinkType: AuthorizationFieldsView.TextFieldsInput] = [:] {
         didSet { isFastAuthorization = false }
     }
@@ -100,7 +100,7 @@ class AuthorizationViewModel: ObservableObject {
                 return
             }
         }
-
+        
         switch authorizationType {
         case .login:
             self.loginRequest()
@@ -120,10 +120,10 @@ class AuthorizationViewModel: ObservableObject {
             if let textFields = self.textFields[.credinails] {
                 if textFields[.password] != textFields[.password] {
                     self.error = .init(domain: "passwords not match", code: -2)
-
+                    
                 } else {
                     self.sendPasswordResetCode()
-
+                    
                 }
             }
             return
@@ -148,7 +148,7 @@ class AuthorizationViewModel: ObservableObject {
             if let textFields = textFields[.passwordResetCreatePassword] {
                 if textFields[.password] != textFields[.password] {
                     self.error = .init(domain: "passwords not match", code: -2)
-
+                    
                 } else {
                     self.apiChangePassword(textFields[.password]!)
                 }
@@ -193,7 +193,7 @@ class AuthorizationViewModel: ObservableObject {
             return
         }
         isLoading = true
-
+        
         Task {
             let task = await URLSession.shared.resumeTask(LoginRequest(username: email, password: password, fastLogin: self.isFastAuthorization ? 1 : 0))
             await MainActor.run {
@@ -217,23 +217,28 @@ class AuthorizationViewModel: ObservableObject {
     
     private func setSuccessLogin(username: String,
                                  password: String) {
-        KeychainService.saveToken(username, forKey: .userNameValue)
-        KeychainService.saveToken(password, forKey: .userPasswordValue)
-        self.dissmiss = true
-
+        withAnimation(.bouncy(duration: 0.8)) {
+            appeared = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800), execute: {
+            KeychainService.saveToken(username, forKey: .userNameValue)
+            KeychainService.saveToken(password, forKey: .userPasswordValue)
+            self.dissmiss = true
+        })
+        
     }
     
     private func createAccountRequest() {
         let tf = textFields[.credinails]
         guard let email = tf?[.email],
-                let password = tf?[.password] else {
+              let password = tf?[.password] else {
             self.error = .init(domain: "all fields are required", code: -1)
             return
         }
         isLoading = true
-
+        
         Task {
-            let task = await URLSession.shared.resumeTask(CreateUpdateAccountRequest(username: email, password: password))
+            let task = await URLSession.shared.resumeTask(CreateUpdateAccountRequest(canUpdate: 0, username: email, password: password))
             await MainActor.run {
                 isLoading = false
                 switch task {
@@ -262,10 +267,10 @@ class AuthorizationViewModel: ObservableObject {
                     if try request.get().success {
                         self.codeToEnter = "1111"
                         self.textFields.updateValue([.code:""], forKey: .passwordResetCode)
-
+                        
                     } else {
                         self.error = .init(domain: "error sending request", code: -10)
-
+                        
                     }
                 } catch {
                     self.error = error as NSError
@@ -337,7 +342,7 @@ extension AuthorizationViewModel {
                 true
             default: false
             }
-    }
+        }
         
         var mainList: Bool {
             switch self {

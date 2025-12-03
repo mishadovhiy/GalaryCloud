@@ -16,6 +16,7 @@ struct AppFeaturesView: View {
                 .font(.largeTitle)
                 .frame(height: isKeyboardFocused ? 0 : nil)
                 .clipped()
+                .foregroundColor(.primaryText)
             TabView {
                 ForEach(data, id: \.title) { data in
                     VStack(alignment: .center) {

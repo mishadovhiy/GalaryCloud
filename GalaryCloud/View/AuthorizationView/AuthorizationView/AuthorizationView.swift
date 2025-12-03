@@ -22,6 +22,9 @@ struct AuthorizationView: View {
                 }
                 AppFeaturesView(isKeyboardFocused: isKeyboardFocused)
                 contentView
+                    .frame(maxHeight: viewModel.appeared ? nil : 0)
+                    .clipped()
+                    .animation(.bouncy, value: viewModel.appeared)
             }
             .padding(.top, 10)
             .animation(.bouncy, value: viewModel.authorizationType)
@@ -31,6 +34,12 @@ struct AuthorizationView: View {
         }
         .onChange(of: viewModel.authorization.user ?? .init(username: "", password: "")) { newValue in
             viewModel.signInUserDidChange()
+        }
+        .onAppear {
+            print("fsdfaz")
+            withAnimation(.smooth(duration: 0.8)) {
+                viewModel.appeared = true
+            }
         }
     }
     
@@ -65,6 +74,7 @@ struct AuthorizationView: View {
     
     var nextButton: some View {
         Button {
+            self.isKeyboardFocused = false
             viewModel.nextButtonPressed()
         } label: {
             Text("Next")
@@ -74,7 +84,7 @@ struct AuthorizationView: View {
     }
     
     var rootView: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: viewModel.appeared ? 10 : 200) {
             ForEach(AuthorizationViewModel.AuthorizationType.allCases.filter(\.mainList), id: \.rawValue) { type in
                 Button {
                     withAnimation(.bouncy) {
@@ -104,6 +114,8 @@ struct AuthorizationView: View {
                     viewModel.authorization.perform(.apple)
                 }
                 .frame(maxWidth: 100)
+                .opacity(viewModel.appeared ? 1 : 0)
+                .animation(.smooth(duration: 1.2), value: viewModel.appeared)
                 HStack{}.frame(maxWidth: .infinity)
             }
             .frame(height: 40)

@@ -14,6 +14,7 @@ struct CreateUpdateAccountRequest: Requestable, Codable {
     
     static var method: URLSession.Method { .get }
     
+    var canUpdate: Int = 1
     let username: String
     let password: String
 }

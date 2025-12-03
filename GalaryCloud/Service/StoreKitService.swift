@@ -23,16 +23,11 @@ class StoreKitService: NSObject, ObservableObject {
     var activeSubscriptionGB: Int {
         (activeSubscription?.description.numbers ?? 15)
     }
-#warning("todo: load on app launch")
-    private let productIDs: [String] = [
-        "base",
-        "average",
-        "advanced",
-        "pro",
-        "vip"
-    ]
+
+    private let productIDs: [String]
     
-    init(needAllProducts: Bool = false) {
+    init(needAllProducts: Bool = false, productIDs: [String] = []) {
+        self.productIDs = productIDs
         super.init()
         if needAllProducts {
             Task {

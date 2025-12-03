@@ -14,23 +14,44 @@ struct GalaryCloudApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     // buy pro screen only dont store in enviroment and fecth active subscription detail when app did enter foregraund (for displaying total gb availible), and when selected photos
     @StateObject var dataBaseService: DataBaseService = .init()
+    @State var isLoading: Bool = true
     
     var body: some Scene {
         WindowGroup {
-//            if appData.db?.generalAppParameters == nil {
-//                ProgressView()
-//                    .progressViewStyle(.circular)
-//            } else {
-//                
-//            }
+            contentView
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.primaryContainer)
+            .animation(.smooth, value: isLoading)
+            .onAppear {
+                let _ = ServiceConfig()
+                fetchAppData()
+            }
+            
+        }
+    }
+    
+    @ViewBuilder
+    var contentView: some View {
+        if isLoading {
+            LoaderView(isLoading: true)
+                .frame(width: 30, height: 30)
+        } else {
             HomeView()
                 .modifier(RootAlertConfigModifier())
                 .environmentObject(dataBaseService)
-                .onAppear {
-                    let _ = ServiceConfig()
-                }
-
         }
     }
-        
+    
+    func fetchAppData() {
+        Task {
+            let result = await URLSession.shared.resumeTask(AppConfigRequest())
+            await MainActor.run {
+                if let response = try? result.get() {
+                    dataBaseService.db?.generalAppParameters = response
+                }
+                self.isLoading = false
+            }
+        }
+    }
+    
 }

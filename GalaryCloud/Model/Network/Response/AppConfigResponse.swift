@@ -7,10 +7,16 @@
 
 import Foundation
 
-struct AppParametersResponse: Codable {
+struct AppConfigResponse: Codable {
     let storeKitSubscription: StoreKitSubscription
     
     struct StoreKitSubscription: Codable {
-        let proGroup: [String]
+        let proGroup: [ProGroupModel]
+        
+        struct ProGroupModel: Codable {
+            let id: String
+            let imagePath: String
+            let best: Bool?
+        }
     }
 }

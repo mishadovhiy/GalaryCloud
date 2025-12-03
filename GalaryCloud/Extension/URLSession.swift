@@ -59,5 +59,6 @@ extension URLSession {
     enum Method: String {
         case post
         case get
+        case getJson
     }
 }

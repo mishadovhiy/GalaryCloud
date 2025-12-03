@@ -11,7 +11,7 @@ extension URLRequest {
     
     init(_ requestable: any Requestable) throws {
         let requestableType = type(of: requestable)
-        let urlString = Keys.serverURL.rawValue + requestableType.path + ".php"
+        let urlString = Keys.serverURL.rawValue + requestableType.path + (requestableType.method == .getJson ? ".json" : ".php")
         do {
             let suffix = try URLRequest.urlSuffix(requestable)
             

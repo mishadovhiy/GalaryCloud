@@ -133,7 +133,7 @@ struct SidebarView: View {
             Spacer()
             
             NavigationLink {
-                StoreKitView()
+                StoreKitView(db: db)
             } label: {
                 storageUsedView
             }

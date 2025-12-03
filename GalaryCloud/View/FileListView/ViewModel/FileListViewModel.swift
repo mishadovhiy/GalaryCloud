@@ -17,6 +17,7 @@ class FileListViewModel: ObservableObject {
         let dateString: String
         let files: [File]
     }
+    @Published var appeared = false
     @Published var galaryData: [FileSection] = []
     @Published var files: [File] = [] {
         didSet {

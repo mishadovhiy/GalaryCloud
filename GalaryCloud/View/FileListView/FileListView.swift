@@ -28,6 +28,9 @@ struct FileListView: View {
         }
         .onAppear {
             viewModel.fetchList()
+            withAnimation(.bouncy) {
+                viewModel.appeared = true
+            }
         }
         .sheet(isPresented: $viewModel.isPhotoLibraryPresenting) {
             photoPickerSheet
@@ -233,10 +236,11 @@ struct FileListView: View {
             .clipped()
             .animation(.bouncy, value: viewModel.isEditingList)
             Spacer().frame(width: 10)
-            HStack(spacing: 10) {
+            HStack(spacing: !viewModel.appeared ? 1000 : 10) {
                 editButton
                 editingButtons
             }
+            .animation(.bouncy, value: viewModel.appeared)
             .padding(.horizontal, 5)
             .padding(.trailing, viewModel.isEditingList ? 7 : 0)
             .padding(.vertical, 5)
@@ -279,7 +283,7 @@ struct FileListView: View {
                 VStack {
                     LazyVGrid( columns: [
                         .init(), .init(), .init(), .init()
-                    ], spacing: 8, pinnedViews: .sectionHeaders) {
+                    ], spacing: viewModel.appeared ? 8 : 120, pinnedViews: .sectionHeaders) {
                         ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
                             Section {
                                 ForEach(filesModel.files,id:\.originalURL) { file in
@@ -310,6 +314,7 @@ struct FileListView: View {
                         .frame(height: !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
                         .animation(.bouncy, value: viewModel.photoLibrarySelectedURLs.isEmpty)
                 }
+                .animation(.bouncy, value: viewModel.appeared)
             }
             .refreshable {
                 viewModel.fetchList(ignoreOffset: true, reload: true)

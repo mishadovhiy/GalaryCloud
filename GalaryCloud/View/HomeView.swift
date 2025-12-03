@@ -13,20 +13,27 @@ struct HomeView: View {
     @State var canPress = true
     @State var isLoggedIn: Bool = false
     @EnvironmentObject private var db: DataBaseService
-    
+    @State var appeared = false
     var body: some View {
         VStack {
-            if isLoggedIn {
-                FileListView()
-                    .modifier(
-                        SidebarModifier(
-                            targedBackgroundView: SidebarView(),
-                            disabled: false)
-                    )
+            if !appeared {
+                LoaderView(isLoading: true)
+                    .frame(width: 40, height: 40)
             } else {
-                AuthorizationView()
+                if isLoggedIn {
+                    FileListView()
+                        .modifier(
+                            SidebarModifier(
+                                targedBackgroundView: SidebarView(),
+                                disabled: false)
+                        )
+                } else {
+                    AuthorizationView()
+                }
             }
+            
         }
+        .animation(.bouncy, value: isLoggedIn)
         .onChange(of: db.checkIsUserLoggedIn) { newValue in
             if newValue {
                 db.checkIsUserLoggedIn = false
@@ -37,6 +44,7 @@ struct HomeView: View {
         .onAppear {
             db.checkIsUserLoggedIn = true
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.primaryContainer)
     }
     
@@ -45,7 +53,14 @@ struct HomeView: View {
             KeychainService.getToken(forKey: .userNameValue),
             KeychainService.getToken(forKey: .userPasswordValue)
         ]
-        self.isLoggedIn = !credinails.contains(where: {$0?.isEmpty ?? true})
+        withAnimation(.bouncy(duration: 0.9)) {
+            self.isLoggedIn = !credinails.contains(where: {$0?.isEmpty ?? true})
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900), execute: {
+            withAnimation(.bouncy) {
+                appeared = true
+            }
+        })
     }
     @State var id: UUID = .init()
     

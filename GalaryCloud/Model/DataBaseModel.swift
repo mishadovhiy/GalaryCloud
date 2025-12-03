@@ -8,6 +8,6 @@
 import Foundation
 
 struct DataBaseModel: Codable {
-    var generalAppParameters: AppParametersResponse? = nil
+    var generalAppParameters: AppConfigResponse? = nil
     var test: Bool = false
 }
