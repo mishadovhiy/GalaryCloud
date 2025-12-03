@@ -54,6 +54,13 @@ struct KeychainService {
     
     static var userHolder:[KeychainKey: String?] = [:]
     
+    static var username: String {
+        if let user = userHolder[.userNameValue] {
+            return user ?? ""
+        }
+        return ""
+    }
+    
     static private func testData(key: KeychainKey) -> String {
         switch key {
         default: ""

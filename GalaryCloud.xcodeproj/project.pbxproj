@@ -41,6 +41,7 @@
 		8250E2CA2EDFC7E600A81E91 /* AppearenceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */; };
 		8250E2CC2EDFDD2C00A81E91 /* AppConfigRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CB2EDFDD2C00A81E91 /* AppConfigRequest.swift */; };
 		8250E2CE2EDFEB3E00A81E91 /* ErrorViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CD2EDFEB3E00A81E91 /* ErrorViewModifier.swift */; };
+		8250E2D02EDFF64800A81E91 /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CF2EDFF64800A81E91 /* NoDataView.swift */; };
 		8255118D2ED9D59900C4094F /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255118C2ED9D59900C4094F /* SidebarView.swift */; };
 		825511A32EDB356400C4094F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825511A22EDB356400C4094F /* BlurView.swift */; };
 		8262A5802ED7F457005188F2 /* SignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A57F2ED7F457005188F2 /* SignInService.swift */; };
@@ -164,6 +165,7 @@
 		8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearenceConfig.swift; sourceTree = "<group>"; };
 		8250E2CB2EDFDD2C00A81E91 /* AppConfigRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigRequest.swift; sourceTree = "<group>"; };
 		8250E2CD2EDFEB3E00A81E91 /* ErrorViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModifier.swift; sourceTree = "<group>"; };
+		8250E2CF2EDFF64800A81E91 /* NoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
 		8255118C2ED9D59900C4094F /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		825511A22EDB356400C4094F /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8262A57F2ED7F457005188F2 /* SignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInService.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 			children = (
 				827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */,
 				82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */,
+				8250E2CF2EDFF64800A81E91 /* NoDataView.swift */,
 				8230C9AC2EDF130E00CF0B5F /* ShareView.swift */,
 				82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */,
 			);
@@ -804,6 +807,7 @@
 				826E6FDF2ED93B6C00DE98BB /* RootAlertConfigModifier.swift in Sources */,
 				8230C9AB2EDEFC9800CF0B5F /* CodeRequest.swift in Sources */,
 				8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */,
+				8250E2D02EDFF64800A81E91 /* NoDataView.swift in Sources */,
 				82D7F50E2ECA841A00A44A98 /* BaseResponse.swift in Sources */,
 				8230C9AD2EDF130E00CF0B5F /* ShareView.swift in Sources */,
 				823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */,

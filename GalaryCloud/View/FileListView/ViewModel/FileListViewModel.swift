@@ -81,7 +81,7 @@ class FileListViewModel: ObservableObject {
     
     func fetchDirectoruSizeRequest(completion:(()->())? = nil) {
         Task {
-            let response = await URLSession.shared.resumeTask(DirectorySizeRequest(path: "hi@mishadovhiy.com"))
+            let response = await URLSession.shared.resumeTask(DirectorySizeRequest(path: KeychainService.username))
             await MainActor.run {
                 switch response {
                 case .success(let response):
@@ -111,7 +111,7 @@ class FileListViewModel: ObservableObject {
         fetchRequestLoading = true
         fetchError = nil
         Task(priority: .userInitiated) {
-            let response = await URLSession.shared.resumeTask(FetchFilesRequest(offset: requestOffset, username: "hi@mishadovhiy.com"))
+            let response = await URLSession.shared.resumeTask(FetchFilesRequest(offset: requestOffset, username: KeychainService.username))
             
             await MainActor.run {
                 self.fetchRequestLoading = false
@@ -193,7 +193,7 @@ class FileListViewModel: ObservableObject {
         let date = imageData.imageDate
         let apiData = CreateFileRequest.Image(url: url.lastPathComponent, date: date ?? Date().string, data: imageData.base64EncodedString())
         Task(priority: .userInitiated) {
-            let response = await URLSession.shared.resumeTask(CreateFileRequest(username: "hi@mishadovhiy.com", originalURL: [apiData]))
+            let response = await URLSession.shared.resumeTask(CreateFileRequest(username: KeychainService.username, originalURL: [apiData]))
             
             await MainActor.run {
                 switch response {
@@ -221,8 +221,8 @@ class FileListViewModel: ObservableObject {
         _ filename: String, completed: ((_ ok: Bool)->())? = nil) {
 //        isLoading = true
         Task {
-            let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: "hi@mishadovhiy.com", filename: filename))
-            filemamager.delete(path: "hi@mishadovhiy.com" + filename)
+            let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: KeychainService.username, filename: filename))
+            filemamager.delete(path: KeychainService.username + filename)
             await MainActor.run {
 //                isLoading = false
                 let errorMessage: String?
@@ -374,7 +374,7 @@ class FileListViewModel: ObservableObject {
     func loadAPIImage(filename: String, completion:@escaping(_ image: Data?)->()) {
         Task {
             WasabiService.fetchURL(
-                username: "hi@mishadovhiy.com",
+                username: KeychainService.username,
                 filename: filename
             ) { url in
                 guard let url else {

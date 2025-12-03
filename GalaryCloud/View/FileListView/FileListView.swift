@@ -279,6 +279,12 @@ struct FileListView: View {
         VStack {
             ScrollView(.vertical) {
                 VStack {
+                    if !viewModel.fetchRequestLoading && viewModel.files.isEmpty {
+                        NoDataView(text: "Start uploading photos", image: .emptyGalary)
+                            .padding(.top, 150)
+                            .animation(.bouncy, value: viewModel.files.isEmpty)
+                            .transition(.move(edge: .bottom))
+                    }
                     LazyVGrid( columns: [
                         .init(), .init(), .init(), .init()
                     ], spacing: viewModel.appeared ? 8 : 120, pinnedViews: .sectionHeaders) {
@@ -325,7 +331,7 @@ struct FileListView: View {
     private func galaryItem(_ item: FileListViewModel.File) -> some View {
         GeometryReader(content: { proxy in
             CachedAsyncImage(
-                presentationType: .galary(.init(username: "hi@mishadovhiy.com",
+                presentationType: .galary(.init(username: KeychainService.username,
                               fileName: item.originalURL,
                                                 date: item.date))
             )

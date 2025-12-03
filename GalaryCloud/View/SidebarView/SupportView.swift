@@ -76,7 +76,7 @@ struct SupportView: View {
         })
         .background(SidebarView.Constants.background)
         .onAppear {
-            supportRequest.title = "hi@mishadovhiy.com"
+            supportRequest.title = KeychainService.username
         }
     }
     
