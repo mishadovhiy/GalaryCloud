@@ -17,13 +17,16 @@ struct LoadingButtonModifier: ViewModifier {
         content
             .frame(maxWidth: isLoading ? 44 : nil, maxHeight: isHidden ? 0 : (type == .small ? nil : 44))
             .overlay(content: {
-                LoaderView(isLoading: isLoading, tint: .primaryText)
+                if isLoading {
+                    LoaderView(isLoading: isLoading, tint: .primaryText)
+                }
             })
             .background(.blue)
             .font(font)
             .tint(isLoading ? .blue : .white)
             .cornerRadius(9)
             .animation(.bouncy, value: isLoading)
+            .clipped()
             .shadow(radius: 8)
     }
     

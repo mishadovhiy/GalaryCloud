@@ -31,6 +31,7 @@ struct UploadingProgressView: View {
                     .lineLimit(error == nil ? 1 : 0)
                     .multilineTextAlignment(.leading)
                     .frame(alignment: .leading)
+                    .font(.footnote)
                 if error == nil {
                     Text(currentItem.lastPathComponent)
                         .foregroundColor(.secondaryContainer.opacity(0.4))

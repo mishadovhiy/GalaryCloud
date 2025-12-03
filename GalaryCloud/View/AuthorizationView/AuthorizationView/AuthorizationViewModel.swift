@@ -11,11 +11,22 @@ import Combine
 class AuthorizationViewModel: ObservableObject {
     
     @Published var isLoading = false
-    @Published var error: NSError?
+    @Published var error: NSError? {
+        didSet {
+            withAnimation {
+                isLoading = false
+            }
+        }
+    }
     @Published var dissmiss: Bool = false
     @Published var appeared = false
     @Published var textFields: [NavigationLinkType: AuthorizationFieldsView.TextFieldsInput] = [:] {
-        didSet { isFastAuthorization = false }
+        didSet {
+            isFastAuthorization = false
+            withAnimation {
+                self.error = nil
+            }
+        }
     }
     private var isFastAuthorization: Bool = false
     @Published var authorizationType: AuthorizationType? {
@@ -83,12 +94,23 @@ class AuthorizationViewModel: ObservableObject {
         }
     }
     
+    func textFieldsViewPrompt(_ key: NavigationLinkType) -> String? {
+        switch key {
+        case .createAccountCode, .passwordResetCode:
+            let email = textFields[.credinails]?[.email]
+            return "Enter verification code we have sent you on your email: \(email ?? "")"
+        default: return nil
+        }
+    }
+    
     var needNextButton: Bool {
         !textFields.isEmpty
     }
     
     func nextButtonPressed() {
-        self.error = nil
+        withAnimation {
+            self.error = nil
+        }
         guard let authorizationType else {
             return
         }
@@ -117,17 +139,19 @@ class AuthorizationViewModel: ObservableObject {
         guard let enteredCode = self.textFields[.createAccountCode]?.first(where: {$0.key == .code})?.value,
               let codeToEnter
         else {
+            print("no account code sent")
             if let textFields = self.textFields[.credinails] {
-                if textFields[.password] != textFields[.password] {
+                if textFields[.password] != textFields[.repeatedPassword] {
                     self.error = .init(domain: "passwords not match", code: -2)
                     
                 } else {
-                    self.sendPasswordResetCode()
+                    self.sendPasswordResetCode(type: .createAccountCode)
                     
                 }
             }
             return
         }
+        print("checking account code")
         if enteredCode != codeToEnter {
             self.error = .init(domain: "you have entered wrong code", code: -2)
         } else {
@@ -232,7 +256,9 @@ class AuthorizationViewModel: ObservableObject {
         let tf = textFields[.credinails]
         guard let email = tf?[.email],
               let password = tf?[.password] else {
-            self.error = .init(domain: "all fields are required", code: -1)
+            withAnimation {
+                self.error = .init(domain: "all fields are required", code: -1)
+            }
             return
         }
         isLoading = true
@@ -246,16 +272,20 @@ class AuthorizationViewModel: ObservableObject {
                     if response.success {
                         self.setSuccessLogin(username: email, password: password)
                     } else {
-                        self.error = .init(domain: "Create account error", code: -5)
+                        withAnimation {
+                            self.error = .init(domain: "Create account error", code: -5)
+                        }
                     }
                 case .failure(let error):
-                    self.error = error as NSError
+                    withAnimation {
+                        self.error = error as NSError
+                    }
                 }
             }
         }
     }
     
-    private func sendPasswordResetCode() {
+    private func sendPasswordResetCode(type: NavigationLinkType = .passwordResetCode) {
         guard let email = self.textFields[.credinails]?[.email] else {
             fatalError("error getting email")
         }
@@ -266,7 +296,7 @@ class AuthorizationViewModel: ObservableObject {
                 do {
                     if try request.get().success {
                         self.codeToEnter = "1111"
-                        self.textFields.updateValue([.code:""], forKey: .passwordResetCode)
+                        self.textFields.updateValue([.code:""], forKey: type)
                         
                     } else {
                         self.error = .init(domain: "error sending request", code: -10)

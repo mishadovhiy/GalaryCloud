@@ -13,12 +13,15 @@ struct AuthorizationView: View {
     @StateObject var viewModel: AuthorizationViewModel = .init()
     @EnvironmentObject private var db: DataBaseService
     @FocusState var isKeyboardFocused: Bool
-
+    
     var body: some View {
         ZStack {
             VStack {
                 if let error = viewModel.error {
                     Text(error.localizedDescription)
+                        .modifier(ErrorViewModifier())
+                        .animation(.bouncy, value: viewModel.error != nil)
+                        .transition(.move(edge: .top))
                 }
                 AppFeaturesView(isKeyboardFocused: isKeyboardFocused)
                 contentView
@@ -48,9 +51,18 @@ struct AuthorizationView: View {
             NavigationStack(path: viewModel.navigationPath) {
                 rootView
                     .navigationDestination(for: AuthorizationViewModel.NavigationLinkType.self) { key in
-                        AuthorizationFieldsView(textFields: viewModel.navigationValue(key))
-                            .navigationTitle(key.rawValue)
-                            .focused($isKeyboardFocused)
+                        AuthorizationFieldsView(
+                            prompt: viewModel.textFieldsViewPrompt(key),
+                            textFields: viewModel.navigationValue(key), nextButtonPressed: {
+                            self.viewModel.nextButtonPressed()
+                        })
+                        .navigationTitle(key.rawValue)
+                        .focused($isKeyboardFocused)
+                        .onAppear {
+                            withAnimation {
+                                viewModel.isLoading = false
+                            }
+                        }
                     }
                     .background {
                         ClearBackgroundView()
@@ -79,8 +91,11 @@ struct AuthorizationView: View {
         } label: {
             Text("Next")
         }
+        .frame(maxWidth: viewModel.isLoading ? nil : .infinity)
         .modifier(LoadingButtonModifier(isLoading: viewModel.isLoading, isHidden: !viewModel.needNextButton))
+        .animation(.bouncy, value: viewModel.isLoading)
         .clipped()
+        .shadow(color: .blue, radius: 10)
     }
     
     var rootView: some View {
@@ -91,7 +106,8 @@ struct AuthorizationView: View {
                         self.viewModel.authorizationType = type
                     }
                 } label: {
-                    Text(type.rawValue.capitalized)
+                    Text(type.rawValue.addSpaceBeforeCapitalizedLetters.capitalized)
+                        .font(.system(size: 13, weight: .medium))
                 }
                 .tint(type.primaryStyle ? .primaryText : .black)
                 .padding(.vertical, 15)
@@ -100,8 +116,8 @@ struct AuthorizationView: View {
                 .cornerRadius(12)
             }
             Spacer()
-            HStack {
-                HStack {
+            HStack(alignment: .bottom) {
+                HStack(alignment: .bottom) {
                     Button("Reset Password") {
                         self.viewModel.authorizationType = .passwordReset
                     }
@@ -119,6 +135,13 @@ struct AuthorizationView: View {
                 HStack{}.frame(maxWidth: .infinity)
             }
             .frame(height: 40)
+        }
+        .onAppear {
+            withAnimation {
+                self.viewModel.textFields.removeAll()
+                self.viewModel.isLoading = false
+                self.viewModel.error = nil
+            }
         }
     }
 }
