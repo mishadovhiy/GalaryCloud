@@ -25,6 +25,7 @@ struct GalaryCloudApp: App {
             .onAppear {
                 let _ = ServiceConfig()
                 fetchAppData()
+                dataBaseService.storeKitService.listenForTransactions()
             }
             
         }

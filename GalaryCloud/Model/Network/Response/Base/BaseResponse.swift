@@ -8,5 +8,6 @@
 import Foundation
 
 struct BaseResponse: Codable {
+    /// always true
     let success: Bool
 }

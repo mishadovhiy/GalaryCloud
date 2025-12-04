@@ -93,12 +93,9 @@ struct SupportView: View {
             await MainActor.run {
                 isLoading = false
                 do {
-                    if try request.get().success {
-                        self.dismiss()
-                        db.messages.append(.init(title: "Support request has been send Successfully"))
-                    } else {
-                        self.error = .init(domain: "Error sending request", code: -5)
-                    }
+                    let _ = try request.get().success
+                    self.dismiss()
+                    db.messages.append(.init(title: "Support request has been send Successfully"))
                 } catch {
                     self.error = error as NSError
                 }

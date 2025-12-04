@@ -53,6 +53,10 @@ struct StoreKitView: View {
                 .tint(.primaryText)
                 .font(.footnote)
             }
+        }.onAppear {
+            Task {
+                await db.storeKitService.fetchActiveProducts(force: true)
+            }
         }
     }
 

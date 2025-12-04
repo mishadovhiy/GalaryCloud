@@ -11,11 +11,13 @@ struct MessageStaticView: View {
     
     let message: MessageModel
     @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         VStack {
             Text(message.title)
                 .font(.title)
                 .foregroundColor(.primaryText)
+                .minimumScaleFactor(0.3)
             Spacer().frame(height: 15)
             if message.buttons.isEmpty {
                 Button("ok") {

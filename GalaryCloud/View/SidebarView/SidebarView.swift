@@ -13,10 +13,17 @@ struct SidebarView: View {
     @State var sharePresenting: Bool = false
     private let filemamager = FileManagerService()
     @State var directorySize: [FileManagerService.URLType: Int64] = [:]
+    @State var isLoading: Bool = false
 
     var body: some View {
         NavigationView(content: {
             rootView
+        })
+        .overlay(content: {
+            if isLoading {
+                LoaderView(isLoading: true)
+                    .frame(width: 30, height: 30)
+            }
         })
         .background {
             ClearBackgroundView()
@@ -45,12 +52,6 @@ struct SidebarView: View {
         .background(Constants.background)
         .onAppear {
             calculateDirectorySizes()
-        }
-    }
-    
-    func calculateDirectorySizes() {
-        FileManagerService.URLType.allCases.forEach { type in
-            self.directorySize.updateValue(filemamager.directorySize(type), forKey: type)
         }
     }
     
@@ -107,13 +108,37 @@ struct SidebarView: View {
         .background(Constants.background)
     }
     
+    var accountView: some View {
+        VStack(content: {
+            Text(KeychainService.username)
+                .foregroundColor(.primaryText)
+            Spacer()
+            HStack {
+                NavigationLink("Logout") {
+                    logoutView
+                        .navigationTitle("Logout")
+                }
+                .modifier(LinkButtonModifier(type: .distructive))
+                NavigationLink("Delete Account") {
+                    deleteAccountView
+                        .navigationTitle("Delete Account")
+                }
+                .modifier(LinkButtonModifier(type: .distructive))
+                
+            }
+        })
+        .padding(10)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(Constants.background)
+    }
+    
     var rootView: some View {
         VStack(alignment: .leading, spacing: 10) {
-            NavigationLink("Logout") {
-                logoutView
-                    .navigationTitle("Logout")
+            NavigationLink("Account") {
+                accountView
+                    .navigationTitle("Account")
             }
-            .modifier(LinkButtonModifier(type: .distructive))
+            .modifier(LinkButtonModifier())
             
             HStack(spacing: 10) {
                 NavigationLink("Help & Support") {
@@ -153,16 +178,28 @@ struct SidebarView: View {
     }
     
     var logoutView: some View {
+        confirmationMessageView(task: "Logout") {
+            self.logoutPressed()
+        }
+    }
+
+    var deleteAccountView: some View {
+        confirmationMessageView(task: "Delete Account", title: "Are you sure you whant to delete your account?\nAll your data would be lost forewer") {
+            self.deleteAccountPressed()
+        }
+    }
+    
+    func confirmationMessageView(
+        task: String,
+        title: String = "Are you sure?",
+        didPress: @escaping()->()
+    ) -> some View {
         MessageStaticView(
-            message: .init(header:"Logout", title: "Are you sure?",
+            message: .init(header:task, title: title,
                            buttons: [
                             .init(title: "Cancel"),
-                            .init(title: "Logout", type: .distructive, didPress: {
-                                FileManagerService.URLType.allCases.forEach {
-                                    filemamager.clear(url: $0)
-                                }
-                                let _ = KeychainService.saveToken("", forKey: .userPasswordValue)
-                                db.checkIsUserLoggedIn = true
+                            .init(title: task, type: .distructive, didPress: {
+                                didPress()
                             })
                            ])
         )
@@ -209,6 +246,39 @@ struct SidebarView: View {
         })
         .background(.secondaryContainer)
         .cornerRadius(16)
+    }
+}
+
+extension SidebarView {
+    func calculateDirectorySizes() {
+        FileManagerService.URLType.allCases.forEach { type in
+            self.directorySize.updateValue(filemamager.directorySize(type), forKey: type)
+        }
+    }
+    
+    func logoutPressed() {
+        FileManagerService.URLType.allCases.forEach {
+            filemamager.clear(url: $0)
+        }
+        let _ = KeychainService.saveToken("", forKey: .userPasswordValue)
+        db.checkIsUserLoggedIn = true
+    }
+    
+    func deleteAccountPressed() {
+        isLoading = true
+        Task {
+            let result = await URLSession.shared.resumeTask(DeleteAccountRequest(username: KeychainService.username))
+            await MainActor.run {
+                self.isLoading = false
+                switch result {
+                case .success(let success):
+                    self.db.messages.append(.init(title: "Your account and all data has been deleted Successfully"))
+                    self.logoutPressed()
+                case .failure(let failure):
+                    self.db.messages.append(.init(header: "Error", title: failure.unparcedDescription ?? "Error deleting request"))
+                }
+            }
+        }
     }
 }
 

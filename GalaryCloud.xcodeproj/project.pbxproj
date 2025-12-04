@@ -47,6 +47,7 @@
 		8250E2EA2EE0076900A81E91 /* NSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2E92EE0076900A81E91 /* NSError.swift */; };
 		8255118D2ED9D59900C4094F /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255118C2ED9D59900C4094F /* SidebarView.swift */; };
 		825511A32EDB356400C4094F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825511A22EDB356400C4094F /* BlurView.swift */; };
+		8261FB722EE1B85F00045643 /* DeleteAccountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261FB712EE1B85F00045643 /* DeleteAccountRequest.swift */; };
 		8262A5802ED7F457005188F2 /* SignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A57F2ED7F457005188F2 /* SignInService.swift */; };
 		8262A5852ED7F4A1005188F2 /* AppleSignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A5842ED7F4A1005188F2 /* AppleSignInService.swift */; };
 		8262A59B2ED7F87D005188F2 /* ClearBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A59A2ED7F87D005188F2 /* ClearBackgroundView.swift */; };
@@ -174,6 +175,7 @@
 		8250E2E92EE0076900A81E91 /* NSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSError.swift; sourceTree = "<group>"; };
 		8255118C2ED9D59900C4094F /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		825511A22EDB356400C4094F /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		8261FB712EE1B85F00045643 /* DeleteAccountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountRequest.swift; sourceTree = "<group>"; };
 		8262A57F2ED7F457005188F2 /* SignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInService.swift; sourceTree = "<group>"; };
 		8262A5842ED7F4A1005188F2 /* AppleSignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInService.swift; sourceTree = "<group>"; };
 		8262A59A2ED7F87D005188F2 /* ClearBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearBackgroundView.swift; sourceTree = "<group>"; };
@@ -594,6 +596,7 @@
 				8230C9A82EDEFBF800CF0B5F /* SupportRequest.swift */,
 				8230C9AA2EDEFC9800CF0B5F /* CodeRequest.swift */,
 				823DC2542ED12CD4005367A2 /* DeleteFileRequest.swift */,
+				8261FB712EE1B85F00045643 /* DeleteAccountRequest.swift */,
 				827162502ECBA8C000E52013 /* FetchImageRequest.swift */,
 				82E06A202ECE503D0003474F /* DirectorySizeRequest.swift */,
 			);
@@ -834,6 +837,7 @@
 				82909A862ED5EA5500BF9548 /* TrashIconView.swift in Sources */,
 				82909A8C2ED6A16300BF9548 /* LoadingButtonModifier.swift in Sources */,
 				82909A882ED658E700BF9548 /* TrashInsiderComponentShape.swift in Sources */,
+				8261FB722EE1B85F00045643 /* DeleteAccountRequest.swift in Sources */,
 				82E06A212ECE503D0003474F /* DirectorySizeRequest.swift in Sources */,
 				827162052ECACBFC00E52013 /* UIWindow.swift in Sources */,
 				82D7F5142ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift in Sources */,

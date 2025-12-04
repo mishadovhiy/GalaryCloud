@@ -196,14 +196,12 @@ class FileListViewModel: ObservableObject {
                 switch response {
                     
                 case .success(let result):
-                    if result.success {
-                        self.photoLibrarySelectedURLs.removeFirst()
-                        if photoLibrarySelectedURLs.isEmpty {
-                            self.didCompletedUploadingFiles()
-                        } else {
-                            self.files.insert(.init(originalURL: url.lastPathComponent, date: date ?? Date().string), at: 0)
-                            self.upload()
-                        }
+                    self.photoLibrarySelectedURLs.removeFirst()
+                    if photoLibrarySelectedURLs.isEmpty {
+                        self.didCompletedUploadingFiles()
+                    } else {
+                        self.files.insert(.init(originalURL: url.lastPathComponent, date: date ?? Date().string), at: 0)
+                        self.upload()
                     }
                     
                 case .failure(let error):

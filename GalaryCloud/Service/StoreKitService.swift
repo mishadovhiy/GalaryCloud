@@ -23,7 +23,7 @@ class StoreKitService: NSObject, ObservableObject {
     var activeSubscriptionGB: Int {
         (activeSubscription?.description.numbers ?? 15)
     }
-
+    
     private let productIDs: [String]
     
     init(needAllProducts: Bool = false, productIDs: [String] = []) {
@@ -55,13 +55,13 @@ class StoreKitService: NSObject, ObservableObject {
             return []
         }
     }
-        
+    
     private var subscribtionChackedDate: Date?
     
     func fetchActiveProducts(force: Bool = false) async {
         print(Date(), " yhrtgrfsd")
         if !force,
-            let subscribtionChackedDate,
+           let subscribtionChackedDate,
            Calendar.current.isDateInToday(subscribtionChackedDate) {
             return
         }
@@ -99,7 +99,7 @@ class StoreKitService: NSObject, ObservableObject {
                         self.activeProducts = products
                     }
                     print(Date(), " yhrtgrfsdfs")
-
+                    
                     return
                 }
             }
@@ -116,19 +116,25 @@ class StoreKitService: NSObject, ObservableObject {
             let task = try await product.purchase()
             switch task {
             case .success(let verificationResult):
+                print("successs")
                 let transition = try verificationResult.payloadValue
                 await transition.finish()
                 return .success(true)
             case .userCancelled:
+                print("usercanceled")
+                
                 return .failure(NSError(domain: "canceled", code: -1))
             case .pending:
+                print("pending")
                 return .success(false)
                 
             @unknown default:
+                print("default")
                 return .failure(NSError(domain: "default unknown status", code: -2))
             }
         }
         catch {
+            print(error)
             return .failure(error)
         }
     }
@@ -137,6 +143,23 @@ class StoreKitService: NSObject, ObservableObject {
         if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
         {
             SKStoreReviewController.requestReview(in: windowScene)
+        }
+    }
+    
+    func listenForTransactions() {
+        Task {
+            for await result in Transaction.updates {
+                do {
+                    switch result {
+                    case .verified(let transaction):
+                        await transaction.finish()
+                    case .unverified(let transaction, let error):
+                        print(error, #file, #line)
+                    }
+                } catch {
+                    print("Transaction failed verification")
+                }
+            }
         }
     }
 }

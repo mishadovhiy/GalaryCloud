@@ -193,11 +193,8 @@ class AuthorizationViewModel: ObservableObject {
         Task {
             let response = await URLSession.shared.resumeTask(CreateUpdateAccountRequest(username: email, password: password))
             do {
-                if try response.get().success {
-                    self.setSuccessLogin(username: email, password: password)
-                } else {
-                    self.error = .init(domain: "error updating password", code: -20)
-                }
+                let _ = try response.get().success
+                self.setSuccessLogin(username: email, password: password)
             } catch {
                 self.error = error as NSError
             }
@@ -227,11 +224,7 @@ class AuthorizationViewModel: ObservableObject {
                     if (self.textFields[.credinails]?[.email] ?? "") == "" {
                         self.textFields[.credinails]?.updateValue(response.user ?? email, forKey: .email)
                     }
-                    if response.success {
-                        self.setSuccessLogin(username: response.user ?? email, password: password)
-                    } else {
-                        self.error = .init(domain: "Login error", code: -5)
-                    }
+                    self.setSuccessLogin(username: response.user ?? email, password: password)
                 case .failure(let error):
                     self.error = error as NSError
                 }
@@ -269,13 +262,7 @@ class AuthorizationViewModel: ObservableObject {
                 isLoading = false
                 switch task {
                 case .success(let response):
-                    if response.success {
-                        self.setSuccessLogin(username: email, password: password)
-                    } else {
-                        withAnimation {
-                            self.error = .init(domain: "Create account error", code: -5)
-                        }
-                    }
+                    self.setSuccessLogin(username: email, password: password)
                 case .failure(let error):
                     withAnimation {
                         self.error = error as NSError
@@ -295,14 +282,9 @@ class AuthorizationViewModel: ObservableObject {
             let request = await URLSession.shared.resumeTask(CodeRequest(emailTo: email, resetCode: code))
             await MainActor.run {
                 do {
-                    if try request.get().success {
-                        self.codeToEnter = code
-                        self.textFields.updateValue([.code:""], forKey: type)
-                        
-                    } else {
-                        self.error = .init(domain: "error sending request", code: -10)
-                        
-                    }
+                    let _ = try request.get().success
+                    self.codeToEnter = code
+                    self.textFields.updateValue([.code:""], forKey: type)
                 } catch {
                     self.error = error as NSError
                 }
