@@ -7,8 +7,10 @@
 
 import SwiftUI
 
-struct PrivacyPolicyView: View {
+// presents specific block of html page
+struct HTMLBlockPresenterView: View {
     @State var privacyPolicyContent: String?
+    let urlType: URLType
     
     var body: some View {
         WebView(html: privacyPolicyContent ?? "")
@@ -18,7 +20,7 @@ struct PrivacyPolicyView: View {
             .background(SidebarView.Constants.background)
             .onAppear {
                 Task {
-                    let request = URLSession.shared.dataTask(with: .init(url: .init(string: Keys.privacyURL.rawValue)!)) { data, _, _ in
+                    let request = URLSession.shared.dataTask(with: .init(url: .init(string: Keys.directWebsiteURL.rawValue)!)) { data, _, _ in
                         let string = String(data: data ?? .init(), encoding: .utf8) ?? ""
                         let result = unparcePrivacyPolicy(string)
                         DispatchQueue.main.async {
@@ -43,13 +45,38 @@ struct PrivacyPolicyView: View {
         h1, h2, p{margin-left:10px;margin-right:10px;}
         </style>
         <body>
-        """ + (response.extractSubstring(key: "!--Privacy--", key2: "!--/Privacy--") ?? "") + """
+        """ + (response.extractSubstring(key: "!--\(urlType.tag)--", key2: "!--/\(urlType.tag)--") ?? "") + """
             </body>
             </html>
             """
     }
 }
 
-#Preview {
-    PrivacyPolicyView()
+extension HTMLBlockPresenterView {
+    enum URLType {
+        case privacyPolicy
+        case termsOfUse
+        case custom(_ url: String, _ keys: String)
+        
+        var url: String {
+            switch self {
+            case .privacyPolicy, .termsOfUse:
+                Keys.directWebsiteURL.rawValue
+            case .custom(let url, _):
+                url
+            }
+        }
+        
+        var tag: String {
+            switch self {
+            case .privacyPolicy:
+                    "Privacy"
+            case .termsOfUse:
+                    "TermsOfUse"
+            case .custom(_, let keys):
+                keys
+            }
+        }
+    }
+
 }

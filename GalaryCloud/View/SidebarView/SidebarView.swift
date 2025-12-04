@@ -62,10 +62,16 @@ struct SidebarView: View {
             }
             .modifier(LinkButtonModifier())
             
-            NavigationLink("Privacy policy") {
-                PrivacyPolicyView()
+            HStack {
+                NavigationLink("Privacy policy") {
+                    HTMLBlockPresenterView(urlType: .privacyPolicy)
+                }
+                .modifier(LinkButtonModifier())
+                NavigationLink("Terms of use") {
+                    HTMLBlockPresenterView(urlType: .termsOfUse)
+                }
+                .modifier(LinkButtonModifier())
             }
-            .modifier(LinkButtonModifier())
             Spacer()
         }
         .padding(10)
@@ -178,7 +184,7 @@ struct SidebarView: View {
                         .font(.subheadline)
                         .multilineTextAlignment(.leading)
                         .tint(.primaryText)
-                    Text("MB")
+                    Text("GB")
                         .font(.subheadline)
                         .multilineTextAlignment(.leading)
                         .tint(.primaryText)

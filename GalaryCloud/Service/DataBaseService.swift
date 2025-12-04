@@ -18,6 +18,8 @@ class DataBaseService: ObservableObject {
     @Published var storageUsed: Int = 0
     @Published var totalFileCount: Int = 0
     @Published var storeKitService: StoreKitService = .init(needAllProducts: false)
+    // for updating height of sidebar
+    @Published var isStoreKitPresenting: Bool = false
     @Published var forcePresentUpgradeToPro: Bool = false
     @Published var db: DataBaseModel? {
         didSet {

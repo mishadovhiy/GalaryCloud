@@ -15,7 +15,7 @@ struct LoadingButtonModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .frame(maxWidth: isLoading ? 44 : nil, maxHeight: isHidden ? 0 : (type == .small ? nil : 44))
+            .frame(maxWidth: isLoading ? 44 : nil, maxHeight: isHidden ? 0 : (type != .default ? nil : 44))
             .overlay(content: {
                 if isLoading {
                     LoaderView(isLoading: isLoading, tint: .primaryText, lineWidth: 3)
@@ -38,11 +38,14 @@ struct LoadingButtonModifier: ViewModifier {
                 .title
         case .small:
                 .system(size: 9)
+        case .middle:
+                .system(size: 12, weight: .medium)
         }
     }
     
     enum `Type` {
         case `default`
         case small
+        case middle
     }
 }
