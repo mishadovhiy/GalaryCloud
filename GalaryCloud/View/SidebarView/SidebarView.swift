@@ -32,7 +32,7 @@ struct SidebarView: View {
             Text("Select directory, you would like to clear:")
                 .foregroundColor(.primaryText)
             ForEach(FileManagerService.URLType.allCases, id: \.url.absoluteString) { type in
-                Button("\(type.rawValue.capitalized) \(directorySize[type] ?? 0) MB") {
+                Button("\(type.rawValue.capitalized) \(directorySize[type]?.megabytesFromBytes ?? 0) MB") {
                     filemamager.clear(url: type)
                     calculateDirectorySizes()
                 }
@@ -180,11 +180,7 @@ struct SidebarView: View {
                     .opacity(0.4)
                     .padding(.bottom, 1)
                 HStack(alignment: .firstTextBaseline, spacing: 3) {
-                    Text((db.storageUsed.megabytes / 1024).formated + " / " + "\(subscriptionGB)")
-                        .font(.subheadline)
-                        .multilineTextAlignment(.leading)
-                        .tint(.primaryText)
-                    Text("GB")
+                    Text((db.storageUsed.megabytesFromBytes.gbFromMegabytes.mbOrTbTitle) + " / " + "\(subscriptionGB.mbOrTbTitle)")
                         .font(.subheadline)
                         .multilineTextAlignment(.leading)
                         .tint(.primaryText)
@@ -206,7 +202,7 @@ struct SidebarView: View {
         .overlay(content: {
             VStack {
                 Spacer()
-                ProgressView(value: db.storageUsed.megabytes / Double(subscriptionGB * 1024), total: Double(subscriptionGB * 1024))
+                ProgressView(value: db.storageUsed.megabytesFromBytes / Double(subscriptionGB * 1024), total: Double(subscriptionGB * 1024))
                     .progressViewStyle(.linear)
             }
             .padding(.horizontal, 10)

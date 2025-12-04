@@ -156,7 +156,7 @@ class FileListViewModel: ObservableObject {
     func uploadFilePressed(_ db: DataBaseService) {
         Task {
             await db.storeKitService.fetchActiveProducts()
-            let gbUser = (self.directorySizeResponse?.bytes.megabytes ?? 0) / 1000
+            let gbUser = (self.directorySizeResponse?.bytes.megabytesFromBytes ?? 0) / 1000
             print(gbUser, "gb used")
             if Double(db.storeKitService.activeSubscriptionGB) >= gbUser {
                 await MainActor.run {

@@ -8,6 +8,7 @@
 import Foundation
 
 extension String {
+    
     func extractSubstring(key:String, key2:String) -> String? {
         let pattern = "<\(key)>(.*?)<\(key2)>"
         guard let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators]) else {

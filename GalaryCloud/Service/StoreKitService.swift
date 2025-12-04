@@ -49,7 +49,7 @@ class StoreKitService: NSObject, ObservableObject {
     func fetchProducts(ids: [String]? = nil) async -> [Product] {
         do {
             let products = try await Product.products(for: ids ?? productIDs)
-            return products.sorted(by: { $0.price >= $1.price })
+            return products.sorted(by: { $0.price < $1.price })
         } catch {
             print("StoreKit error:", error)
             return []

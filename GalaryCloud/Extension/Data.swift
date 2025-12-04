@@ -69,19 +69,30 @@ extension DateComponents {
     }
 }
 
-extension Int {
-    var megabytes: Double {
+extension BinaryInteger {
+    var megabytesFromBytes: Double {
         Double(self) / (1024 * 1024)
-    }
-    
-    var megabytesString: String {
-        .init(format: "%.2f", megabytes)
     }
 }
 
 extension CVarArg {
     var formated: String {
         .init(format: "%.2f", self)
+    }
+    
+    var mbOrTbTitle: String {
+        let value = self as? Int ?? Int((self as? Double) ?? 0)
+        let tbAmount = Int(value) / 1024
+        let amountString = tbAmount >= 1 ? "\(tbAmount) TB" : "\(value) GB"
+        if tbAmount <= 0 && value <= 0 {
+            return ((self as? Double)?.formated ?? "") + " GB"
+        }
+        return amountString
+    }
+    
+    var gbFromMegabytes: Double {
+        let value: Double = self as? Double ?? Double(self as? Int ?? 0)
+        return value / 1024
     }
 }
 
