@@ -168,9 +168,67 @@ struct StoreKitView: View {
                     .multilineTextAlignment(.trailing)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
+        } else {
+            Text("auto-renewed\nSubscription")
+                .frame(alignment: .trailing)
+                .multilineTextAlignment(.trailing)
+                .font(.system(size: 8))
+                .foregroundColor(.secondaryText)
+
+                .background(content: {
+                    HStack(alignment: .bottom) {
+                        Text("¡")
+                            .multilineTextAlignment(.center)
+                            .blendMode(.destinationOut)
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundColor(.primaryText)
+                            .frame(width: 13, height: 13)
+                            .offset(x:0.5, y: -1)
+                            .background(.secondaryText)
+                            .cornerRadius(30)
+                            .compositingGroup()
+                            .offset(x: -10, y: 6)
+                        Spacer()
+                    }
+                })
+                .onTapGesture {
+                    subscriptionReneviewalDetailsPresenting.toggle()
+                }
+                .popover(isPresented: $subscriptionReneviewalDetailsPresenting, attachmentAnchor: .point(.top), arrowEdge: .top) {
+                    if #available(iOS 16.4, *) {
+                        reneviewDetails
+                            .presentationBackground(.clear)
+                    } else {
+                        reneviewDetails
+                    }
+                }
         }
     }
     
+    var reneviewDetails: some View {
+        VStack(alignment: .leading, spacing: 5, content: {
+            Text("Subscription renews automatically")
+                .font(.title3)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text("Unless canceled at least 24 hours before the end of the current period.")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .opacity(0.7)
+        })
+        .padding(.horizontal, 10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+            .multilineTextAlignment(.leading)
+            .font(.system(size: 12))
+//            .minimumScaleFactor(0.3)
+            .foregroundColor(.primaryText)
+            .presentationDetents([.height(100), .medium])
+            .background {
+                ClearBackgroundView()
+            }
+            .colorScheme(.dark)
+            .preferredColorScheme(.dark)
+    }
+    
+    @State var subscriptionReneviewalDetailsPresenting = false
     func buyPressed(_ product: Product) {
         Task {
             do {
