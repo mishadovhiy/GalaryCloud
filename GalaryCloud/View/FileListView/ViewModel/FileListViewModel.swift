@@ -94,7 +94,7 @@ class FileListViewModel: ObservableObject {
         }
     }
     
-    func fetchList(ignoreOffset: Bool = false, reload: Bool = false) {
+    func fetchList(ignoreOffset: Bool = false, reload: Bool = false, onAppear: Bool = false) {
         if fetchRequestLoading {
             print("request is already loading")
             return
@@ -137,9 +137,33 @@ class FileListViewModel: ObservableObject {
                     if self.directorySizeResponse == nil {
                         self.fetchDirectoruSizeRequest()
                     }
+                    if onAppear {
+                        temporaryDirectoryUpdated(showError: true, replacingCurrentList: true)
+                    }
                 case .failure(let error):
                     self.fetchError = error as NSError
                 }
+            }
+        }
+    }
+    
+    func temporaryDirectoryUpdated(showError: Bool = false, replacingCurrentList: Bool = false) {
+        let errorURLs = filemamager.loadFiles(.temporary)
+        print(errorURLs.count, " yrefds")
+        if !errorURLs.isEmpty {
+            if selectedFilesActionType == nil {
+                selectedFilesActionType = .upload
+            }
+            if showError {
+                self.uploadError = .init(domain: "retry uploading files", code: 10)
+            }
+            if !uploadAnimating {
+                uploadAnimating = true
+            }
+            if replacingCurrentList {
+                photoLibrarySelectedURLs = errorURLs
+            } else {
+                photoLibrarySelectedURLs.append(contentsOf: errorURLs)
             }
         }
     }

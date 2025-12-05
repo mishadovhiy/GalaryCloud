@@ -28,6 +28,15 @@ struct FileManagerService {
         return size
     }
     
+    func loadFiles(_ at: URLType) -> [URL] {
+        let fileURLs = try? FileManager.default.contentsOfDirectory(
+            at: at.url,
+            includingPropertiesForKeys: nil,
+            options: [.skipsHiddenFiles]
+        )
+        return fileURLs ?? []
+    }
+    
     func clear(url: URLType? = nil) {
         let temporaryDirectory = url ?? .temporary
         
@@ -49,16 +58,21 @@ struct FileManagerService {
         return tempURL
     }
 
-    private func performSave(data: Data, path: String, quality: ImageQuality) {
-        let cachesDir = Self.URLType.caches.url
+    func performSave(data: Data, path: String, urlType: URLType) {
+        let cachesDir = urlType.url
         let fileURL = cachesDir.appendingPathComponent(path)
-        try? data.write(to: fileURL, options: .atomic)
+        do {
+            try data.write(to: fileURL, options: .atomic)
+        } catch {
+            print(fileURL)
+            print("errorsavingtofilemanager ", error)
+        }
     }
     
     func save(data: Data, path: String) {
         ImageQuality.allCases.forEach { quality in
             let image = quality.data == nil ? nil : UIImage(data: data)?.changeSize(newWidth: quality.data?.width ?? 0).jpegData(compressionQuality: quality.data?.compression ?? 0)
-            self.performSave(data: image ?? data, path: quality.rawValue + "_" + path, quality: quality)
+            self.performSave(data: image ?? data, path: quality.rawValue + "_" + path, urlType: .caches)
         }
     }
     
@@ -77,9 +91,8 @@ struct FileManagerService {
         self.performLoad(path: quality.rawValue + "_" + path, quality: quality)
     }
     
-    func performDelete(path: String, quality: ImageQuality) {
-        let cachesDir = Self.URLType.caches.url
-        let fileURL = cachesDir.appendingPathComponent(path)
+    func performDelete(path: String, urlType: URLType) {
+        let fileURL = urlType.url.appendingPathComponent(path)
         
         if manager.fileExists(atPath: fileURL.path) {
             try? manager.removeItem(at: fileURL)
@@ -88,7 +101,7 @@ struct FileManagerService {
     
     func delete(path: String) {
         ImageQuality.allCases.forEach { quality in
-            self.performDelete(path: quality.rawValue + "_" + path, quality: quality)
+            self.performDelete(path: quality.rawValue + "_" + path, urlType: .caches)
         }
     }
 }

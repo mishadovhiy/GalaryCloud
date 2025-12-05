@@ -11,7 +11,7 @@ struct ServiceConfig {
     let serviceList: [AppServiceConfig] = [
         WasabiConfig(),
         AppearenceConfig(),
-//        NotificationCenterConfig()
+        NotificationCenterConfig()
     ]
     
     init() {

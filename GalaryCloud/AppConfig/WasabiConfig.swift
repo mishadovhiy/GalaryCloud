@@ -7,6 +7,7 @@
 
 import AWSS3
 import AWSCore
+import BackgroundTasks
 
 struct WasabiConfig: AppServiceConfig {
     func configure() {

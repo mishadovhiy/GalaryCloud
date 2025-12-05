@@ -12,6 +12,7 @@ struct FileListView: View {
     
     @StateObject private var viewModel: FileListViewModel = .init()
     @EnvironmentObject private var db: DataBaseService
+    @EnvironmentObject private var backgroundService: BackgroundTaskService
     
     var body: some View {
         galary
@@ -27,14 +28,18 @@ struct FileListView: View {
             }
         }
         .onAppear {
-            viewModel.fetchList()
+            #warning("todo: check temp folder and asign to error")
+            viewModel.fetchList(onAppear: true)
             withAnimation(.bouncy) {
                 viewModel.appeared = true
             }
         }
-        .sheet(isPresented: $viewModel.isPhotoLibraryPresenting) {
+//        .sheet(isPresented: $viewModel.isPhotoLibraryPresenting) {
+//            photoPickerSheet
+//        }
+        .overlay(content: {
             photoPickerSheet
-        }
+        })
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
             galaryPreview
         }
@@ -53,17 +58,37 @@ struct FileListView: View {
             }
             db.totalFileCount = newValue
         }
+        
+//        .onChange(of: backgroundService.currentURL) { newValue in
+//            self.viewModel.temporaryDirectoryUpdated(showError: false, replacingCurrentList: true)
+//        }
         .background(.black)
     }
-    
+#warning("background task on change")
+
     var photoPickerSheet: some View {
-        PhotoLibraryPickerView { newImage in
-            viewModel.fetchDirectoruSizeRequest {
-                viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
-                viewModel.upload()
+//        PhotoLibraryPickerView { newImage in
+//            viewModel.uploadAnimating = true
+//            #warning("dont fetch here")
+//            viewModel.fetchDirectoruSizeRequest {
+////                viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
+////                viewModel.upload()
+//                viewModel.temporaryDirectoryUpdated(showError: true, replacingCurrentList: true)
+//                #warning("background task")
+////                self.backgroundService.scheduleTask()
+//            }
+//        }
+//        .presentationDetents([.large])
+        PhotoPickerSysView {
+            //            viewModel.uploadAnimating = true
+            viewModel.temporaryDirectoryUpdated(showError: true, replacingCurrentList: false)
+            withAnimation {
+                viewModel.isPhotoLibraryPresenting = false
             }
         }
-        .presentationDetents([.large])
+        .frame(maxHeight: viewModel.isPhotoLibraryPresenting ? .infinity : 0)
+        .animation(.bouncy, value: viewModel.isPhotoLibraryPresenting)
+        .clipped()
     }
     
     @ViewBuilder
@@ -262,12 +287,19 @@ struct FileListView: View {
             })
         }
     }
-    
+    @ViewBuilder
     var uploadingIndicator: some View {
         VStack {
             Spacer()
-            if !viewModel.photoLibrarySelectedURLs.isEmpty {
-                UploadingProgressView(currentItem: viewModel.photoLibrarySelectedURLs.first!, uploadingFilesCount: viewModel.photoLibrarySelectedURLs.count, error: viewModel.uploadError, resendPressed: {
+            if !viewModel.photoLibrarySelectedURLs.isEmpty || !viewModel.errorFileNames.isEmpty {
+                let firstErrorURL = URL(string: viewModel.errorFileNames.first ?? "")
+                let count = viewModel.photoLibrarySelectedURLs.count
+                let uploadingCount = count == 0 ? viewModel.errorFileNames.count : count
+                let currentURL = (viewModel.photoLibrarySelectedURLs.first ?? firstErrorURL)!
+                UploadingProgressView(currentItem: currentURL, uploadingFilesCount: uploadingCount, error: viewModel.uploadError, resendPressed: {
+                    viewModel.photoLibrarySelectedURLs.append(contentsOf: viewModel.errorFileNames.compactMap({.init(string: $0)!}))
+#warning("background task")
+//                    backgroundService.scheduleTask()
                     viewModel.upload()
                 })
                 .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
