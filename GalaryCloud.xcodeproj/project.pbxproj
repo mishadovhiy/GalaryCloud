@@ -92,6 +92,7 @@
 		82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */; };
 		82C69EB72EE1F99A00D733D2 /* BackgroundTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69EB62EE1F99A00D733D2 /* BackgroundTaskService.swift */; };
 		82C69F552EE23B5600D733D2 /* PhotoPickerSysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */; };
+		82C9F0F22EE36A7800D6B841 /* PhotoPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9F0F12EE36A7800D6B841 /* PhotoPickerManager.swift */; };
 		82D45BAF2EDCDD35000DF5D6 /* MessageStaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
@@ -216,6 +217,7 @@
 		82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
 		82C69EB62EE1F99A00D733D2 /* BackgroundTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskService.swift; sourceTree = "<group>"; };
 		82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerSysView.swift; sourceTree = "<group>"; };
+		82C9F0F12EE36A7800D6B841 /* PhotoPickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerManager.swift; sourceTree = "<group>"; };
 		82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStaticView.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -405,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				827162412ECB222900E52013 /* PhotoLibraryPickerView.swift */,
+				82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */,
 				82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */,
 				8250E2CF2EDFF64800A81E91 /* NoDataView.swift */,
 				8230C9AC2EDF130E00CF0B5F /* ShareView.swift */,
@@ -534,7 +537,6 @@
 			isa = PBXGroup;
 			children = (
 				82D7F4F22ECA82C300A44A98 /* HomeView.swift */,
-				82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */,
 				8230C9A72EDEFA7500CF0B5F /* SidebarView */,
 				8232D4C32ED37CFA004A67EE /* AuthorizationView */,
 				827162092ECAD01500E52013 /* FileListView */,
@@ -554,6 +556,7 @@
 				823DC2842ED27EEF005367A2 /* StoreKitService.swift */,
 				8230C9CC2EDF896600CF0B5F /* FileManagerService.swift */,
 				82C69EB62EE1F99A00D733D2 /* BackgroundTaskService.swift */,
+				82C9F0F12EE36A7800D6B841 /* PhotoPickerManager.swift */,
 				8262A5812ED7F45C005188F2 /* SignInService */,
 				8271620F2ECAFB4100E52013 /* Network */,
 			);
@@ -836,6 +839,7 @@
 				827162422ECB222900E52013 /* PhotoLibraryPickerView.swift in Sources */,
 				82E06A0B2ECD100E0003474F /* PhotoPreviewView.swift in Sources */,
 				825511A32EDB356400C4094F /* BlurView.swift in Sources */,
+				82C9F0F22EE36A7800D6B841 /* PhotoPickerManager.swift in Sources */,
 				8250E2CE2EDFEB3E00A81E91 /* ErrorViewModifier.swift in Sources */,
 				820A9D4C2ED80B4500498E35 /* PinchMaskedScrollModifier.swift in Sources */,
 				823DC2532ED10AA3005367A2 /* AppDelegate.swift in Sources */,
