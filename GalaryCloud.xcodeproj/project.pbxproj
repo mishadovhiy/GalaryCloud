@@ -90,6 +90,7 @@
 		82909A8A2ED66BD200BF9548 /* AuthorizationFieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */; };
 		82909A8C2ED6A16300BF9548 /* LoadingButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */; };
 		82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */; };
+		82C69F572EE2D31700D733D2 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69F562EE2D31700D733D2 /* Keys.swift */; };
 		82D45BAF2EDCDD35000DF5D6 /* MessageStaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
@@ -212,6 +213,7 @@
 		82909A892ED66BD200BF9548 /* AuthorizationFieldsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFieldsView.swift; sourceTree = "<group>"; };
 		82909A8B2ED6A16300BF9548 /* LoadingButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButtonModifier.swift; sourceTree = "<group>"; };
 		82909A8D2ED72F0200BF9548 /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
+		82C69F562EE2D31700D733D2 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStaticView.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -615,6 +617,7 @@
 		82D7F52D2ECAB1DA00A44A98 /* AppConfig */ = {
 			isa = PBXGroup;
 			children = (
+				82C69F562EE2D31700D733D2 /* Keys.swift */,
 				82D7F5172ECA8D2800A44A98 /* Keys.swift */,
 				82909A692ED5418700BF9548 /* ServiceConfig.swift */,
 				8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */,
@@ -849,6 +852,7 @@
 				8230C9A92EDEFBF800CF0B5F /* SupportRequest.swift in Sources */,
 				8250E2E62EE0023B00A81E91 /* AppLaunchView.swift in Sources */,
 				82909A842ED5E9F300BF9548 /* TrashShape.swift in Sources */,
+				82C69F572EE2D31700D733D2 /* Keys.swift in Sources */,
 				82909A8E2ED72F0300BF9548 /* AuthorizationViewModel.swift in Sources */,
 				8262A59D2ED7F992005188F2 /* SignInWithAppleButton.swift in Sources */,
 				82D7F51A2ECA8EF000A44A98 /* URLSession.swift in Sources */,
@@ -1026,7 +1030,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GalaryCloud/GalaryCloud.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1085,7 +1089,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GalaryCloud/GalaryCloud.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
