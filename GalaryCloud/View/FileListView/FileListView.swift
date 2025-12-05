@@ -34,12 +34,6 @@ struct FileListView: View {
                 viewModel.appeared = true
             }
         }
-//        .sheet(isPresented: $viewModel.isPhotoLibraryPresenting) {
-//            photoPickerSheet
-//        }
-        .overlay(content: {
-            photoPickerSheet
-        })
         .sheet(isPresented: $viewModel.imagePreviewPresenting) {
             galaryPreview
         }
@@ -58,7 +52,13 @@ struct FileListView: View {
             }
             db.totalFileCount = newValue
         }
-        
+        .overlay(content: {
+            VStack {
+                Spacer()
+                photoPickerSheet
+            }
+            .ignoresSafeArea(.all)
+        })
 //        .onChange(of: backgroundService.currentURL) { newValue in
 //            self.viewModel.temporaryDirectoryUpdated(showError: false, replacingCurrentList: true)
 //        }

@@ -17,9 +17,12 @@ struct PhotoPickerSysView: View {
     @StateObject private var manager: PhotoPickerManager = .init()
     @State private var assets: [Int: UIImage?] = [:]
     @State private var isSelected: [Int] = []
+    @State var safeArea: EdgeInsets = .init()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+            Spacer()
+                .frame(height: safeArea.top)
             headerView
             ScrollView(content: {
                 
@@ -31,9 +34,12 @@ struct PhotoPickerSysView: View {
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.red)
+            Spacer()
+                .frame(height: safeArea.bottom)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.black)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .modifier(ViewSizeReaderModifier(safeArea: $safeArea))
     }
     
     var headerView: some View {
@@ -42,6 +48,9 @@ struct PhotoPickerSysView: View {
                 completedSelection()
             }
             Spacer()
+            Button("deselect \(manager.selectedIDs.count)") {
+                manager.selectedIDs.removeAll()
+            }
             Button("save \(manager.selectedIDs.count)") {
                 manager.saveToTemp(manager: fileManager) {
                     completedSelection()
@@ -49,9 +58,10 @@ struct PhotoPickerSysView: View {
             }
         }
         .frame(height: 44)
+        .padding(.horizontal, 10)
         .padding(.top, 20)
     }
-    
+    @State var lastDroppedID: String?
     var galaryView: some View {
         ForEach(0..<(manager.assets?.count ?? 0), id: \.self) { i in
             VStack {
@@ -64,6 +74,12 @@ struct PhotoPickerSysView: View {
                     
                 }
             }
+            .modifier(DragAndDropModifier(disabled: false, lastDroppedID: $lastDroppedID, itemID: "\(i)", didDrop: {
+                if let asset = manager.assets?.object(at: i)
+                {
+                    manager.select(asset: asset)
+                }
+            }))
             .overlay(content: {
                 if isSelected.contains(i) {
                     Color.red.opacity(0.3)
