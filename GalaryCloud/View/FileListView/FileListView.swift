@@ -53,6 +53,7 @@ struct FileListView: View {
             db.totalFileCount = newValue
         }
         .overlay(content: {
+            //tru setting view controller size to button size
             VStack {
                 Spacer()
                 photoPickerSheet

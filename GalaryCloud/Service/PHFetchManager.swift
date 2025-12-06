@@ -22,7 +22,6 @@ class PHFetchManager: ObservableObject {
     func fetch() {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        
         assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
     }
     

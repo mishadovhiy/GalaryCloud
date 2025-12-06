@@ -95,7 +95,13 @@ struct FileManagerService {
         let fileURL = urlType.url.appendingPathComponent(path)
         
         if manager.fileExists(atPath: fileURL.path) {
-            try? manager.removeItem(at: fileURL)
+            do {
+                try manager.removeItem(at: fileURL)
+            } catch {
+                print(error, " ghfvhgh ", #function, #line, #file)
+            }
+        } else {
+            print("file not exists ", path, " ", #function, #line, #file)
         }
     }
     

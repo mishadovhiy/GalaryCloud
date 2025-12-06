@@ -21,24 +21,7 @@ class FileListViewModel: ObservableObject {
     @Published var galaryData: [FileSection] = []
     @Published var files: [File] = [] {
         didSet {
-            let dict = Dictionary(grouping: files, by: {
-                let date = Calendar.current.dateComponents([.year, .month], from: Date(string: $0.date))
-                return "\(date.year ?? 0).\(date.month ?? 0)"
-            })
-            var result = galaryData
-            result.removeAll()
-            dict.keys.sorted(by: {
-                let comp1 = $0.components(separatedBy: ".").compactMap({Int($0)})
-                let comp2 = $1.components(separatedBy: ".").compactMap({Int($0)})
-
-                let date1 = Calendar.current.date(from: .init(year: comp1.first, month: comp1.last))
-                let date2 = Calendar.current.date(from: .init(year: comp2.first, month: comp2.last))
-
-                return date1 ?? .now > date2 ?? .now
-            }).forEach { key in
-                result.append(.init(dateString: key, files: dict[key] ?? []))
-            }
-            galaryData = result
+            groupFiles()
         }
     }
     @Published var fetchError: NSError?
@@ -90,6 +73,32 @@ class FileListViewModel: ObservableObject {
                     completion?()
                 default: break
                 }
+            }
+        }
+    }
+    
+    func groupFiles() {
+        DispatchQueue(label: "", qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            let dict = Dictionary(grouping: files, by: {
+                let date = Calendar.current.dateComponents([.year, .month], from: Date(string: $0.date))
+                return "\(date.year ?? 0).\(date.month ?? 0)"
+            })
+            var result = galaryData
+            result.removeAll()
+            dict.keys.sorted(by: {
+                let comp1 = $0.components(separatedBy: ".").compactMap({Int($0)})
+                let comp2 = $1.components(separatedBy: ".").compactMap({Int($0)})
+
+                let date1 = Calendar.current.date(from: .init(year: comp1.first, month: comp1.last))
+                let date2 = Calendar.current.date(from: .init(year: comp2.first, month: comp2.last))
+
+                return date1 ?? .now > date2 ?? .now
+            }).forEach { key in
+                result.append(.init(dateString: key, files: dict[key] ?? []))
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.galaryData = result
             }
         }
     }
@@ -219,7 +228,8 @@ class FileListViewModel: ObservableObject {
             await MainActor.run {
                 switch response {
                     
-                case .success(let result):
+                case .success(_):
+                    filemamager.performDelete(path: url.lastPathComponent, urlType: .temporary)
                     self.photoLibrarySelectedURLs.removeFirst()
                     if photoLibrarySelectedURLs.isEmpty {
                         self.didCompletedUploadingFiles()
