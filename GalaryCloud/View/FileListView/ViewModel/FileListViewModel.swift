@@ -57,6 +57,7 @@ class FileListViewModel: ObservableObject {
     }
     private let filemamager = FileManagerService()
     @Published var selectedFilesActionType: SelectedFilesActionType?
+    @Published var lastSelectedID: String?
     private var requestOffset: Int = 0
     private let photoLibraryModifierService = PHPhotoLibraryModifierService()
     var totalFileRecords: Int?
@@ -424,11 +425,58 @@ class FileListViewModel: ObservableObject {
         urlTask.resume()
     }
     
-    func didSelectListItem(_ url: String) {
-        if selectedFileIDs.contains(url) {
-            selectedFileIDs.remove(url)
+    var showingUploading: Bool {
+        [!photoLibrarySelectedURLs.isEmpty,
+         !errorFileNames.isEmpty,
+         uploadError != nil
+        ].contains(true)
+    }
+    
+    func didSelectListItem(_ url: String, onScroll: Bool = false) {
+        guard let i = self.files.firstIndex(where: {
+            $0.originalURL == url
+        }) else {
+            print("notfound")
+            return
+        }
+        var selectedFileIDs = selectedFileIDs
+        let newArray: [Int]
+        if onScroll,
+            let lastSelectedID,
+            lastSelectedID != url,
+           let lastSelectedIndex = files.firstIndex(where: {
+               $0.originalURL == lastSelectedID
+           })
+        {
+            print("lastlast: ", lastSelectedID, " ferwda ", i)
+            if lastSelectedIndex > i {
+                newArray = Array(i..<lastSelectedIndex)
+            } else {
+                newArray = Array(lastSelectedIndex..<i)
+            }
+            
         } else {
-            selectedFileIDs.insert(url)
+            newArray = [i]
+        }
+        
+        let dataArray = newArray.compactMap({
+            files[$0].originalURL
+        })
+        let containsInSelected = selectedFileIDs.contains(files[i].originalURL)
+        dataArray.forEach {
+            if containsInSelected {
+                selectedFileIDs.remove($0)
+
+            } else {
+                selectedFileIDs.insert($0)
+            }
+        }
+        
+        self.selectedFileIDs = selectedFileIDs
+        if onScroll {
+            lastSelectedID = url
+        } else {
+            lastSelectedID = nil
         }
     }
     

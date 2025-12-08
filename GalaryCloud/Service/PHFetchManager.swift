@@ -55,6 +55,8 @@ class PHFetchManager: ObservableObject {
         self.selectedIs = Array(Set(selectedIs))
         if onScroll {
             lastSelectedID = i
+        } else {
+            lastSelectedID = nil
         }
     }
     

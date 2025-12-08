@@ -124,8 +124,6 @@ struct FileListView: View {
             }
             Spacer()
             bottomStatusBar
-            Spacer()
-                .frame(height: !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 2)
@@ -285,11 +283,12 @@ struct FileListView: View {
             })
         }
     }
+    
     @ViewBuilder
     var uploadingIndicator: some View {
         VStack {
-            Spacer()
-            if !viewModel.photoLibrarySelectedURLs.isEmpty || !viewModel.errorFileNames.isEmpty {
+            Spacer().frame(height: 20)
+            if viewModel.showingUploading {
                 let firstErrorURL = URL(string: viewModel.errorFileNames.first ?? "")
                 let count = viewModel.photoLibrarySelectedURLs.count
                 let uploadingCount = count == 0 ? viewModel.errorFileNames.count : count
@@ -302,13 +301,19 @@ struct FileListView: View {
                 })
                 .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
             }
+            Spacer()
         }
     }
     
+    @ViewBuilder
     var galary: some View {
+        let showingUploading = viewModel.showingUploading
         VStack {
             ScrollView(.vertical) {
                 VStack {
+                    Spacer()
+                        .frame(height: showingUploading ? UploadingProgressView.Constants.height + 20 : 0)
+                        .animation(.bouncy, value: showingUploading)
                     if !viewModel.fetchRequestLoading && viewModel.files.isEmpty {
                         NoDataView(text: "Start uploading photos", image: .emptyGalary)
                             .padding(.top, 150)
@@ -402,7 +407,9 @@ struct FileListView: View {
             }
         })
         .modifier(DragAndDropModifier(disabled: !viewModel.isEditingList, itemID: item.originalURL, didDrop: {
-            viewModel.didSelectListItem(item.originalURL)
+            viewModel.didSelectListItem(item.originalURL, onScroll: true)
+        }, didEndDragging: {
+            viewModel.lastSelectedID = nil
         }))
         .onAppear {
             if viewModel.files.last?.originalURL == item.originalURL {

@@ -54,7 +54,7 @@ struct UploadingProgressView: View {
         }
         .padding(6)
         .modifier(CircularButtonModifier(color: .light, cornerRadius: 12))
-        .frame(maxHeight: 60)
+        .frame(maxHeight: Constants.height)
         .shadow(radius: 10)
         .padding(12)
     }
@@ -65,5 +65,11 @@ struct UploadingProgressView: View {
         } catch {
             return .defaultUpload
         }
+    }
+}
+
+extension UploadingProgressView {
+    struct Constants {
+        static let height: CGFloat = 60
     }
 }
