@@ -23,9 +23,9 @@ struct LoadingButtonModifier: ViewModifier {
                         .cornerRadius(9)
                 }
             })
-            .background(.blue)
+            .background(Color.accentColor)
             .font(font)
-            .tint(isLoading ? .blue : .white)
+            .tint(isLoading ? .accentColor : .white)
             .cornerRadius(9)
             .animation(.bouncy, value: isLoading)
             .clipped()

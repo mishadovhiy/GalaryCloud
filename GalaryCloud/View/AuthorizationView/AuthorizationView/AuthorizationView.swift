@@ -109,7 +109,7 @@ struct AuthorizationView: View {
         .modifier(LoadingButtonModifier(isLoading: viewModel.isLoading, isHidden: !viewModel.needNextButton))
         .animation(.bouncy, value: viewModel.isLoading)
         .clipped()
-        .shadow(color: .blue, radius: 10)
+        .shadow(color: .accentColor, radius: 10)
     }
     
     var rootView: some View {
