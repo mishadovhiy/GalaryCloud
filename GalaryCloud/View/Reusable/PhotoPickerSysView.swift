@@ -10,20 +10,31 @@ import Combine
 import Photos
 
 struct PhotoPickerSysView: View {
-    
+    @Binding var isPresenting: Bool
     let completedSelection: ()->()
     private let fileManager: FileManagerService = .init()
     
     @StateObject private var manager: PHFetchManager = .init()
     @State private var assets: [Int: UIImage?] = [:]
     @State private var selectedOnScreenIndxs: [Int] = []
-    @State var safeArea: EdgeInsets = .init()
-    @State var lastDroppedID: String?
+    @State private var safeArea: EdgeInsets = .init()
+    @State private var lastDroppedID: String?
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(content: {
+            Spacer().frame(height: safeArea.top + 50)
             Spacer()
-                .frame(height: safeArea.top)
+            contentView
+                .frame(maxHeight: isPresenting ? .infinity : manager.selectedIs.isEmpty ? 0 : 100)
+        })
+        .ignoresSafeArea(.all)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .animation(.bouncy, value: isPresenting)
+        .modifier(ViewSizeReaderModifier(safeArea: $safeArea))
+    }
+    
+    var contentView: some View {
+        VStack(spacing: 0) {
             headerView
             ScrollView(content: {
                 LazyVGrid(columns: (0..<4).compactMap({ _ in
@@ -32,38 +43,56 @@ struct PhotoPickerSysView: View {
                     galaryView
                 }
             })
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .ignoresSafeArea(.all)
+
+            .frame(maxWidth: .infinity, maxHeight: isPresenting ? .infinity : 0)
             .background(.red)
-            Spacer()
-                .frame(height: safeArea.bottom)
+            .clipped()
         }
-        .background(.black)
+        .ignoresSafeArea(.all)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .modifier(ViewSizeReaderModifier(safeArea: $safeArea))
+        .background(.black)
+        .cornerRadius(20)
+        .shadow(radius: 11)
+        .padding(.horizontal, 10)
+        .padding(.top, 20)
     }
     
     var headerView: some View {
         HStack {
-            Button("close") {
-                completedSelection()
-            }
-            .frame(maxHeight: .infinity)
-            .padding(.horizontal, 15)
-            Spacer()
-            Button("deselect \(manager.selectedIDs.count)") {
-                manager.selectedIDs.removeAll()
-            }
-            .frame(maxHeight: .infinity)
-            .padding(.horizontal, 15)
-            Button("save \(manager.selectedIDs.count)") {
-                manager.saveToTemp(manager: fileManager) {
-                    completedSelection()
+            if isPresenting {
+                Button("close") {
+                    hide()
                 }
+                .frame(maxHeight: .infinity)
+                .padding(.horizontal, 15)
             }
-            .frame(maxHeight: .infinity)
-            .padding(.horizontal, 15)
+            
+            Spacer()
+            if !manager.saving {
+                Button("deselect \(manager.selectedIs.count)") {
+                    manager.selectedIs.removeAll()
+                }
+                .frame(maxHeight: .infinity)
+                .padding(.horizontal, 15)
+                Button("save \(manager.selectedIs.count)") {
+                    hide()
+                    if !manager.selectedIs.isEmpty {
+                        manager.saving = true
+                        manager.saveToTemp(manager: fileManager) {
+                            completedSelection()
+                        }
+                    }
+                }
+                .frame(maxHeight: .infinity)
+                .padding(.horizontal, 15)
+            } else {
+                Text("Saving \(manager.selectedIs.count)")
+                    .foregroundColor(.primaryText)
+            }
+            
         }
-        .frame(height: 44)
+        .frame(maxHeight: !isPresenting ? .infinity : 44)
         .padding(.horizontal, 10)
         .padding(.top, 50)
         .background(.orange)
@@ -105,15 +134,15 @@ struct PhotoPickerSysView: View {
     var galaryView: some View {
         ForEach(0..<(manager.assets?.count ?? 0), id: \.self) { i in
             galaryImage(i)
-                .modifier(DragAndDropModifier(disabled: false, lastDroppedID: $lastDroppedID, itemID: "\(i)", didDrop: {
+                .modifier(DragAndDropModifier(disabled: false, itemID: "\(i)", didDrop: {
+                    print("didDropdidDrop")
                     manager.selectI(i, onScroll: true)
-//                    select(i)
                 }, didEndDragging: {
+                    print("didEndDragging")
                     manager.lastSelectedID = nil
                 }))
                 .onTapGesture {
                     manager.selectI(i)
-//                    select(i)
                 }
                 .onAppear(perform: {
                     imageAppeared(i)
@@ -121,22 +150,12 @@ struct PhotoPickerSysView: View {
                 .onDisappear {
                     imageDisapeared(i)
                 }
-                .onChange(of: manager.selectedIDs) { newValue in
-                    self.selectedListChanged(appearedAssetIndx: i)
-                }
         }
     }
 }
 
 fileprivate
 extension PhotoPickerSysView {
-    func select(_ i: Int) {
-        if let asset = manager.assets?.object(at: i)
-        {
-            manager.select(asset: asset)
-        }
-    }
-    
     func imageAppeared(_ i: Int) {
         if assets[i] == nil,
            let asset = manager.assets?.object(at: i)
@@ -144,10 +163,6 @@ extension PhotoPickerSysView {
             manager.fetchThumb(asset) { image in
                 self.assets.updateValue(image, forKey: i)
             }
-            if manager.selectedIDs.contains(asset) {
-                selectedOnScreenIndxs.append(i)
-            }
-            
         }
     }
     
@@ -158,16 +173,9 @@ extension PhotoPickerSysView {
         assets.removeValue(forKey: i)
     }
     
-    func selectedListChanged(appearedAssetIndx i: Int) {
-        if let asset = manager.assets?.object(at: i)
-        {
-            if manager.selectedIDs.contains(asset) {
-                selectedOnScreenIndxs.append(i)
-            } else {
-                selectedOnScreenIndxs.removeAll(where: {
-                    $0 == i
-                })
-            }
+    func hide() {
+        withAnimation {
+            isPresenting = false
         }
     }
 }

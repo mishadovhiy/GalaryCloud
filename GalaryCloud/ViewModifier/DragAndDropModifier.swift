@@ -10,7 +10,6 @@ internal import UniformTypeIdentifiers
 
 struct DragAndDropModifier: ViewModifier {
     let disabled: Bool
-    @Binding var lastDroppedID: String?
     
     let itemID: String
     let didDrop: ()->()
@@ -26,11 +25,8 @@ struct DragAndDropModifier: ViewModifier {
                     EmptyView()
                 })
                 .onDrop(of: [.text], delegate: DragDelegate(targetItem: itemID, didDrag: {
-                    if lastDroppedID != itemID {
-                        lastDroppedID = itemID
-                        didDrop()
-                    }
-                }))
+                    didDrop()
+                }, didEndDragging: didEndDragging))
 #endif
         } else {
             content
@@ -53,10 +49,16 @@ fileprivate struct DragDelegate: DropDelegate {
     var didEndDragging: ()->() = {}
     
     func dropEntered(info: DropInfo) {
-        didEndDragging()
+        print("enteredddd")
+    }
+    
+    func dropExited(info: DropInfo) {
+        print("exxxasdas")
     }
     
     func performDrop(info: DropInfo) -> Bool {
+        print("tgerfwereg")
+        didEndDragging()
         return true
     }
     

@@ -54,11 +54,7 @@ struct FileListView: View {
         }
         .overlay(content: {
             //tru setting view controller size to button size
-            VStack {
-                Spacer()
-                photoPickerSheet
-            }
-            .ignoresSafeArea(.all)
+            photoPickerSheet
         })
 //        .onChange(of: backgroundService.currentURL) { newValue in
 //            self.viewModel.temporaryDirectoryUpdated(showError: false, replacingCurrentList: true)
@@ -80,13 +76,14 @@ struct FileListView: View {
 //            }
 //        }
 //        .presentationDetents([.large])
-        PhotoPickerSysView {
+        PhotoPickerSysView(isPresenting: $viewModel.isPhotoLibraryPresenting) {
             //            viewModel.uploadAnimating = true
-            viewModel.temporaryDirectoryUpdated(showError: true, replacingCurrentList: false)
+            viewModel.temporaryDirectoryUpdated(showError: true, replacingCurrentList: true)
             withAnimation {
                 viewModel.isPhotoLibraryPresenting = false
             }
         }
+        .ignoresSafeArea(.all)
         .frame(maxHeight: viewModel.isPhotoLibraryPresenting ? .infinity : 0)
         .animation(.bouncy, value: viewModel.isPhotoLibraryPresenting)
         .clipped()
@@ -318,9 +315,9 @@ struct FileListView: View {
                             .animation(.bouncy, value: viewModel.files.isEmpty)
                             .transition(.move(edge: .bottom))
                     }
-                    LazyVGrid( columns: [
-                        .init(), .init(), .init(), .init()
-                    ], spacing: viewModel.appeared ? 8 : 120, pinnedViews: .sectionHeaders) {
+                    LazyVGrid( columns: Array(0..<4).compactMap({ _ in
+                            .init()
+                    }), spacing: viewModel.appeared ? 8 : 120, pinnedViews: .sectionHeaders) {
                         ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
                             Section {
                                 ForEach(filesModel.files,id:\.originalURL) { file in
@@ -404,7 +401,7 @@ struct FileListView: View {
                     .disabled(true)
             }
         })
-        .modifier(DragAndDropModifier(disabled: !viewModel.isEditingList, lastDroppedID: $viewModel.lastDroppedID, itemID: item.originalURL, didDrop: {
+        .modifier(DragAndDropModifier(disabled: !viewModel.isEditingList, itemID: item.originalURL, didDrop: {
             viewModel.didSelectListItem(item.originalURL)
         }))
         .onAppear {

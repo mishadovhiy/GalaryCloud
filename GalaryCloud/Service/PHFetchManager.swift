@@ -15,9 +15,8 @@ class PHFetchManager: ObservableObject {
     @Published var assets: PHFetchResult<PHAsset>?
     @Published var lastSelectedID: Int?
     @Published var selectedIs: [Int] = []
-    #warning("refactor: remove below, fix")
-    @Published var selectedIDs: [PHAsset] = []
-    
+    @Published var saving: Bool = false
+
     init() {
         self.fetch()
     }
@@ -28,22 +27,20 @@ class PHFetchManager: ObservableObject {
         assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
     }
     
-    func select(asset: PHAsset) {
-        if selectedIDs.contains(asset) {
-            selectedIDs.removeAll(where: {
-                $0.localIdentifier == asset.localIdentifier
-            })
-        } else {
-            selectedIDs.append(asset)
-        }
-    }
-    
     func selectI(_ i: Int, onScroll: Bool = false) {
+        if saving {
+            return
+        }
         var selectedIs = selectedIs
         let newArray: [Int]
-        if onScroll, let lastSelectedID {
-            let last = lastSelectedID
-            newArray = Array(last..<i)
+        if onScroll, let lastSelectedID, lastSelectedID != i {
+            print("lastlast: ", lastSelectedID, " ferwda ", i)
+            if lastSelectedID > i {
+                newArray = Array(i..<lastSelectedID)
+            } else {
+                newArray = Array(lastSelectedID..<i)
+            }
+            
         } else {
             newArray = [i]
         }
@@ -63,9 +60,14 @@ class PHFetchManager: ObservableObject {
     
     func saveToTemp(manager: FileManagerService,
                     completion:@escaping()->()) {
-        DispatchQueue(label: "db", qos: .userInitiated).async {
-            if let asset = self.selectedIDs.first {
-                print(self.selectedIDs.count, " gtrfed ")
+        DispatchQueue(label: "db", qos: .userInitiated).async { [weak self] in
+            guard let self else {
+                return
+            }
+            if let index = self.selectedIs.first,
+               let asset = self.assets?.object(at: index)
+            {
+                print(self.selectedIs.count, " gtrfed ", Date())
                 autoreleasepool {
                     self.assetToData(asset) { [weak self] data in
                         if let data {
@@ -78,13 +80,14 @@ class PHFetchManager: ObservableObject {
                             manager.performSave(data: data, path: asset.localIdentifier.replacingOccurrences(of: "/", with: "") + "." + format, urlType: .temporary)
                         }
                         DispatchQueue.main.async {
-                            self?.selectedIDs.removeFirst()
+                            self?.selectedIs.removeFirst()
                             self?.saveToTemp(manager: manager, completion: completion)
                         }
                     }
                 }
             } else {
                 DispatchQueue.main.async {
+                    self.saving = false
                     completion()
                 }
             }

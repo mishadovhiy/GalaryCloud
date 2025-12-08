@@ -35,7 +35,6 @@ class FileListViewModel: ObservableObject {
     @Published var messages: [MessageModel] = []
     #warning("remove photo library presenting bool, its not used imagePreviewPresenting used indeed")
     @Published var selectedFileIDs: Set<String> = []
-    @Published var lastDroppedID: String?
     @Published var isEditingList: Bool = false {
         didSet {
             if !isEditingList {
@@ -193,7 +192,9 @@ class FileListViewModel: ObservableObject {
             print(gbUser, "gb used")
             if Double(db.storeKitService.activeSubscriptionGB) >= gbUser {
                 await MainActor.run {
-                    self.isPhotoLibraryPresenting = true
+                    withAnimation(.bouncy) {
+                        self.isPhotoLibraryPresenting = true
+                    }
                 }
             } else {
                 await MainActor.run {
