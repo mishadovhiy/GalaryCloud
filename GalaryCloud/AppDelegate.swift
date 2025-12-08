@@ -32,7 +32,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 
+        #if !os(tvOS)
         AppDelegate.didReciveNotification?(notification.request.content.userInfo)
+        #endif
         completionHandler([.banner, .sound])
     }
     

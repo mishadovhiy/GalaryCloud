@@ -79,9 +79,21 @@ struct AuthorizationView: View {
                 .stroke(.black, lineWidth: 1)
         })
         .shadow(radius: 10)
-        .frame(maxHeight: viewModel.authorizationType == nil ? 200 : .infinity)
+        .frame(maxHeight: contentHeight)
         .padding(.bottom, 5)
         .padding(.horizontal, 15)
+    }
+    
+    var contentHeight: CGFloat {
+        if viewModel.authorizationType == nil {
+            #if os(tvOS)
+            return 350
+            #else
+            return 200
+            #endif
+        } else {
+            return .infinity
+        }
     }
     
     var nextButton: some View {

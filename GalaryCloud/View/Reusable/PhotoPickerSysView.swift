@@ -88,7 +88,7 @@ struct PhotoPickerSysView: View {
         .aspectRatio(1, contentMode: .fill)
         .clipped()
         .overlay(content: {
-            if selectedOnScreenIndxs.contains(i) {
+            if manager.selectedIs.contains(i) {
                 selectionIndicator
             }
         })
@@ -106,10 +106,14 @@ struct PhotoPickerSysView: View {
         ForEach(0..<(manager.assets?.count ?? 0), id: \.self) { i in
             galaryImage(i)
                 .modifier(DragAndDropModifier(disabled: false, lastDroppedID: $lastDroppedID, itemID: "\(i)", didDrop: {
-                    select(i)
+                    manager.selectI(i, onScroll: true)
+//                    select(i)
+                }, didEndDragging: {
+                    manager.lastSelectedID = nil
                 }))
                 .onTapGesture {
-                    select(i)
+                    manager.selectI(i)
+//                    select(i)
                 }
                 .onAppear(perform: {
                     imageAppeared(i)

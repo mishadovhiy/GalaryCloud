@@ -11,13 +11,15 @@ internal import UniformTypeIdentifiers
 struct DragAndDropModifier: ViewModifier {
     let disabled: Bool
     @Binding var lastDroppedID: String?
-
+    
     let itemID: String
     let didDrop: ()->()
+    var didEndDragging: ()->() = {}
     
     func body(content: Content) -> some View {
-        if !disabled {
+        if !disabled && osAvailible {
             content
+#if !os(tvOS)
                 .onDrag({
                     NSItemProvider(object: itemID as NSString)
                 }, preview: {
@@ -29,28 +31,43 @@ struct DragAndDropModifier: ViewModifier {
                         didDrop()
                     }
                 }))
+#endif
         } else {
             content
         }
     }
+    
+    private var osAvailible: Bool {
+#if os(tvOS)
+        return false
+#else
+        return true
+#endif
+    }
 }
 
+#if !os(tvOS)
 fileprivate struct DragDelegate: DropDelegate {
     let targetItem: String?
     let didDrag: ()->()
+    var didEndDragging: ()->() = {}
+    
+    func dropEntered(info: DropInfo) {
+        didEndDragging()
+    }
     
     func performDrop(info: DropInfo) -> Bool {
         return true
     }
-
+    
     func dropUpdated(info: DropInfo) -> DropProposal? {
         return DropProposal(operation: .copy)
     }
-
+    
     func validateDrop(info: DropInfo) -> Bool {
         print(targetItem, " htgrefdsa ")
         didDrag()
         return true
     }
 }
-
+#endif

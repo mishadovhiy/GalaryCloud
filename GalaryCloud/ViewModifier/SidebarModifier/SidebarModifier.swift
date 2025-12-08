@@ -155,6 +155,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                 }
                 .frame(maxHeight: model.isOpened ? .infinity : 30)
                 .offset(y: model.dragPositionX)
+            #if !os(tvOS)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
@@ -166,6 +167,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                             model.scrollEnded()
                         }
                 )
+            #endif
             Spacer().frame(maxHeight: model.isOpened ? 0 : .infinity)
         }
     }

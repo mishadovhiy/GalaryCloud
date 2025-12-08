@@ -402,23 +402,15 @@ class FileListViewModel: ObservableObject {
     
     func loadAPIImage(filename: String, completion:@escaping(_ image: Data?)->()) {
         Task {
-            WasabiService.fetchURL(
-                username: KeychainService.username,
-                filename: filename
-            ) { url in
-                guard let url else {
-//                    self.isLoading = false
-                    completion(nil)
-                    return
-                }
-                self.loadApiImage(
-                    url: url) { image in
-                        completion(image)
-                    }
+            let response = await URLSession.shared.resumeTask(FetchImageRequest(username: KeychainService.username, filename: filename))
+            let imageData = try? response.get()
+            await MainActor.run {
+                completion(imageData)
             }
         }
     }
     
+    /// not used
     private func loadApiImage(
         url: URL, completion: @escaping(_ image: Data?) -> ()
     ) {

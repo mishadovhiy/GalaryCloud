@@ -56,17 +56,27 @@ class CachedAsyncImageViewModel: ObservableObject {
     ) {
         self.urlTask = URLSession.shared.dataTask(with: .init(url: url)) { data, _, _ in
             DispatchQueue.main.async {
-                if let data,
-                    let image = UIImage(data: data) {
-                    self.image = .init(data: data)
-                    db.imageCache.setObject(image, forKey: dataModel.fileName as NSString, cost: data.count)
-                    self.filemamager.save(data: data, path: dataModel.username + dataModel.fileName)
-                }
-                self.isLoading = false
+                self.didFetchImage(
+                    data: data,
+                    db: db,
+                    dataModel: dataModel)
             }
         }
 
         self.urlTask?.resume()
+    }
+    
+    private func didFetchImage(
+        data: Data?,
+        db: DataBaseService,
+        dataModel: PresentationType.GalaryModel) {
+        if let data,
+            let image = UIImage(data: data) {
+            self.image = .init(data: data)
+            db.imageCache.setObject(image, forKey: dataModel.fileName as NSString, cost: data.count)
+            self.filemamager.save(data: data, path: dataModel.username + dataModel.fileName)
+        }
+        self.isLoading = false
     }
     
     func fetchImage(
@@ -81,17 +91,11 @@ class CachedAsyncImageViewModel: ObservableObject {
                 return
             }
             Task {
-                WasabiService.fetchURL(
-                    username: dataModel.username,
-                    filename: dataModel.fileName
-                ) { url in
-                    guard let url else {
-                        self.isLoading = false
-                        return
-                    }
-                    self.loadImage(
+                let response = await URLSession.shared.resumeTask(FetchImageRequest(username: dataModel.username, filename: dataModel.fileName))
+                await MainActor.run {
+                    self.didFetchImage(
+                        data: try? response.get(),
                         db: db,
-                        url: url,
                         dataModel: dataModel)
                 }
             }

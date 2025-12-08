@@ -13,6 +13,9 @@ import UIKit
 class PHFetchManager: ObservableObject {
     
     @Published var assets: PHFetchResult<PHAsset>?
+    @Published var lastSelectedID: Int?
+    @Published var selectedIs: [Int] = []
+    #warning("refactor: remove below, fix")
     @Published var selectedIDs: [PHAsset] = []
     
     init() {
@@ -35,6 +38,29 @@ class PHFetchManager: ObservableObject {
         }
     }
     
+    func selectI(_ i: Int, onScroll: Bool = false) {
+        var selectedIs = selectedIs
+        let newArray: [Int]
+        if onScroll, let lastSelectedID {
+            let last = lastSelectedID
+            newArray = Array(last..<i)
+        } else {
+            newArray = [i]
+        }
+        if selectedIs.contains(i) {
+            newArray.forEach { removeI in
+                selectedIs.removeAll(where: {$0 == removeI})
+            }
+        } else {
+            selectedIs.append(contentsOf: newArray)
+        }
+        
+        self.selectedIs = Array(Set(selectedIs))
+        if onScroll {
+            lastSelectedID = i
+        }
+    }
+    
     func saveToTemp(manager: FileManagerService,
                     completion:@escaping()->()) {
         DispatchQueue(label: "db", qos: .userInitiated).async {
@@ -44,7 +70,7 @@ class PHFetchManager: ObservableObject {
                     self.assetToData(asset) { [weak self] data in
                         if let data {
                             let format: String
-                            if #available(iOS 26.0, *) {
+                            if #available(iOS 26.0, tvOS 26.0, *) {
                                 format = PHAssetResource.assetResources(for: asset).first?.contentType.identifier ?? "jpg"
                             } else {
                                 format = PHAssetResource.assetResources(for: asset).first?.uniformTypeIdentifier ?? "jpg"
