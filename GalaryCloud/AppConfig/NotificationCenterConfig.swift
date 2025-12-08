@@ -12,6 +12,7 @@ import UIKit
 struct NotificationCenterConfig: AppServiceConfig {
     
     func configure() {
+#if !os(watchOS)
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         
         UNUserNotificationCenter.current().delegate = appDelegate
@@ -24,5 +25,6 @@ struct NotificationCenterConfig: AppServiceConfig {
                 print("Notification permission denied: \(String(describing: error))")
             }
         }
+        #endif
     }
 }

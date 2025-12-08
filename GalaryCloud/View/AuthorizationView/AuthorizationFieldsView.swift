@@ -45,7 +45,9 @@ struct AuthorizationFieldsView: View {
                     .background(.black.opacity(0.15))
                     .cornerRadius(8)
                     .focused($activeTextField, equals: key)
+#if !os(watchOS)
                     .textContentType(textFieldType(key))
+                    #endif
                     .shadow(color: .black.opacity(0.15), radius: 3)
                     .onSubmit {
                         if self.textFields[key]?.isEmpty ?? true {
@@ -61,7 +63,9 @@ struct AuthorizationFieldsView: View {
             }
             .frame(maxWidth: .infinity)
         })
+#if !os(watchOS)
         .scrollDismissesKeyboard(.interactively)
+        #endif
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(AuthorizationView.Constants.containerBackground)
         .onAppear {
@@ -70,7 +74,7 @@ struct AuthorizationFieldsView: View {
             }
         }
     }
-    
+#if !os(watchOS)
     func textFieldType(_ key: AuthorizationTextFieldType) -> UITextContentType? {
         switch key {
         case .password: .password
@@ -80,6 +84,7 @@ struct AuthorizationFieldsView: View {
         default: nil
         }
     }
+#endif
 }
 
 extension AuthorizationFieldsView {

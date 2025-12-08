@@ -7,8 +7,11 @@
 
 import UIKit
 import SwiftUI
+#if !os(watchOS)
 import Lottie
+#endif
 
+#if !os(watchOS)
 struct LottieView: UIViewRepresentable {
     let name: String
     
@@ -32,3 +35,4 @@ struct LottieView: UIViewRepresentable {
         
     }
 }
+#endif

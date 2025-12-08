@@ -38,6 +38,7 @@ struct StoreKitView: View {
             ClearBackgroundView()
         })
         .background(.primaryContainer)
+        #if !os(watchOS)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink("Privacy Policy") {
@@ -53,7 +54,9 @@ struct StoreKitView: View {
                 .tint(.primaryText)
                 .font(.footnote)
             }
-        }.onAppear {
+        }
+        #endif
+        .onAppear {
             Task {
                 await db.storeKitService.fetchActiveProducts(force: true)
             }

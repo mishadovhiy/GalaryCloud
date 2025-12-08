@@ -17,11 +17,19 @@ struct PhotoPreviewView: View {
     var body: some View {
         VStack(content: {
             Spacer().frame(height: 30)
+            #if !os(watchOS)
             GalaryPageRepresentable(views: pageList.compactMap({
                 .galary(.init(username: KeychainService.username, fileName: $0.originalURL, date: $0.date))
             }), deleteImagePressed: deleteImagePressed) { newIndex in
                 imageSwiped(newIndex == 0 ? .left : .right)
             }
+            #else
+            CachedAsyncImage(presentationType: .galary(.init(
+                username: KeychainService.username,
+                fileName: imageSelection?.file.originalURL ?? "",
+                date: imageSelection?.file.date ?? ""
+            )))
+            #endif
         })
         .background(.primaryContainer)
     }
@@ -38,7 +46,7 @@ struct PhotoPreviewView: View {
         case left, right
     }
 }
-
+#if !os(watchOS)
 struct GalaryPageRepresentable: UIViewControllerRepresentable {
     let views: [CachedAsyncImageViewModel.PresentationType]
     let deleteImagePressed:()->()
@@ -131,3 +139,4 @@ class GalaryPageController: UIPageViewController, UIPageViewControllerDataSource
     
     
 }
+#endif

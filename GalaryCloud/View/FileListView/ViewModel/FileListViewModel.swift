@@ -59,7 +59,9 @@ class FileListViewModel: ObservableObject {
     @Published var selectedFilesActionType: SelectedFilesActionType?
     @Published var lastSelectedID: String?
     private var requestOffset: Int = 0
+#if !os(watchOS)
     private let photoLibraryModifierService = PHPhotoLibraryModifierService()
+    #endif
     var totalFileRecords: Int?
     
     func fetchDirectoruSizeRequest(completion:(()->())? = nil) {
@@ -312,6 +314,7 @@ class FileListViewModel: ObservableObject {
             completion?(false)
             return
         }
+#if !os(watchOS)
         self.photoLibraryModifierService.save(
             data: data,
             date: date) { success in
@@ -322,6 +325,7 @@ class FileListViewModel: ObservableObject {
                     self.messages.append(.init(header:success ? "Success" : "Error", title: title))
                 }
             }
+            #endif
     }
     
     func retryTask(_ task: SelectedFilesActionType?) {

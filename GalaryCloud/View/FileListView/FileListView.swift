@@ -17,7 +17,9 @@ struct FileListView: View {
     var body: some View {
         galary
         .overlay(content: {
+            #if !os(watchOS)
             statusBarOverlay
+            #endif
         })
         .overlay(content: {
             uploadingIndicator
@@ -64,18 +66,7 @@ struct FileListView: View {
 #warning("background task on change")
 
     var photoPickerSheet: some View {
-//        PhotoLibraryPickerView { newImage in
-//            viewModel.uploadAnimating = true
-//            #warning("dont fetch here")
-//            viewModel.fetchDirectoruSizeRequest {
-////                viewModel.photoLibrarySelectedURLs.append(contentsOf: newImage)
-////                viewModel.upload()
-//                viewModel.temporaryDirectoryUpdated(showError: true, replacingCurrentList: true)
-//                #warning("background task")
-////                self.backgroundService.scheduleTask()
-//            }
-//        }
-//        .presentationDetents([.large])
+        #if !os(watchOS)
         PhotoPickerSysView(isPresenting: $viewModel.isPhotoLibraryPresenting) {
             //            viewModel.uploadAnimating = true
             viewModel.temporaryDirectoryUpdated(showError: true, replacingCurrentList: true)
@@ -87,6 +78,9 @@ struct FileListView: View {
         .frame(maxHeight: viewModel.isPhotoLibraryPresenting ? .infinity : 0)
         .animation(.bouncy, value: viewModel.isPhotoLibraryPresenting)
         .clipped()
+        #else
+        EmptyView()
+        #endif
     }
     
     @ViewBuilder
@@ -406,11 +400,13 @@ struct FileListView: View {
                     .disabled(true)
             }
         })
+        #if !os(watchOS)
         .modifier(DragAndDropModifier(disabled: !viewModel.isEditingList, itemID: item.originalURL, didDrop: {
             viewModel.didSelectListItem(item.originalURL, onScroll: true)
         }, didEndDragging: {
             viewModel.lastSelectedID = nil
         }))
+        #endif
         .onAppear {
             if viewModel.files.last?.originalURL == item.originalURL {
                 viewModel.fetchList()

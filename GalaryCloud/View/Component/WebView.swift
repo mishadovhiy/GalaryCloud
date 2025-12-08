@@ -8,9 +8,11 @@
 import SwiftUI
 import UIKit
 #if !os(tvOS)
+#if !os(watchOS)
 import WebKit
 #endif
-
+#endif
+#if !os(watchOS)
 struct WebView: UIViewRepresentable {
     let html:String
     
@@ -32,3 +34,4 @@ struct WebView: UIViewRepresentable {
 #endif
     }
 }
+#endif

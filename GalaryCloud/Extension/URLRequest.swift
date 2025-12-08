@@ -59,11 +59,15 @@ extension URLRequest {
 
 extension Date {
     var string: String {
+#if !os(watchOS)
         if #available(iOS 16.0, *) {
-            self.ISO8601Format(.iso8601(timeZone: .current, includingFractionalSeconds: true, dateSeparator: .dash, dateTimeSeparator: .space, timeSeparator: .colon))
+            return self.ISO8601Format(.iso8601(timeZone: .current, includingFractionalSeconds: true, dateSeparator: .dash, dateTimeSeparator: .space, timeSeparator: .colon))
         } else {
-            self.ISO8601Format()
+            return self.ISO8601Format()
         }
+        #else
+        return self.ISO8601Format()
+        #endif
     }
     
     init(string: String) {

@@ -70,10 +70,12 @@ struct FileManagerService {
     }
     
     func save(data: Data, path: String) {
+        #if !os(watchOS)
         ImageQuality.allCases.forEach { quality in
             let image = quality.data == nil ? nil : UIImage(data: data)?.changeSize(newWidth: quality.data?.width ?? 0).jpegData(compressionQuality: quality.data?.compression ?? 0)
             self.performSave(data: image ?? data, path: quality.rawValue + "_" + path, urlType: .caches)
         }
+        #endif
     }
     
     private func performLoad(path: String, quality: ImageQuality) -> Data? {

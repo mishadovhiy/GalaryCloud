@@ -19,7 +19,9 @@ class CachedAsyncImageViewModel: ObservableObject {
     @Published var isLoading: Bool = true
     @Published var messages: [MessageModel] = []
     @Published var urlTask: URLSessionDataTask?
+#if !os(watchOS)
     private let photoLibraryModifierService = PHPhotoLibraryModifierService()
+    #endif
     @Published var saveAnimating: Bool = false
     @Published var deleteAnimating: Bool = false
     private let filemamager = FileManagerService()
@@ -109,6 +111,7 @@ class CachedAsyncImageViewModel: ObservableObject {
         }
         saveAnimating = true
         let date = data.imageDate ?? date
+#if !os(watchOS)
         self.photoLibraryModifierService.save(
             data: data,
             date: date) { success in
@@ -118,6 +121,7 @@ class CachedAsyncImageViewModel: ObservableObject {
                     self.saveAnimating = false
                 })
             }
+        #endif
     }
     
     enum PresentationType {

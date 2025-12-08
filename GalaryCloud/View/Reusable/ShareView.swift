@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import SwiftUI
-
+#if !os(watchOS)
 struct ShareView: UIViewControllerRepresentable {
     var items: [Any]
 
@@ -22,3 +22,4 @@ struct ShareView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
+#endif

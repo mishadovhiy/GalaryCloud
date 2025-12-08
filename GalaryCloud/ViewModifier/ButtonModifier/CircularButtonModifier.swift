@@ -20,8 +20,12 @@ struct CircularButtonModifier: ViewModifier {
             .frame(maxWidth: isAspectRatio ? .infinity : nil, maxHeight: maxHeight)
             //.frame(width: width, height: height)
             .background(content: {
+                #if !os(watchOS)
                 BlurView()
                     .background(background.opacity(0.5))
+                #else
+                EmptyView()
+                #endif
             })
 
             .cornerRadius(cornerRadius ?? .infinity / 2)

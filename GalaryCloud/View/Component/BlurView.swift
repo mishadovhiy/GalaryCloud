@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 
+#if !os(watchOS)
 struct BlurView: UIViewRepresentable {
     var style: UIBlurEffect.Style = .init(rawValue: -1000)!
     
@@ -43,3 +44,4 @@ struct BlurView: UIViewRepresentable {
     func updateUIView(_ uiView: UIView, context: Context) {
     }
 }
+#endif

@@ -29,9 +29,11 @@ struct SidebarView: View {
             ClearBackgroundView()
         }
         .background(Constants.background)
+#if !os(watchOS)
         .sheet(isPresented: $sharePresenting) {
             ShareView(items: [Keys.shareAppURL])
         }
+        #endif
     }
     
     var fileManagerView: some View {
@@ -56,6 +58,7 @@ struct SidebarView: View {
     }
     
     var helpSupportView: some View {
+        #if !os(watchOS)
         VStack(alignment: .leading) {
             NavigationLink("Support") {
                 SupportView()
@@ -78,6 +81,9 @@ struct SidebarView: View {
         .padding(10)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Constants.background)
+        #else
+        EmptyView()
+        #endif
     }
     
     var appUtilitiesView: some View {
@@ -89,10 +95,12 @@ struct SidebarView: View {
                 .modifier(LinkButtonModifier())
                 
                 Button("Website") {
+#if !os(watchOS)
                     if let url = URL(string: Keys.websiteURL.rawValue),
                        UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
                     }
+                    #endif
                 }
                 .modifier(LinkButtonModifier())
                 

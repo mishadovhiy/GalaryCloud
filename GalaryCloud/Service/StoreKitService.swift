@@ -141,10 +141,12 @@ class StoreKitService: NSObject, ObservableObject {
     
     func requestAppStoreReview() {
         #if !os(tvOS)
+#if !os(watchOS)
         if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
         {
             SKStoreReviewController.requestReview(in: windowScene)
         }
+        #endif
         #endif
     }
     

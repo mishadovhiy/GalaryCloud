@@ -23,7 +23,9 @@ struct AuthorizationView: View {
                         .animation(.bouncy, value: viewModel.error != nil)
                         .transition(.move(edge: .top))
                 }
+                #if !os(watchOS)
                 AppFeaturesView(isKeyboardFocused: isKeyboardFocused)
+                #endif
                 contentView
                     .frame(maxHeight: viewModel.appeared ? nil : 0)
                     .clipped()
@@ -139,12 +141,14 @@ struct AuthorizationView: View {
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
+                #if !os(watchOS)
                 SignInWithAppleButton {
                     viewModel.authorization.perform(.apple)
                 }
                 .frame(maxWidth: 100)
                 .opacity(viewModel.appeared ? 1 : 0)
                 .animation(.smooth(duration: 1.2), value: viewModel.appeared)
+                #endif
                 HStack{}.frame(maxWidth: .infinity)
             }
             .frame(height: 40)

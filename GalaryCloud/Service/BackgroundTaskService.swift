@@ -7,12 +7,14 @@
 
 import Foundation
 import Combine
+#if !os(watchOS)
 import BackgroundTasks
+#endif
 import UIKit
 
 class BackgroundTaskService: ObservableObject {
     @Published var currentURL: URL?
-    
+#if !os(watchOS)
     func configure() {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.example.myTask", using: nil) { task in
             self.handleBackgroundTask(task: task as! BGProcessingTask)
@@ -75,4 +77,5 @@ class BackgroundTaskService: ObservableObject {
         return
         
     }
+    #endif
 }

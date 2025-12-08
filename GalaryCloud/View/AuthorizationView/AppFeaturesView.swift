@@ -20,9 +20,11 @@ struct AppFeaturesView: View {
             TabView {
                 ForEach(data, id: \.title) { data in
                     VStack(alignment: .center) {
+                        #if !os(watchOS)
                         LottieView(name: data.gifURL)
                             .frame(width: 150, height: isKeyboardFocused ? 0 : 150)
                             .clipped()
+                        #endif
                         Text(data.title)
                             .font(.headline)
                             .foregroundColor(.primaryText)
