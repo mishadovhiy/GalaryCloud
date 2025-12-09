@@ -31,10 +31,6 @@ struct CachedAsyncImage: View {
                         .opacity(viewModel.isCurrentlyLoading ? 1 : 0.3)
                 }
             }
-            if viewModel.fetchError && !viewModel.isLoading {
-                Text("fetcherror")
-                    .foregroundColor(.red)
-            }
         }
         .onAppear(perform: {
             if self.deleteImagePressed != nil {
