@@ -65,7 +65,7 @@ class FileListViewModel: ObservableObject {
     var totalFileRecords: Int?
     
     func fetchDirectoruSizeRequest(completion:(()->())? = nil) {
-        Task {
+        Task(priority: .low) {
             let response = await URLSession.shared.resumeTask(DirectorySizeRequest(path: KeychainService.username))
             await MainActor.run {
                 switch response {
@@ -121,7 +121,7 @@ class FileListViewModel: ObservableObject {
         }
         fetchRequestLoading = true
         fetchError = nil
-        Task(priority: .userInitiated) {
+        Task(name: "fetchlist", priority: .userInitiated) {
             let response = await URLSession.shared.resumeTask(FetchFilesRequest(offset: requestOffset, username: KeychainService.username))
             
             await MainActor.run {
@@ -226,7 +226,7 @@ class FileListViewModel: ObservableObject {
         self.uploadAnimating = true
         let date = imageData.imageDate
         let apiData = CreateFileRequest.Image(url: url.lastPathComponent, date: date ?? Date().string, data: imageData.base64EncodedString())
-        Task(priority: .userInitiated) {
+        Task(name: "uploading", priority: .utility) {
             let response = await URLSession.shared.resumeTask(CreateFileRequest(username: KeychainService.username, originalURL: [apiData]))
             
             await MainActor.run {
@@ -253,7 +253,7 @@ class FileListViewModel: ObservableObject {
     private func deleteApiImage(
         _ filename: String, completed: ((_ ok: Bool)->())? = nil) {
 //        isLoading = true
-        Task {
+            Task(name: "deleting", priority: .utility) {
             let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: KeychainService.username, filename: filename))
             filemamager.delete(path: KeychainService.username + filename)
             await MainActor.run {
@@ -407,7 +407,7 @@ class FileListViewModel: ObservableObject {
     }
     
     func loadAPIImage(filename: String, completion:@escaping(_ image: Data?)->()) {
-        Task {
+        Task(name:"loadImage", priority: .utility) {
             let response = await URLSession.shared.resumeTask(FetchImageRequest(username: KeychainService.username, filename: filename))
             let imageData = try? response.get()
             await MainActor.run {

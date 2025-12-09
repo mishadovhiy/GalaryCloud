@@ -30,6 +30,13 @@ struct CachedAsyncImage: View {
                         .frame(maxWidth: 15)
                 }
             }
+            if viewModel.task == nil && viewModel.image == nil {
+                Color.red
+            }
+            if viewModel.fetchError && !viewModel.isLoading {
+                Text("fetcherror")
+                    .foregroundColor(.red)
+            }
         }
         .onAppear(perform: {
             viewModel.fetchImage(db: db, isSmallImageType: self.deleteImagePressed == nil)

@@ -103,7 +103,6 @@
 		82144B502EE7748A003DB4AF /* AppearenceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */; };
 		82144B512EE7748A003DB4AF /* WasabiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A6B2ED541E900BF9548 /* WasabiConfig.swift */; };
 		82144B522EE7748A003DB4AF /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A692ED5418700BF9548 /* ServiceConfig.swift */; };
-		82144B532EE7748A003DB4AF /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5172ECA8D2800A44A98 /* Keys.swift */; };
 		82144B542EE77490003DB4AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2522ED10AA3005367A2 /* AppDelegate.swift */; };
 		82144B552EE7750D003DB4AF /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8292DD1B2EE7627C003DCD1C /* SharedAssets.xcassets */; };
 		82144B582EE77647003DB4AF /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 82144B572EE77647003DB4AF /* Lottie */; };
@@ -253,7 +252,6 @@
 		8292DCF92EE75FBE003DCD1C /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC28A2ED28C21005367A2 /* DataBaseService.swift */; };
 		8292DCFC2EE75FBE003DCD1C /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2842ED27EEF005367A2 /* StoreKitService.swift */; };
 		8292DCFD2EE75FBE003DCD1C /* WasabiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A6D2ED542A200BF9548 /* WasabiService.swift */; };
-		8292DCFE2EE75FC5003DCD1C /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5172ECA8D2800A44A98 /* Keys.swift */; };
 		8292DCFF2EE75FC5003DCD1C /* WasabiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A6B2ED541E900BF9548 /* WasabiConfig.swift */; };
 		8292DD012EE75FC5003DCD1C /* AppearenceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */; };
 		8292DD022EE75FC5003DCD1C /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A692ED5418700BF9548 /* ServiceConfig.swift */; };
@@ -266,6 +264,9 @@
 		82C69EB72EE1F99A00D733D2 /* BackgroundTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69EB62EE1F99A00D733D2 /* BackgroundTaskService.swift */; };
 		82C69F552EE23B5600D733D2 /* PhotoPickerSysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */; };
 		82C9F0F22EE36A7800D6B841 /* PHFetchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9F0F12EE36A7800D6B841 /* PHFetchManager.swift */; };
+		82D00CC32EE78BA10002136F /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D00CC22EE78BA10002136F /* Keys.swift */; };
+		82D00CC42EE78BA10002136F /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D00CC22EE78BA10002136F /* Keys.swift */; };
+		82D00CC52EE78BA10002136F /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D00CC22EE78BA10002136F /* Keys.swift */; };
 		82D45BAF2EDCDD35000DF5D6 /* MessageStaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */; };
 		82D7F4F52ECA82C300A44A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D7F4F12ECA82C300A44A98 /* Assets.xcassets */; };
 		82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F4EF2ECA82C300A44A98 /* Codable+Decodable.swift */; };
@@ -281,7 +282,6 @@
 		82D7F5122ECA855A00A44A98 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5112ECA855A00A44A98 /* LoginRequest.swift */; };
 		82D7F5142ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5132ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift */; };
 		82D7F5162ECA861600A44A98 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5152ECA861600A44A98 /* Requestable.swift */; };
-		82D7F5182ECA8D2800A44A98 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5172ECA8D2800A44A98 /* Keys.swift */; };
 		82D7F51A2ECA8EF000A44A98 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F5192ECA8EF000A44A98 /* URLSession.swift */; };
 		82D7F51D2ECA91E900A44A98 /* UploadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */; };
 		82D7F51F2ECA93DC00A44A98 /* URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D7F51E2ECA93DC00A44A98 /* URLRequest.swift */; };
@@ -414,6 +414,7 @@
 		82C69EB62EE1F99A00D733D2 /* BackgroundTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskService.swift; sourceTree = "<group>"; };
 		82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerSysView.swift; sourceTree = "<group>"; };
 		82C9F0F12EE36A7800D6B841 /* PHFetchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHFetchManager.swift; sourceTree = "<group>"; };
+		82D00CC22EE78BA10002136F /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStaticView.swift; sourceTree = "<group>"; };
 		82D7F4BC2ECA813300A44A98 /* GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D7F4C92ECA813500A44A98 /* GalaryCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GalaryCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -432,7 +433,6 @@
 		82D7F5112ECA855A00A44A98 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		82D7F5132ECA85AB00A44A98 /* CreateUpdateAccountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUpdateAccountRequest.swift; sourceTree = "<group>"; };
 		82D7F5152ECA861600A44A98 /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
-		82D7F5172ECA8D2800A44A98 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		82D7F5192ECA8EF000A44A98 /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		82D7F51C2ECA91E900A44A98 /* UploadingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadingProgressView.swift; sourceTree = "<group>"; };
 		82D7F51E2ECA93DC00A44A98 /* URLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequest.swift; sourceTree = "<group>"; };
@@ -854,7 +854,7 @@
 		82D7F52D2ECAB1DA00A44A98 /* AppConfig */ = {
 			isa = PBXGroup;
 			children = (
-				82D7F5172ECA8D2800A44A98 /* Keys.swift */,
+				82D00CC22EE78BA10002136F /* Keys.swift */,
 				82909A692ED5418700BF9548 /* ServiceConfig.swift */,
 				8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */,
 				8250E2E72EE0056400A81E91 /* NotificationCenterConfig.swift */,
@@ -1092,6 +1092,7 @@
 				82144AFD2EE7741A003DB4AF /* URLSession.swift in Sources */,
 				82144B542EE77490003DB4AF /* AppDelegate.swift in Sources */,
 				82144B012EE77428003DB4AF /* LinkButtonModifier.swift in Sources */,
+				82D00CC42EE78BA10002136F /* Keys.swift in Sources */,
 				82144B022EE77428003DB4AF /* ErrorViewModifier.swift in Sources */,
 				82144B032EE77428003DB4AF /* DragAndDropModifier.swift in Sources */,
 				82144B042EE77428003DB4AF /* SidebarModifier.swift in Sources */,
@@ -1133,7 +1134,6 @@
 				82144B502EE7748A003DB4AF /* AppearenceConfig.swift in Sources */,
 				82144B512EE7748A003DB4AF /* WasabiConfig.swift in Sources */,
 				82144B522EE7748A003DB4AF /* ServiceConfig.swift in Sources */,
-				82144B532EE7748A003DB4AF /* Keys.swift in Sources */,
 				82144B1B2EE77443003DB4AF /* UploadIconView.swift in Sources */,
 				82144B062EE77428003DB4AF /* ViewSizeReaderModifier.swift in Sources */,
 				82144B072EE77428003DB4AF /* RootAlertConfigModifier.swift in Sources */,
@@ -1204,12 +1204,12 @@
 				8292DD042EE75FCD003DCD1C /* SignInService.swift in Sources */,
 				8292DCB02EE75F20003DCD1C /* Codable+Decodable.swift in Sources */,
 				8292DCE32EE75FAB003DCD1C /* FetchImageRequest.swift in Sources */,
+				82D00CC32EE78BA10002136F /* Keys.swift in Sources */,
 				8292DCE42EE75FAB003DCD1C /* FetchFilesRequest.swift in Sources */,
 				8292DCE52EE75FAB003DCD1C /* DeleteFileRequest.swift in Sources */,
 				8292DCE62EE75FAB003DCD1C /* SupportRequest.swift in Sources */,
 				8292DCE72EE75FAB003DCD1C /* DeleteAccountRequest.swift in Sources */,
 				8292DCE82EE75FAB003DCD1C /* AppConfigRequest.swift in Sources */,
-				8292DCFE2EE75FC5003DCD1C /* Keys.swift in Sources */,
 				8292DCFF2EE75FC5003DCD1C /* WasabiConfig.swift in Sources */,
 				8292DD012EE75FC5003DCD1C /* AppearenceConfig.swift in Sources */,
 				8292DD022EE75FC5003DCD1C /* ServiceConfig.swift in Sources */,
@@ -1282,12 +1282,12 @@
 				82909A7F2ED5BCB900BF9548 /* IconViewProtocol.swift in Sources */,
 				8271620B2ECAD02700E52013 /* FileListViewModel.swift in Sources */,
 				82D7F5272ECAAF8700A44A98 /* CreateFileRequest.swift in Sources */,
+				82D00CC52EE78BA10002136F /* Keys.swift in Sources */,
 				82D7F52A2ECAB10100A44A98 /* MessageModel.swift in Sources */,
 				8230C9CB2EDF894700CF0B5F /* UIImage.swift in Sources */,
 				8262A59B2ED7F87D005188F2 /* ClearBackgroundView.swift in Sources */,
 				82909A8A2ED66BD200BF9548 /* AuthorizationFieldsView.swift in Sources */,
 				82909A822ED5BD2400BF9548 /* IconViewModel.swift in Sources */,
-				82D7F5182ECA8D2800A44A98 /* Keys.swift in Sources */,
 				82D7F4F62ECA82C300A44A98 /* Codable+Decodable.swift in Sources */,
 				82D7F5062ECA836D00A44A98 /* FetchFilesResponse.swift in Sources */,
 				8271624F2ECBA81B00E52013 /* CachedAsyncImage.swift in Sources */,
