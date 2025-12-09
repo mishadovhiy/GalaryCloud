@@ -41,17 +41,24 @@ struct AuthorizationView: View {
             viewModel.signInUserDidChange()
         }
         .onAppear {
-            print("fsdfaz")
             withAnimation(.smooth(duration: 0.8)) {
                 viewModel.appeared = true
             }
         }
     }
-    
+
     var contentView: some View {
         VStack {
             NavigationStack(path: viewModel.navigationPath) {
-                rootView
+                VStack(content: {
+                    if needScrollView {
+                        ScrollView(.vertical) {
+                            rootView
+                        }
+                    } else {
+                        rootView
+                    }
+                })
                     .navigationDestination(for: AuthorizationViewModel.NavigationLinkType.self) { key in
                         AuthorizationFieldsView(
                             prompt: viewModel.textFieldsViewPrompt(key),
@@ -73,29 +80,19 @@ struct AuthorizationView: View {
             .navigationViewStyle(StackNavigationViewStyle())
             nextButton
         }
-        .padding(10)
+        .padding(containerStyle.contentPadding)
         .background(Constants.containerBackground)
         .cornerRadius(30)
         .overlay(content: {
-            RoundedRectangle(cornerRadius: 30)
-                .stroke(.black, lineWidth: 1)
+            if containerStyle.needOutlines {
+                RoundedRectangle(cornerRadius: 30)
+                    .stroke(.black, lineWidth: 1)
+            }
         })
-        .shadow(radius: 10)
-        .frame(maxHeight: contentHeight)
-        .padding(.bottom, 5)
-        .padding(.horizontal, 15)
-    }
-    
-    var contentHeight: CGFloat {
-        if viewModel.authorizationType == nil {
-            #if os(tvOS)
-            return 350
-            #else
-            return 200
-            #endif
-        } else {
-            return .infinity
-        }
+        .shadow(radius: containerStyle.shadow)
+        .frame(maxHeight: containerStyle.needOutlines ? contentHeight : .infinity)
+        .padding(.bottom, containerStyle.bottomPadding)
+        .padding(.horizontal, containerStyle.horizontalPadding)
     }
     
     var nextButton: some View {
@@ -160,6 +157,58 @@ struct AuthorizationView: View {
                 self.viewModel.error = nil
             }
         }
+    }
+}
+
+extension AuthorizationView {
+    var containerStyle: ContainerStyle {
+        #if !os(watchOS)
+        return .init(
+            shadow: 10,
+            contentPadding: 10,
+            needOutlines: true,
+            needMaxHeight: true,
+            bottomPadding: 5,
+            horizontalPadding: 15)
+        #else
+        return .init(
+            shadow: 5,
+            contentPadding: 0,
+            needOutlines: false,
+            needMaxHeight: false,
+            bottomPadding: 0,
+            horizontalPadding: 0)
+        #endif
+    }
+    struct ContainerStyle {
+        let shadow: CGFloat
+        let contentPadding: CGFloat
+        let needOutlines: Bool
+        let needMaxHeight: Bool
+        let bottomPadding: CGFloat
+        let horizontalPadding: CGFloat
+    }
+    
+    var contentHeight: CGFloat {
+        if viewModel.authorizationType == nil {
+            #if os(tvOS)
+            return 350
+            #else
+            return 200
+            #endif
+        } else {
+            return .infinity
+        }
+    }
+    
+    var needScrollView: Bool {
+#if os(watchOS)
+        return true
+#elseif os(tvOS)
+        return true
+#else
+return false
+#endif
     }
 }
 
