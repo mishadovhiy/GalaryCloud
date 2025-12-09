@@ -60,6 +60,9 @@ struct FileListView: View, GalaryListProtocol {
             .sheet(isPresented: $viewModel.isPhotoLibraryPresenting, content: {
                 photoPickerSheet
             })
+            .sheet(isPresented: $viewModel.menuPresenting, content: {
+                SidebarView()
+            })
         //        .overlay(content: {
         //            //tru setting view controller size to button size
         //            photoPickerSheet
@@ -299,12 +302,27 @@ struct FileListView: View, GalaryListProtocol {
         }
     }
     
+    var menuButton: some View {
+        HStack {
+            Button("Menu") {
+                viewModel.menuPresenting = true
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
     @ViewBuilder
     var galary: some View {
         let showingUploading = viewModel.showingUploading
         VStack {
             ScrollView(.vertical) {
                 VStack {
+#if os(watchOS)
+                    menuButton
+#endif
+#if os(tvOS)
+                    menuButton
+#endif
                     Spacer()
                         .frame(height: showingUploading ? UploadingProgressView.Constants.height + 20 : 0)
                         .animation(.bouncy, value: showingUploading)

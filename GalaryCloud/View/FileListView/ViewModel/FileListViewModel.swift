@@ -24,6 +24,7 @@ class FileListViewModel: ObservableObject {
             groupFiles()
         }
     }
+    @Published var menuPresenting: Bool = false
     @Published var fetchError: NSError?
     @Published var uploadError: NSError?
     @Published var directorySizeResponse: DirectorySizeResponse?

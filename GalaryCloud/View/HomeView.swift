@@ -21,11 +21,16 @@ struct HomeView: View {
             } else {
                 if isLoggedIn {
                     FileListView()
+#if !os(tvOS)
+#if !os(watchOS)
                         .modifier(
                             SidebarModifier(
                                 targedBackgroundView: SidebarView(),
                                 disabled: false)
                         )
+#endif
+#endif
+                    
                 } else {
                     AuthorizationView()
                 }
@@ -67,16 +72,16 @@ struct HomeView: View {
         TabView {
             HStack(spacing: 20) {
                 TrashIconView(isLoading: isLoading,
-                             canPressChanged: {
+                              canPressChanged: {
                     canPress = $0
                 })
-                    .frame(width: 50, height: 50)
+                .frame(width: 50, height: 50)
                 SaveIconView(isLoading: isLoading,
                              canPressChanged: {
                     canPress = $0
                 })
-                    .frame(width: 50, height: 50)
-                    .scaleEffect(0.7)
+                .frame(width: 50, height: 50)
+                .scaleEffect(0.7)
                 UploadIconView(isLoading: isLoading, canPressChanged: {
                     canPress = $0
                 })
