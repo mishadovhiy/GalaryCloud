@@ -21,6 +21,21 @@ class DataBaseService: ObservableObject {
     // for updating height of sidebar
     @Published var isStoreKitPresenting: Bool = false
     @Published var forcePresentUpgradeToPro: Bool = false
+    @Published var currentLoading: String?
+    @Published var allLoaders: Set<String> = [] {
+        didSet {
+            if currentLoading == nil {
+                currentLoading = Array(allLoaders).last
+                #if DEBUG
+                print(currentLoading, " currentLoadingItem ")
+                #endif
+            }
+            #if DEBUG
+            print(allLoaders.count, " leftItemsToLoad ")
+            #endif
+        }
+    }
+    
     @Published var db: DataBaseModel? {
         didSet {
             if db == nil {

@@ -24,14 +24,12 @@ struct CachedAsyncImage: View {
             if let image = viewModel.image {
                 imageView(image)
             }
-            if viewModel.isLoading {
+            if viewModel.isLoading || viewModel.isCurrentlyLoading {
                 VStack {
                     LoaderView(isLoading: viewModel.isLoading)
                         .frame(maxWidth: 15)
+                        .opacity(viewModel.isCurrentlyLoading ? 1 : 0.3)
                 }
-            }
-            if viewModel.task == nil && viewModel.image == nil {
-                Color.red
             }
             if viewModel.fetchError && !viewModel.isLoading {
                 Text("fetcherror")
@@ -39,17 +37,45 @@ struct CachedAsyncImage: View {
             }
         }
         .onAppear(perform: {
-            viewModel.fetchImage(db: db, isSmallImageType: self.deleteImagePressed == nil)
+            if self.deleteImagePressed != nil {
+                viewModel.fetchImage(db: db, isSmallImageType: self.deleteImagePressed == nil)
+            } else if let galaryModel = viewModel.presentationType.galaryModel {
+                let isCached = viewModel.fetchCachedImage(db: db, isSmallImageType: true, dataModel: galaryModel)
+                if !isCached {
+                    db.allLoaders.insert(galaryModel.fileName)
+                }
+            }
         })
+        .onChange(of: db.currentLoading == viewModel.presentationType.galaryModel?.fileName) { newValue in
+            viewModel.isCurrentlyLoading = newValue
+            if newValue {
+                print(newValue, " tgerfwdas ")
+                viewModel.fetchImage(db: db, isSmallImageType: self.deleteImagePressed == nil)
+            }
+        }
+        .onChange(of: viewModel.image != nil) { newValue in
+            if let name = viewModel.presentationType.galaryModel?.fileName {
+                if db.currentLoading == name {
+                    db.currentLoading = nil
+                }
+                db.allLoaders.remove(name)
+            }
+        }
         .onDisappear {
             viewModel.viewDidDisapear()
+            if let name = viewModel.presentationType.galaryModel?.fileName {
+                if db.currentLoading == name {
+                    db.currentLoading = nil
+                }
+                db.allLoaders.remove(name)
+            }
         }
         .background(deleteImagePressed == nil ? .clear : .primaryContainer)
         .background {
             ClearBackgroundView()
         }
     }
-    
+        
     @ViewBuilder
     var dateView: some View {
         let date = DateComponents(string: viewModel.date)
@@ -85,13 +111,17 @@ struct CachedAsyncImage: View {
                 .resizable()
                 .scaledToFill()
         } else {
-            VStack {
+            VStack(alignment: .leading) {
                 dateView
                 Spacer()
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                 Spacer()
+                Text(viewModel.image?.pngData()?.count.megabytesFromBytes.formated ?? "")
+                    .multilineTextAlignment(.leading)
+                    .font(.system(size: 8))
+                    .foregroundColor(.secondaryText)
             }
         }
     }

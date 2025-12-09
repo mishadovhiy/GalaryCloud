@@ -49,8 +49,8 @@ struct PhotoPickerSysView: View {
             .background(.red)
             .clipped()
         }
-        .ignoresSafeArea(.all)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea(.all)
         .background(.black)
         .cornerRadius(20)
         .shadow(radius: 11)
@@ -61,19 +61,23 @@ struct PhotoPickerSysView: View {
     var headerView: some View {
         HStack {
             if isPresenting {
-                Button("close") {
+                Button {
                     hide()
+                } label: {
+                    MenuIconShape(type: .close)
                 }
                 .frame(maxHeight: .infinity)
+                .modifier(LinkButtonModifier(type: .link))
                 .padding(.horizontal, 15)
             }
             
             Spacer()
             if !manager.saving {
-                Button("deselect \(manager.selectedIs.count)") {
+                Button("Deselect \(manager.selectedIs.count)") {
                     manager.selectedIs.removeAll()
                 }
                 .frame(maxHeight: .infinity)
+                .modifier(LinkButtonModifier(type: .link))
                 .padding(.horizontal, 15)
                 Button("save \(manager.selectedIs.count)") {
                     hide()
@@ -85,6 +89,7 @@ struct PhotoPickerSysView: View {
                     }
                 }
                 .frame(maxHeight: .infinity)
+                .modifier(LinkButtonModifier(type: .link))
                 .padding(.horizontal, 15)
             } else {
                 Text("Saving \(manager.selectedIs.count)")

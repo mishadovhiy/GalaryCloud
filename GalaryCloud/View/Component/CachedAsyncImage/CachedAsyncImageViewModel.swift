@@ -14,6 +14,7 @@ class CachedAsyncImageViewModel: ObservableObject {
     init(presentationType: PresentationType) {
         self.presentationType = presentationType
     }
+    @Published var isCurrentlyLoading: Bool = false
     @Published var image: UIImage?
     @Published var date: String = ""
     @Published var isLoading: Bool = true
@@ -25,8 +26,9 @@ class CachedAsyncImageViewModel: ObservableObject {
     @Published var deleteAnimating: Bool = false
     @Published var fetchError: Bool = false
     private let filemamager = FileManagerService()
-    
-    private func fetchCachedImage(
+    @Published var task: (Task<(), Never>)?
+
+    func fetchCachedImage(
         db: DataBaseService,
         isSmallImageType: Bool,
         dataModel: PresentationType.GalaryModel
@@ -51,30 +53,9 @@ class CachedAsyncImageViewModel: ObservableObject {
     
     func viewDidDisapear() {
         if self.image == nil {
-            print("canceleddd", self.presentationType.galaryModel?.fileName)
             task?.cancel()
         }
         image = nil
-        restarted = 0
-    }
-    
-    // not using
-    private func loadImage(
-        db: DataBaseService,
-        url: URL,
-        dataModel: PresentationType.GalaryModel
-    ) {
-        let task = URLSession.shared.dataTask(
-            with: .init(url: url)) { data, _, _ in
-                DispatchQueue.main.async {
-                    self.didFetchImage(
-                        data: data,
-                        db: db,
-                        dataModel: dataModel)
-                }
-            }
-        
-        task.resume()
     }
     
     private func didFetchImage(
@@ -114,32 +95,23 @@ class CachedAsyncImageViewModel: ObservableObject {
                 return
             }
             task = Task(name: "imageLoading" + dataModel.fileName,
-                        priority: .high) {
+                        priority: .userInitiated) {
                 let response = await URLSession.shared.resumeTask(
                     FetchImageRequest(
                         username: dataModel.username,
                         filename: dataModel.fileName)
                 )
-                print(dataModel.fileName, " tgerfw has loaded")
                 let data = try? response.get()
                 await MainActor.run {
                     self.didFetchImage(
                         data: data,
                         db: db,
                         dataModel: dataModel)
-                    if data == nil && self.restarted <= 300 && self.task != nil {
-                        restarted += 1
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-                            self.fetchImage(db: db, isSmallImageType: isSmallImageType)
-                        })
-                    }
                 }
                 
             }
         }
     }
-    private var restarted = 0
-    @Published var task: (Task<(), Never>)?
     
     func performSaveImage(_ db: DataBaseService) {
         guard let data = self.image?.jpegData(

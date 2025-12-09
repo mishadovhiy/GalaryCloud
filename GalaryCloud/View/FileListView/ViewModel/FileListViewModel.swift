@@ -121,7 +121,7 @@ class FileListViewModel: ObservableObject {
         }
         fetchRequestLoading = true
         fetchError = nil
-        Task(name: "fetchlist", priority: .userInitiated) {
+        Task(name: "fetchlist", priority: .high) {
             let response = await URLSession.shared.resumeTask(FetchFilesRequest(offset: requestOffset, username: KeychainService.username))
             
             await MainActor.run {
