@@ -16,68 +16,70 @@ struct FileListView: View, GalaryListProtocol {
     
     var body: some View {
         galary
-        .overlay(content: {
-            #if !os(watchOS)
-            statusBarOverlay
-            #endif
-        })
-        .overlay(content: {
-            uploadingIndicator
-        })
-        .onChange(of: viewModel.uploadError) { newValue in
-            if let newValue {
-                viewModel.messages.append(.init(header:"Error", title: newValue.unparcedDescription))
+            .overlay(content: {
+#if !os(watchOS)
+#if !os(tvOS)
+                statusBarOverlay
+#endif
+#endif
+            })
+            .overlay(content: {
+                uploadingIndicator
+            })
+            .onChange(of: viewModel.uploadError) { newValue in
+                if let newValue {
+                    viewModel.messages.append(.init(header:"Error", title: newValue.unparcedDescription))
+                }
             }
-        }
-        .onAppear {
-            #warning("todo: check temp folder and asign to error")
-            viewModel.fetchList(onAppear: true)
-            withAnimation(.bouncy) {
-                viewModel.appeared = true
+            .onAppear {
+#warning("todo: check temp folder and asign to error")
+                viewModel.fetchList(onAppear: true)
+                withAnimation(.bouncy) {
+                    viewModel.appeared = true
+                }
             }
-        }
-        .sheet(isPresented: $viewModel.imagePreviewPresenting) {
-            galaryPreview
-        }
-        .onChange(of: viewModel.messages) { newValue in
-            if !newValue.isEmpty {
-                db.messages.append(contentsOf: newValue)
-                viewModel.messages.removeAll()
+            .sheet(isPresented: $viewModel.imagePreviewPresenting) {
+                galaryPreview
             }
-        }
-        .onChange(of: viewModel.directorySizeResponse?.bytes) { newValue in
-            db.storageUsed = newValue ?? 0
-        }
-        .onChange(of: viewModel.totalFileRecords) { newValue in
-            guard let newValue else {
-                return
+            .onChange(of: viewModel.messages) { newValue in
+                if !newValue.isEmpty {
+                    db.messages.append(contentsOf: newValue)
+                    viewModel.messages.removeAll()
+                }
             }
-            db.totalFileCount = newValue
-        }
-        .sheet(isPresented: $viewModel.isPhotoLibraryPresenting, content: {
-            photoPickerSheet
-        })
-//        .overlay(content: {
-//            //tru setting view controller size to button size
-//            photoPickerSheet
-//        })
-//        .onChange(of: backgroundService.currentURL) { newValue in
-//            self.viewModel.temporaryDirectoryUpdated(showError: false, replacingCurrentList: true)
-//        }
-        .background(.black)
+            .onChange(of: viewModel.directorySizeResponse?.bytes) { newValue in
+                db.storageUsed = newValue ?? 0
+            }
+            .onChange(of: viewModel.totalFileRecords) { newValue in
+                guard let newValue else {
+                    return
+                }
+                db.totalFileCount = newValue
+            }
+            .sheet(isPresented: $viewModel.isPhotoLibraryPresenting, content: {
+                photoPickerSheet
+            })
+        //        .overlay(content: {
+        //            //tru setting view controller size to button size
+        //            photoPickerSheet
+        //        })
+        //        .onChange(of: backgroundService.currentURL) { newValue in
+        //            self.viewModel.temporaryDirectoryUpdated(showError: false, replacingCurrentList: true)
+        //        }
+            .background(.black)
     }
 #warning("background task on change")
-
+    
     var photoPickerSheet: some View {
-        #if !os(watchOS)
+#if !os(watchOS)
         PhotoPickerView() {
             //            viewModel.uploadAnimating = true
             viewModel.temporaryDirectoryUpdated(showError: true, replacingCurrentList: true)
         }
         .ignoresSafeArea(.all)
-        #else
+#else
         EmptyView()
-        #endif
+#endif
     }
     
     @ViewBuilder
@@ -93,7 +95,7 @@ struct FileListView: View, GalaryListProtocol {
             self.viewModel.deletePressed(filename: filename)
         }) { direction in
             let inx = viewModel.selectedImagePreviewPresenting?.index ?? 0
-
+            
             let plusIndex = direction == .left ? -1 : 1
             let isValid = inx + plusIndex <= viewModel.files.count - 1 && inx + plusIndex >= 0
             if isValid {
@@ -104,7 +106,7 @@ struct FileListView: View, GalaryListProtocol {
     
     var statusBarOverlay: some View {
         VStack {
-//            topStatusBarBar
+            //            topStatusBarBar
             if viewModel.fetchRequestLoading {
                 
                 HStack {
@@ -119,7 +121,7 @@ struct FileListView: View, GalaryListProtocol {
         .padding(.horizontal, 10)
         .padding(.vertical, 2)
         .animation(.bouncy, value: viewModel.photoLibrarySelectedURLs)
-
+        
     }
     
     
@@ -135,16 +137,16 @@ struct FileListView: View, GalaryListProtocol {
                         self.viewModel.selectedFilesActionType = nil
                         self.viewModel.isEditingList = false
                     }
-                
+                    
                 }
                 .scaleEffect(1.15)
             }
             .modifier(CircularButtonModifier(isAspectRatio: true))
             .frame(maxWidth: 60)
             .aspectRatio(1, contentMode: .fit)
-
+            
             .disabled(viewModel.selectedFilesActionType != nil)
-
+            
             Button(action: {
                 viewModel.startTask(.save)
             }, label: {
@@ -160,7 +162,7 @@ struct FileListView: View, GalaryListProtocol {
             .modifier(CircularButtonModifier(isAspectRatio: true))
             .aspectRatio(1, contentMode: .fit)
             .frame(maxWidth: 60)
-
+            
             .disabled(viewModel.selectedFilesActionType != nil)
             if viewModel.selectedFileIDs.isEmpty && !viewModel.errorFileNames.isEmpty {
                 Button("Error \(viewModel.errorFileNames.count)") {
@@ -211,7 +213,7 @@ struct FileListView: View, GalaryListProtocol {
             if !viewModel.files.isEmpty {
                 
             }
-        
+            
             Spacer()
             
             Spacer()
@@ -236,7 +238,7 @@ struct FileListView: View, GalaryListProtocol {
             } label: {
                 UploadIconView(isLoading: viewModel.uploadAnimating)
             }
-//            .frame(width: viewModel.isEditingList ? 0 : 70, height: 70)
+            //            .frame(width: viewModel.isEditingList ? 0 : 70, height: 70)
             .disabled(viewModel.directorySizeResponse == nil)
             .modifier(CircularButtonModifier(
                 isHidden: viewModel.isEditingList,
@@ -287,7 +289,7 @@ struct FileListView: View, GalaryListProtocol {
                 UploadingProgressView(currentItem: currentURL, uploadingFilesCount: uploadingCount, error: viewModel.uploadError, resendPressed: {
                     viewModel.photoLibrarySelectedURLs.append(contentsOf: viewModel.errorFileNames.compactMap({.init(string: $0)!}))
 #warning("background task")
-//                    backgroundService.scheduleTask()
+                    //                    backgroundService.scheduleTask()
                     viewModel.upload()
                 })
                 .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
@@ -328,14 +330,14 @@ struct FileListView: View, GalaryListProtocol {
                                             .opacity(0.2)
                                     })
                                     .foregroundColor(.primaryText)
-                                        .padding(.horizontal, 10)
-                                        .padding(.vertical, 3)
-                                        .modifier(CircularButtonModifier())
-                                        .compositingGroup()
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 3)
+                                    .modifier(CircularButtonModifier())
+                                    .compositingGroup()
                                     Spacer()
                                 }
                             }
-
+                            
                         }
                     }
                     .padding(.horizontal, 4)
@@ -351,14 +353,14 @@ struct FileListView: View, GalaryListProtocol {
             }
             
         }
-
+        
     }
     
     private func galaryItem(_ item: FileListViewModel.File) -> some View {
         GeometryReader(content: { proxy in
             CachedAsyncImage(
                 presentationType: .galary(.init(username: KeychainService.username,
-                              fileName: item.originalURL,
+                                                fileName: item.originalURL,
                                                 date: item.date))
             )
             .frame(width: proxy.size.width, height: proxy.size.width)
@@ -395,13 +397,13 @@ struct FileListView: View, GalaryListProtocol {
                 selectionIndicator
             }
         })
-        #if !os(watchOS)
+#if !os(watchOS)
         .modifier(DragAndDropModifier(disabled: !viewModel.isEditingList, itemID: item.originalURL, didDrop: {
             viewModel.didSelectListItem(item.originalURL, onScroll: true)
         }, didEndDragging: {
             viewModel.lastSelectedID = nil
         }))
-        #endif
+#endif
         .onAppear {
             if viewModel.files.last?.originalURL == item.originalURL {
                 viewModel.fetchList()

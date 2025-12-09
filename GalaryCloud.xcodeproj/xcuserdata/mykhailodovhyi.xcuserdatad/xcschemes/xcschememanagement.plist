@@ -12,16 +12,21 @@
 		<key>tvOS.GalaryCloud.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<key>watchKit.GalaryCloud Watch App.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>82144AE72EE77343003DB4AF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>82D7F4BB2ECA813300A44A98</key>
 		<dict>
 			<key>primary</key>

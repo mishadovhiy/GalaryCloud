@@ -23,7 +23,9 @@ struct PhotoPickerView: View, GalaryListProtocol {
     var body: some View {
         if #available(iOS 16.4, *) {
             contentView
+            #if !os(tvOS)
                 .presentationBackgroundInteraction(.enabled)
+            #endif
         } else {
             contentView
         }
