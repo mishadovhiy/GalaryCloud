@@ -8,7 +8,7 @@
 import SwiftUI
 internal import UniformTypeIdentifiers
 
-struct FileListView: View {
+struct FileListView: View, GalaryListProtocol {
     
     @StateObject private var viewModel: FileListViewModel = .init()
     @EnvironmentObject private var db: DataBaseService
@@ -54,10 +54,13 @@ struct FileListView: View {
             }
             db.totalFileCount = newValue
         }
-        .overlay(content: {
-            //tru setting view controller size to button size
+        .sheet(isPresented: $viewModel.isPhotoLibraryPresenting, content: {
             photoPickerSheet
         })
+//        .overlay(content: {
+//            //tru setting view controller size to button size
+//            photoPickerSheet
+//        })
 //        .onChange(of: backgroundService.currentURL) { newValue in
 //            self.viewModel.temporaryDirectoryUpdated(showError: false, replacingCurrentList: true)
 //        }
@@ -67,17 +70,11 @@ struct FileListView: View {
 
     var photoPickerSheet: some View {
         #if !os(watchOS)
-        PhotoPickerSysView(isPresenting: $viewModel.isPhotoLibraryPresenting) {
+        PhotoPickerView() {
             //            viewModel.uploadAnimating = true
             viewModel.temporaryDirectoryUpdated(showError: true, replacingCurrentList: true)
-            withAnimation {
-                viewModel.isPhotoLibraryPresenting = false
-            }
         }
         .ignoresSafeArea(.all)
-        .frame(maxHeight: viewModel.isPhotoLibraryPresenting ? .infinity : 0)
-        .animation(.bouncy, value: viewModel.isPhotoLibraryPresenting)
-        .clipped()
         #else
         EmptyView()
         #endif
@@ -395,9 +392,7 @@ struct FileListView: View {
         }
         .overlay(content: {
             if viewModel.selectedFileIDs.contains(item.originalURL) {
-                Color.red.opacity(0.3)
-                    .allowsHitTesting(false)
-                    .disabled(true)
+                selectionIndicator
             }
         })
         #if !os(watchOS)

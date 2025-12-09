@@ -9,68 +9,54 @@ import SwiftUI
 import Combine
 import Photos
 
-struct PhotoPickerSysView: View {
-    @Binding var isPresenting: Bool
+struct PhotoPickerView: View, GalaryListProtocol {
+    @State var isPresenting: Bool = true
     let completedSelection: ()->()
     private let fileManager: FileManagerService = .init()
     
     @StateObject private var manager: PHFetchManager = .init()
     @State private var assets: [Int: UIImage?] = [:]
     @State private var selectedOnScreenIndxs: [Int] = []
-    @State private var safeArea: EdgeInsets = .init()
     @State private var lastDroppedID: String?
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(content: {
-            Spacer().frame(height: safeArea.top + 50)
-            Spacer()
+        if #available(iOS 16.4, *) {
             contentView
-                .frame(maxHeight: isPresenting ? .infinity : manager.selectedIs.isEmpty ? 0 : 100)
-        })
-        .ignoresSafeArea(.all)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-        .animation(.bouncy, value: isPresenting)
-        .modifier(ViewSizeReaderModifier(safeArea: $safeArea))
+                .presentationBackgroundInteraction(.enabled)
+        } else {
+            contentView
+        }
     }
     
     var contentView: some View {
-        VStack(spacing: 0) {
-            headerView
-            ScrollView(content: {
-                LazyVGrid(columns: (0..<4).compactMap({ _ in
-                        .init()
-                })) {
-                    galaryView
-                }
-            })
+        ScrollView(content: {
+            LazyVGrid(columns: (0..<4).compactMap({ _ in
+                    .init()
+            })) {
+                galaryView
+                
+            }
+            .padding(.top, 64)
             .ignoresSafeArea(.all)
-
             .frame(maxWidth: .infinity, maxHeight: isPresenting ? .infinity : 0)
-            .background(.red)
-            .clipped()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        })
+        .overlay(content: {
+            VStack {
+                headerView
+                Spacer()
+            }
+        })
+        .frame(maxHeight: .infinity)
         .ignoresSafeArea(.all)
         .background(.black)
-        .cornerRadius(20)
-        .shadow(radius: 11)
-        .padding(.horizontal, 10)
-        .padding(.top, 20)
+        .clipped()
+        .presentationDetents([isPresenting ? .large : .height(50)])
+        .colorScheme(.dark)
     }
     
     var headerView: some View {
-        HStack {
-            if isPresenting {
-                Button {
-                    hide()
-                } label: {
-                    MenuIconShape(type: .close)
-                }
-                .frame(maxHeight: .infinity)
-                .modifier(LinkButtonModifier(type: .link))
-                .padding(.horizontal, 15)
-            }
-            
+        HStack(spacing: 15) {
             Spacer()
             if !manager.saving {
                 Button("Deselect \(manager.selectedIs.count)") {
@@ -78,29 +64,34 @@ struct PhotoPickerSysView: View {
                 }
                 .frame(maxHeight: .infinity)
                 .modifier(LinkButtonModifier(type: .link))
-                .padding(.horizontal, 15)
-                Button("save \(manager.selectedIs.count)") {
+                Button("Save \(manager.selectedIs.count)") {
                     hide()
                     if !manager.selectedIs.isEmpty {
                         manager.saving = true
                         manager.saveToTemp(manager: fileManager) {
                             completedSelection()
+                            dismiss()
                         }
                     }
                 }
                 .frame(maxHeight: .infinity)
                 .modifier(LinkButtonModifier(type: .link))
-                .padding(.horizontal, 15)
             } else {
                 Text("Saving \(manager.selectedIs.count)")
                     .foregroundColor(.primaryText)
             }
             
         }
-        .frame(maxHeight: !isPresenting ? .infinity : 44)
+        .frame(maxHeight: !isPresenting ? (manager.selectedIs.isEmpty ? 0 : .infinity) : 36)
+        .padding(.vertical, 5)
         .padding(.horizontal, 10)
-        .padding(.top, 50)
-        .background(.orange)
+        .background(content: {
+            BlurView(style: .dark)
+                .opacity(isPresenting ? 1 : 0.3)
+        })
+        .cornerRadius(20)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 5)
     }
     
     func galaryImage(_ i: Int) -> some View {
@@ -126,13 +117,7 @@ struct PhotoPickerSysView: View {
                 selectionIndicator
             }
         })
-    }
-    
-    var selectionIndicator: some View {
-        Color.red.opacity(0.3)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .allowsHitTesting(false)
-            .disabled(true)
+        .cornerRadius(5)
     }
     
     @ViewBuilder
@@ -160,7 +145,7 @@ struct PhotoPickerSysView: View {
 }
 
 fileprivate
-extension PhotoPickerSysView {
+extension PhotoPickerView {
     func imageAppeared(_ i: Int) {
         if assets[i] == nil,
            let asset = manager.assets?.object(at: i)

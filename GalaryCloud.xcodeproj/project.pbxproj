@@ -40,7 +40,7 @@
 		82144B112EE77438003DB4AF /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CF2EDFF64800A81E91 /* NoDataView.swift */; };
 		82144B122EE77438003DB4AF /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9AC2EDF130E00CF0B5F /* ShareView.swift */; };
 		82144B132EE77438003DB4AF /* MessageStaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */; };
-		82144B142EE77438003DB4AF /* PhotoPickerSysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */; };
+		82144B142EE77438003DB4AF /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69F542EE23B5600D733D2 /* PhotoPickerView.swift */; };
 		82144B152EE77438003DB4AF /* PhotoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */; };
 		82144B162EE77438003DB4AF /* AppLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2E52EE0023B00A81E91 /* AppLaunchView.swift */; };
 		82144B172EE77443003DB4AF /* SaveIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82909A7B2ED5B42000BF9548 /* SaveIconView.swift */; };
@@ -132,6 +132,9 @@
 		823DC28B2ED28C21005367A2 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC28A2ED28C21005367A2 /* DataBaseService.swift */; };
 		823DC2952ED29FAB005367A2 /* StoreKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2942ED29FAB005367A2 /* StoreKitView.swift */; };
 		8240E3482EE7681B008EB704 /* NotificationCenterConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2E72EE0056400A81E91 /* NotificationCenterConfig.swift */; };
+		8245CCDC2EE8A3BB008F73A7 /* GalaryListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8245CCDB2EE8A3BB008F73A7 /* GalaryListProtocol.swift */; };
+		8245CCDD2EE8A3BB008F73A7 /* GalaryListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8245CCDB2EE8A3BB008F73A7 /* GalaryListProtocol.swift */; };
+		8245CCDE2EE8A3BB008F73A7 /* GalaryListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8245CCDB2EE8A3BB008F73A7 /* GalaryListProtocol.swift */; };
 		8250E2CA2EDFC7E600A81E91 /* AppearenceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */; };
 		8250E2CC2EDFDD2C00A81E91 /* AppConfigRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CB2EDFDD2C00A81E91 /* AppConfigRequest.swift */; };
 		8250E2CE2EDFEB3E00A81E91 /* ErrorViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250E2CD2EDFEB3E00A81E91 /* ErrorViewModifier.swift */; };
@@ -262,7 +265,7 @@
 		8292DD1C2EE7627C003DCD1C /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8292DD1B2EE7627C003DCD1C /* SharedAssets.xcassets */; };
 		8292DD1D2EE7627C003DCD1C /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8292DD1B2EE7627C003DCD1C /* SharedAssets.xcassets */; };
 		82C69EB72EE1F99A00D733D2 /* BackgroundTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69EB62EE1F99A00D733D2 /* BackgroundTaskService.swift */; };
-		82C69F552EE23B5600D733D2 /* PhotoPickerSysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */; };
+		82C69F552EE23B5600D733D2 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C69F542EE23B5600D733D2 /* PhotoPickerView.swift */; };
 		82C9F0F22EE36A7800D6B841 /* PHFetchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9F0F12EE36A7800D6B841 /* PHFetchManager.swift */; };
 		82D00CC32EE78BA10002136F /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D00CC22EE78BA10002136F /* Keys.swift */; };
 		82D00CC42EE78BA10002136F /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D00CC22EE78BA10002136F /* Keys.swift */; };
@@ -364,6 +367,7 @@
 		823DC2882ED28B48005367A2 /* AppConfigResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigResponse.swift; sourceTree = "<group>"; };
 		823DC28A2ED28C21005367A2 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
 		823DC2942ED29FAB005367A2 /* StoreKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitView.swift; sourceTree = "<group>"; };
+		8245CCDB2EE8A3BB008F73A7 /* GalaryListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaryListProtocol.swift; sourceTree = "<group>"; };
 		8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearenceConfig.swift; sourceTree = "<group>"; };
 		8250E2CB2EDFDD2C00A81E91 /* AppConfigRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigRequest.swift; sourceTree = "<group>"; };
 		8250E2CD2EDFEB3E00A81E91 /* ErrorViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModifier.swift; sourceTree = "<group>"; };
@@ -412,7 +416,7 @@
 		8292DC9F2EE75EE3003DCD1C /* watchKit.GalaryCloud Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "watchKit.GalaryCloud Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8292DD1B2EE7627C003DCD1C /* SharedAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SharedAssets.xcassets; sourceTree = "<group>"; };
 		82C69EB62EE1F99A00D733D2 /* BackgroundTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskService.swift; sourceTree = "<group>"; };
-		82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerSysView.swift; sourceTree = "<group>"; };
+		82C69F542EE23B5600D733D2 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		82C9F0F12EE36A7800D6B841 /* PHFetchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHFetchManager.swift; sourceTree = "<group>"; };
 		82D00CC22EE78BA10002136F /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		82D45BAE2EDCDD35000DF5D6 /* MessageStaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStaticView.swift; sourceTree = "<group>"; };
@@ -583,6 +587,7 @@
 				820A9D572ED8172000498E35 /* WebView.swift */,
 				8262A59A2ED7F87D005188F2 /* ClearBackgroundView.swift */,
 				825511A22EDB356400C4094F /* BlurView.swift */,
+				8245CCDB2EE8A3BB008F73A7 /* GalaryListProtocol.swift */,
 				8262A59C2ED7F992005188F2 /* SignInWithAppleButton.swift */,
 				82909A7D2ED5B42700BF9548 /* IconView */,
 			);
@@ -631,7 +636,7 @@
 		827162432ECB436D00E52013 /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
-				82C69F542EE23B5600D733D2 /* PhotoPickerSysView.swift */,
+				82C69F542EE23B5600D733D2 /* PhotoPickerView.swift */,
 				82E06A0A2ECD100E0003474F /* PhotoPreviewView.swift */,
 				8250E2CF2EDFF64800A81E91 /* NoDataView.swift */,
 				8230C9AC2EDF130E00CF0B5F /* ShareView.swift */,
@@ -1164,11 +1169,12 @@
 				82144B1C2EE7744C003DB4AF /* ClearBackgroundView.swift in Sources */,
 				82144B1D2EE7744C003DB4AF /* LottieView.swift in Sources */,
 				82144B1E2EE7744C003DB4AF /* SignInWithAppleButton.swift in Sources */,
+				8245CCDC2EE8A3BB008F73A7 /* GalaryListProtocol.swift in Sources */,
 				82144B1F2EE7744C003DB4AF /* BlurView.swift in Sources */,
 				82144B202EE7744C003DB4AF /* LoaderView.swift in Sources */,
 				82144B212EE7744C003DB4AF /* WebView.swift in Sources */,
 				82144B132EE77438003DB4AF /* MessageStaticView.swift in Sources */,
-				82144B142EE77438003DB4AF /* PhotoPickerSysView.swift in Sources */,
+				82144B142EE77438003DB4AF /* PhotoPickerView.swift in Sources */,
 				82144B152EE77438003DB4AF /* PhotoPreviewView.swift in Sources */,
 				82144B162EE77438003DB4AF /* AppLaunchView.swift in Sources */,
 				82144B002EE7741A003DB4AF /* URLRequest.swift in Sources */,
@@ -1235,6 +1241,7 @@
 				8292DCBA2EE75F4C003DCD1C /* RootAlertConfigModifier.swift in Sources */,
 				8292DCB32EE75F20003DCD1C /* NSError.swift in Sources */,
 				8292DCC42EE75F60003DCD1C /* MessageStaticView.swift in Sources */,
+				8245CCDE2EE8A3BB008F73A7 /* GalaryListProtocol.swift in Sources */,
 				8292DCC52EE75F60003DCD1C /* PhotoPreviewView.swift in Sources */,
 				8292DCCF2EE75F73003DCD1C /* SignInWithAppleButton.swift in Sources */,
 				8292DCD02EE75F73003DCD1C /* BlurView.swift in Sources */,
@@ -1270,7 +1277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82D7F5122ECA855A00A44A98 /* LoginRequest.swift in Sources */,
-				82C69F552EE23B5600D733D2 /* PhotoPickerSysView.swift in Sources */,
+				82C69F552EE23B5600D733D2 /* PhotoPickerView.swift in Sources */,
 				82D7F51F2ECA93DC00A44A98 /* URLRequest.swift in Sources */,
 				823DC2892ED28B48005367A2 /* AppConfigResponse.swift in Sources */,
 				8230C9AF2EDF13FF00CF0B5F /* String.swift in Sources */,
@@ -1354,6 +1361,7 @@
 				823DC28B2ED28C21005367A2 /* DataBaseService.swift in Sources */,
 				82909A6E2ED542A200BF9548 /* WasabiService.swift in Sources */,
 				82D7F5162ECA861600A44A98 /* Requestable.swift in Sources */,
+				8245CCDD2EE8A3BB008F73A7 /* GalaryListProtocol.swift in Sources */,
 				8232D4C52ED37D5D004A67EE /* AppFeaturesView.swift in Sources */,
 				8268DBDB2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift in Sources */,
 				8232D4C22ED37841004A67EE /* AuthorizationView.swift in Sources */,
