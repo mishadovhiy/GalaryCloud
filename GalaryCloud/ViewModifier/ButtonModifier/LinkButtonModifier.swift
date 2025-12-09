@@ -13,12 +13,13 @@ struct LinkButtonModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 7)
             .background(background)
-            .cornerRadius(8)
+            .cornerRadius(12)
             .tint(tint)
-            .font(.system(size: 12, weight: .medium))
+            .font(.system(size: 13, weight: .medium))
+            .minimumScaleFactor(0.2)
     }
     
     private var background: Color {

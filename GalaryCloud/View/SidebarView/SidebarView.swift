@@ -35,15 +35,18 @@ struct SidebarView: View {
     }
     
     var fileManagerView: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: spacing) {
             Text("Select directory, you would like to clear:")
                 .foregroundColor(.primaryText)
-            ForEach(FileManagerService.URLType.allCases, id: \.url.absoluteString) { type in
-                Button("\(type.rawValue.capitalized) \(directorySize[type]?.megabytesFromBytes ?? 0) MB") {
-                    filemamager.clear(url: type)
-                    calculateDirectorySizes()
+            HStack(spacing: spacing) {
+                ForEach(FileManagerService.URLType.allCases, id: \.url.absoluteString) { type in
+                    Button("\(type.rawValue.capitalized) \(directorySize[type]?.megabytesFromBytes.formated ?? "") MB") {
+                        filemamager.clear(url: type)
+                        calculateDirectorySizes()
+                    }
+                    .modifier(LinkButtonModifier())
                 }
-                .modifier(LinkButtonModifier())
+                Spacer()
             }
             Spacer()
         }
@@ -56,14 +59,14 @@ struct SidebarView: View {
     }
     
     var helpSupportView: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: spacing) {
             NavigationLink("Support") {
                 SupportView()
                     .navigationTitle("Support")
             }
             .modifier(LinkButtonModifier())
             
-            HStack {
+            HStack(spacing: spacing) {
                 NavigationLink("Privacy policy") {
                     HTMLBlockPresenterView(urlType: .privacyPolicy)
                 }
@@ -81,8 +84,8 @@ struct SidebarView: View {
     }
     
     var appUtilitiesView: some View {
-        VStack(alignment: .leading) {
-            HStack {
+        VStack(alignment: .leading, spacing: spacing) {
+            HStack(spacing: spacing) {
                 Button("Rate us") {
                     db.storeKitService.requestAppStoreReview()
                 }
@@ -109,11 +112,11 @@ struct SidebarView: View {
     }
     
     var accountView: some View {
-        VStack(content: {
+        VStack(spacing: spacing, content: {
             Text(KeychainService.username)
                 .foregroundColor(.primaryText)
             Spacer()
-            HStack {
+            HStack(spacing: spacing) {
                 NavigationLink("Logout") {
                     logoutView
                         .navigationTitle("Logout")
@@ -132,35 +135,46 @@ struct SidebarView: View {
         .background(Constants.background)
     }
     
+    let spacing: CGFloat = 15
+    
     var rootView: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            NavigationLink("Account") {
-                accountView
-                    .navigationTitle("Account")
-            }
-            .modifier(LinkButtonModifier())
-            
-            HStack(spacing: 10) {
-                NavigationLink("Help & Support") {
-                    helpSupportView
-                        .navigationTitle("Help & Support")
-                }
-                .modifier(LinkButtonModifier())
-                
-                NavigationLink("External Links") {
-                    appUtilitiesView
-                        .navigationTitle("App Utilities & Links")
-                }
-                .modifier(LinkButtonModifier())
-            }
-            NavigationLink("Local storage") {
-                fileManagerView
-                    .navigationTitle("Local storage")
-            }
-            .modifier(LinkButtonModifier())
+        VStack(alignment: .leading, spacing: 0) {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: spacing) {
+                    Spacer().frame(height: spacing)
+                    HStack(spacing: spacing) {
+                        NavigationLink("Account") {
+                            accountView
+                                .navigationTitle("Account")
+                        }
+                        .modifier(LinkButtonModifier())
+                        NavigationLink("Local storage") {
+                            fileManagerView
+                                .navigationTitle("Local storage")
+                        }
+                        .modifier(LinkButtonModifier())
+                    }
+                    
+                    HStack(spacing: spacing) {
+                        NavigationLink("Help & Support") {
+                            helpSupportView
+                                .navigationTitle("Help & Support")
+                        }
+                        .modifier(LinkButtonModifier())
+                        
+                        NavigationLink("External Links") {
+                            appUtilitiesView
+                                .navigationTitle("App Utilities & Links")
+                        }
+                        .modifier(LinkButtonModifier())
+                    }
 
-            Spacer()
-            
+                    Spacer()
+                    
+                }
+                .frame(alignment: .leading)
+
+            }
             NavigationLink {
                 StoreKitView(db: db)
             } label: {
@@ -208,7 +222,7 @@ struct SidebarView: View {
     @ViewBuilder
     var storageUsedView: some View {
         let subscriptionGB = db.storeKitService.activeSubscriptionGB
-        HStack() {
+        HStack(spacing: spacing) {
             VStack(alignment: .leading) {
                 Text("Cloud storage used")
                     .font(.footnote)
