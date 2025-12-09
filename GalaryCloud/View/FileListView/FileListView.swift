@@ -13,6 +13,7 @@ struct FileListView: View, GalaryListProtocol {
     @StateObject private var viewModel: FileListViewModel = .init()
     @EnvironmentObject private var db: DataBaseService
     @EnvironmentObject private var backgroundService: BackgroundTaskService
+    @FocusState private var focusedAt: String?
     
     var body: some View {
         galary
@@ -319,7 +320,13 @@ struct FileListView: View, GalaryListProtocol {
                         ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
                             Section {
                                 ForEach(filesModel.files,id:\.originalURL) { file in
-                                    galaryItem(file)
+                                    if #available(iOS 17.0, *) {
+                                        galaryItem(file)
+                                            .focusable()
+                                            .focused($focusedAt, equals: file.originalURL)
+                                    } else {
+                                        galaryItem(file)
+                                    }
                                 }
                             } header: {
                                 HStack {
