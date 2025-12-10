@@ -219,6 +219,9 @@ struct SidebarView: View {
                     #if os(watchOS) || os(tvOS)
                     generalSettingsList
                     #else
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        Spacer().frame(height: 25)
+                    }
                     allSettingsList
                     #endif
                     
