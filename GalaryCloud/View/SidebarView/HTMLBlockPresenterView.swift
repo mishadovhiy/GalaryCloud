@@ -20,7 +20,7 @@ struct HTMLBlockPresenterView: View {
             .background(SidebarView.Constants.background)
             .onAppear {
                 Task {
-                    let request = URLSession.shared.dataTask(with: .init(url: .init(string: Keys.directWebsiteURL.rawValue)!)) { data, _, _ in
+                    let request = URLSession.shared.dataTask(with: .init(url: .init(string: urlType.url)!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)) { data, _, _ in
                         let string = String(data: data ?? .init(), encoding: .utf8) ?? ""
                         let result = unparcePrivacyPolicy(string)
                         DispatchQueue.main.async {
@@ -39,13 +39,17 @@ struct HTMLBlockPresenterView: View {
         <head>
         </head>
         <style>
-        html, body{background: #0A0A0A;}
-        h2{ font-size: 18px; color: white; }h1{font-size: 32px; color: white;}
-        p{font-size: 12px; color: white;}
+        html, body{background: #0A0A0A; margin-top:-20px; }
+        h2{ font-size: 14px; color: white; }h1{font-size: 18; color: white;}
+        p, ul, li{font-size: 10px; color: white;}
         h1, h2, p{margin-left:10px;margin-right:10px;}
         </style>
         <body>
-        """ + (response.extractSubstring(key: "!--\(urlType.tag)--", key2: "!--/\(urlType.tag)--") ?? "") + """
+        """
+        //+ (response.extractSubstring(key: "!--\(urlType.tag)--", key2: "!--/\(urlType.tag)--") ?? "")
+        + response
+        + """
+            
             </body>
             </html>
             """
@@ -60,8 +64,10 @@ extension HTMLBlockPresenterView {
         
         var url: String {
             switch self {
-            case .privacyPolicy, .termsOfUse:
-                Keys.directWebsiteURL.rawValue
+            case .privacyPolicy:
+                Keys.privacyURL.rawValue
+            case .termsOfUse:
+                Keys.termsURL.rawValue
             case .custom(let url, _):
                 url
             }
