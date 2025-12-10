@@ -12,11 +12,14 @@ struct StoreKitView: View {
     
     @StateObject private var storeKitService: StoreKitService
     @EnvironmentObject private var db: DataBaseService
+    @Binding var privacyPresentingType: HTMLBlockPresenterView.URLType?
+
     var purchuasedProductID: String {
         db.storeKitService.activeSubscription?.id ?? ""
     }
     
-    init(db: DataBaseService) {
+    init(db: DataBaseService, privacyPresentingType: Binding<HTMLBlockPresenterView.URLType?>) {
+        self._privacyPresentingType = .init(projectedValue: privacyPresentingType)
         self._storeKitService = StateObject(wrappedValue: .init(needAllProducts: true, productIDs: db.db?.generalAppParameters?.storeKitSubscription.proGroup.compactMap({
             $0.id
         }) ?? []))
@@ -41,16 +44,16 @@ struct StoreKitView: View {
 #if !os(watchOS)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink("Privacy Policy") {
-                    HTMLBlockPresenterView(urlType: .privacyPolicy)
-                }
+                Button("Privacy Policy", action: {
+                    privacyPresentingType = .privacyPolicy
+                })
                 .tint(.primaryText)
                 .font(.footnote)
             }
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink("Terms of use") {
-                    HTMLBlockPresenterView(urlType: .termsOfUse)
-                }
+                Button("Terms of use", action: {
+                    privacyPresentingType = .termsOfUse
+                })
                 .tint(.primaryText)
                 .font(.footnote)
             }

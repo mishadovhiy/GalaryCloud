@@ -34,6 +34,10 @@ struct SidebarView: View {
         .sheet(isPresented: $sharePresenting) {
             ShareView(items: [Keys.shareAppURL])
         }
+        .sheet(isPresented: isPrivacyPresenting) {
+            HTMLBlockPresenterView(urlType: privacyPresentingType ?? .privacyPolicy)
+                .presentationDetents([.medium])
+        }
         #endif
     }
     
@@ -71,6 +75,16 @@ struct SidebarView: View {
         }
     }
     
+    @State var privacyPresentingType: HTMLBlockPresenterView.URLType?
+    var isPrivacyPresenting: Binding<Bool> {
+        .init(get: {
+            privacyPresentingType != nil
+        }, set: {
+            if !$0 {
+                privacyPresentingType = nil
+            }
+        })
+    }
     var helpSupportView: some View {
         #if !os(watchOS)
         VStack(alignment: .leading) {
@@ -81,13 +95,13 @@ struct SidebarView: View {
             .modifier(LinkButtonModifier())
             
             HStack(spacing: spacing) {
-                NavigationLink("Privacy policy") {
-                    HTMLBlockPresenterView(urlType: .privacyPolicy)
-                }
+                Button("Privacy policy", action: {
+                    privacyPresentingType = .privacyPolicy
+                })
                 .modifier(LinkButtonModifier())
-                NavigationLink("Terms of use") {
-                    HTMLBlockPresenterView(urlType: .termsOfUse)
-                }
+                Button("Terms of use", action: {
+                    privacyPresentingType = .termsOfUse
+                })
                 .modifier(LinkButtonModifier())
             }
             Spacer()
@@ -218,7 +232,7 @@ struct SidebarView: View {
             }
             #if os(iOS)
             NavigationLink {
-                StoreKitView(db: db)
+                StoreKitView(db: db, privacyPresentingType: $privacyPresentingType)
             } label: {
                 storageUsedView
             }

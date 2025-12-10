@@ -152,6 +152,7 @@
 		8268DBDB2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDA2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift */; };
 		8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */; };
 		8268DBE12ED7CCD5004FC985 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBE02ED7CCD5004FC985 /* UserModel.swift */; };
+		826B6F5F2EE91C7D00205AD2 /* HTMLBlockPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9A52EDEFA5D00CF0B5F /* HTMLBlockPresenterView.swift */; };
 		826E6FDD2ED8DCAE00DE98BB /* DragAndDropModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826E6FDC2ED8DCAE00DE98BB /* DragAndDropModifier.swift */; };
 		826E6FDF2ED93B6C00DE98BB /* RootAlertConfigModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826E6FDE2ED93B6C00DE98BB /* RootAlertConfigModifier.swift */; };
 		827162052ECACBFC00E52013 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827162042ECACBFC00E52013 /* UIWindow.swift */; };
@@ -1201,6 +1202,7 @@
 				8292DCB72EE75F32003DCD1C /* LoadingButtonModifier.swift in Sources */,
 				8292DCB82EE75F32003DCD1C /* LinkButtonModifier.swift in Sources */,
 				8292DCB92EE75F32003DCD1C /* CircularButtonModifier.swift in Sources */,
+				826B6F5F2EE91C7D00205AD2 /* HTMLBlockPresenterView.swift in Sources */,
 				8292DCAE2EE75F20003DCD1C /* URLSession.swift in Sources */,
 				8292DCAF2EE75F20003DCD1C /* Data.swift in Sources */,
 				8292DCBB2EE75F52003DCD1C /* PinchMaskedScrollModifier.swift in Sources */,

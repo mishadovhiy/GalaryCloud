@@ -22,6 +22,8 @@ struct WebView: UIViewRepresentable {
 #else
         let webView = WKWebView()
         webView.backgroundColor = .clear
+        webView.isOpaque = true
+        webView.alpha = 0
         return webView
 #endif
     }
@@ -30,6 +32,9 @@ struct WebView: UIViewRepresentable {
 #if !os(tvOS)
         if let view = uiView as? WKWebView {
             view.loadHTMLString(html, baseURL: nil)
+            UIView.animate(withDuration: 0.4, animations: {
+                view.alpha = 1
+            })
         }
 #endif
     }

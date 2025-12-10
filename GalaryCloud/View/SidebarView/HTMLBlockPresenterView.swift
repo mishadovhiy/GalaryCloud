@@ -13,6 +13,7 @@ struct HTMLBlockPresenterView: View {
     let urlType: URLType
     
     var body: some View {
+        #if !os(watchOS)
         WebView(html: privacyPolicyContent ?? "")
             .background(content: {
                 ClearBackgroundView()
@@ -30,6 +31,10 @@ struct HTMLBlockPresenterView: View {
                     request.resume()
                 }
             }
+            .ignoresSafeArea(.all)
+        #else
+        EmptyView()
+        #endif
     }
     
     func unparcePrivacyPolicy(_ response:String) -> String {
@@ -37,8 +42,12 @@ struct HTMLBlockPresenterView: View {
         <!DOCTYPE html>
         <html lang="en">
         <head>
+            <meta charset="utf-8">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500&display=swap" rel="stylesheet">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <style>
+        @font-face{font-family:'Open Sans', sans-serif;font-display:swap;}
         html, body{background: #0A0A0A; margin-top:-20px; }
         h2{ font-size: 14px; color: white; }h1{font-size: 18; color: white;}
         p, ul, li{font-size: 10px; color: white;}
