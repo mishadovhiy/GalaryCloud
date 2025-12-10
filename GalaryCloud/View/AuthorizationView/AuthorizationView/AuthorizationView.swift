@@ -63,7 +63,9 @@ struct AuthorizationView: View {
                 VStack(content: {
                     if needScrollView {
                         ScrollView(.vertical) {
-                            rootView
+                            VStack {
+                                rootView
+                            }
                         }
                     } else {
                         rootView

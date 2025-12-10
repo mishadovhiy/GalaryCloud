@@ -41,8 +41,10 @@ struct AppFeaturesView: View {
                 }
             }
             .tabViewStyle(.page)
+#if !os(tvOS)
 #if !os(watchOS)
             links
+#endif
 #endif
         }
         .animation(.smooth, value: isKeyboardFocused)

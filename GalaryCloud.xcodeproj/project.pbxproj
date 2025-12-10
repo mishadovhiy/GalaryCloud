@@ -1432,7 +1432,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dovhiy.galaryCloud.appletv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dovhiy.galaryCloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -1465,7 +1465,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dovhiy.galaryCloud.appletv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dovhiy.galaryCloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
