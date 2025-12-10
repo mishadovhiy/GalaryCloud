@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 import AuthenticationServices
-
+#if !os(watchOS)
 final class AppleSignInService: NSObject, ObservableObject, AuthorizationServiceProtocol, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
     @Published var user: UserModel?
@@ -29,12 +29,8 @@ final class AppleSignInService: NSObject, ObservableObject, AuthorizationService
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credinails = authorization.credential as? ASAuthorizationAppleIDCredential {
-            print(
-                credinails.user, " uniqiddd",
-                credinails.email, " emaill"
-            )
             self.user = .init(username: credinails.email, password: credinails.user)
-        } else {
         }
     }
 }
+#endif

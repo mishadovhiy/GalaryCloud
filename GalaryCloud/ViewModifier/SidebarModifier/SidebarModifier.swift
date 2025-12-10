@@ -113,9 +113,11 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                     scrollIcons
                     .frame(width: 16 + (10 * (1 - model.maxDragPercent)), height: 3 + (13 * model.maxDragPercent))
                     .padding(5)
+                    #if !os(watchOS)
                     .background(content: {
                         BlurView()
                     })
+                    #endif
                     .background(.secondaryContainer.opacity(0.3 + (0.2 * model.dragPercent)))
                     .overlay(content: {
                         RoundedRectangle(cornerRadius: 6)
@@ -126,9 +128,12 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                     scrollText
 
                 })
+#if !os(watchOS)
+
                 .background(content: {
                     BlurView()
                 })
+                #endif
                 .background(.secondaryContainer.opacity(0.2))
                 .cornerRadius(7)
                 .overlay(content: {
@@ -155,6 +160,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                 }
                 .frame(maxHeight: model.isOpened ? .infinity : 30)
                 .offset(y: model.dragPositionX)
+            #if !os(tvOS)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
@@ -166,6 +172,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                             model.scrollEnded()
                         }
                 )
+            #endif
             Spacer().frame(maxHeight: model.isOpened ? 0 : .infinity)
         }
     }

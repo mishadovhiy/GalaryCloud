@@ -9,9 +9,9 @@ import Foundation
 
 struct ServiceConfig {
     let serviceList: [AppServiceConfig] = [
-        WasabiConfig(),
+//        WasabiConfig(),
         AppearenceConfig(),
-//        NotificationCenterConfig()
+        NotificationCenterConfig()
     ]
     
     init() {

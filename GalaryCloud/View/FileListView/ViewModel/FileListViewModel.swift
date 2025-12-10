@@ -21,26 +21,10 @@ class FileListViewModel: ObservableObject {
     @Published var galaryData: [FileSection] = []
     @Published var files: [File] = [] {
         didSet {
-            let dict = Dictionary(grouping: files, by: {
-                let date = Calendar.current.dateComponents([.year, .month], from: Date(string: $0.date))
-                return "\(date.year ?? 0).\(date.month ?? 0)"
-            })
-            var result = galaryData
-            result.removeAll()
-            dict.keys.sorted(by: {
-                let comp1 = $0.components(separatedBy: ".").compactMap({Int($0)})
-                let comp2 = $1.components(separatedBy: ".").compactMap({Int($0)})
-
-                let date1 = Calendar.current.date(from: .init(year: comp1.first, month: comp1.last))
-                let date2 = Calendar.current.date(from: .init(year: comp2.first, month: comp2.last))
-
-                return date1 ?? .now > date2 ?? .now
-            }).forEach { key in
-                result.append(.init(dateString: key, files: dict[key] ?? []))
-            }
-            galaryData = result
+            groupFiles()
         }
     }
+    @Published var menuPresenting: Bool = false
     @Published var fetchError: NSError?
     @Published var uploadError: NSError?
     @Published var directorySizeResponse: DirectorySizeResponse?
@@ -52,7 +36,6 @@ class FileListViewModel: ObservableObject {
     @Published var messages: [MessageModel] = []
     #warning("remove photo library presenting bool, its not used imagePreviewPresenting used indeed")
     @Published var selectedFileIDs: Set<String> = []
-    @Published var lastDroppedID: String?
     @Published var isEditingList: Bool = false {
         didSet {
             if !isEditingList {
@@ -75,12 +58,15 @@ class FileListViewModel: ObservableObject {
     }
     private let filemamager = FileManagerService()
     @Published var selectedFilesActionType: SelectedFilesActionType?
+    @Published var lastSelectedID: String?
     private var requestOffset: Int = 0
+#if !os(watchOS)
     private let photoLibraryModifierService = PHPhotoLibraryModifierService()
+    #endif
     var totalFileRecords: Int?
     
     func fetchDirectoruSizeRequest(completion:(()->())? = nil) {
-        Task {
+        Task(priority: .low) {
             let response = await URLSession.shared.resumeTask(DirectorySizeRequest(path: KeychainService.username))
             await MainActor.run {
                 switch response {
@@ -94,7 +80,33 @@ class FileListViewModel: ObservableObject {
         }
     }
     
-    func fetchList(ignoreOffset: Bool = false, reload: Bool = false) {
+    func groupFiles() {
+        DispatchQueue(label: "", qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            let dict = Dictionary(grouping: files, by: {
+                let date = Calendar.current.dateComponents([.year, .month], from: Date(string: $0.date))
+                return "\(date.year ?? 0).\(date.month ?? 0)"
+            })
+            var result = galaryData
+            result.removeAll()
+            dict.keys.sorted(by: {
+                let comp1 = $0.components(separatedBy: ".").compactMap({Int($0)})
+                let comp2 = $1.components(separatedBy: ".").compactMap({Int($0)})
+
+                let date1 = Calendar.current.date(from: .init(year: comp1.first, month: comp1.last))
+                let date2 = Calendar.current.date(from: .init(year: comp2.first, month: comp2.last))
+
+                return date1 ?? .now > date2 ?? .now
+            }).forEach { key in
+                result.append(.init(dateString: key, files: dict[key] ?? []))
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.galaryData = result
+            }
+        }
+    }
+    
+    func fetchList(ignoreOffset: Bool = false, reload: Bool = false, onAppear: Bool = false) {
         if fetchRequestLoading {
             print("request is already loading")
             return
@@ -110,7 +122,7 @@ class FileListViewModel: ObservableObject {
         }
         fetchRequestLoading = true
         fetchError = nil
-        Task(priority: .userInitiated) {
+        Task(name: "fetchlist", priority: .high) {
             let response = await URLSession.shared.resumeTask(FetchFilesRequest(offset: requestOffset, username: KeychainService.username))
             
             await MainActor.run {
@@ -137,9 +149,33 @@ class FileListViewModel: ObservableObject {
                     if self.directorySizeResponse == nil {
                         self.fetchDirectoruSizeRequest()
                     }
+                    if onAppear {
+                        temporaryDirectoryUpdated(showError: true, replacingCurrentList: true)
+                    }
                 case .failure(let error):
                     self.fetchError = error as NSError
                 }
+            }
+        }
+    }
+    
+    func temporaryDirectoryUpdated(showError: Bool = false, replacingCurrentList: Bool = false) {
+        let errorURLs = filemamager.loadFiles(.temporary)
+        print(errorURLs.count, " yrefds")
+        if !errorURLs.isEmpty {
+            if selectedFilesActionType == nil {
+                selectedFilesActionType = .upload
+            }
+            if showError {
+                self.uploadError = .init(domain: "retry uploading files", code: 10)
+            }
+            if !uploadAnimating {
+                uploadAnimating = true
+            }
+            if replacingCurrentList {
+                photoLibrarySelectedURLs = errorURLs
+            } else {
+                photoLibrarySelectedURLs.append(contentsOf: errorURLs)
             }
         }
     }
@@ -160,7 +196,9 @@ class FileListViewModel: ObservableObject {
             print(gbUser, "gb used")
             if Double(db.storeKitService.activeSubscriptionGB) >= gbUser {
                 await MainActor.run {
-                    self.isPhotoLibraryPresenting = true
+                    withAnimation(.bouncy) {
+                        self.isPhotoLibraryPresenting = true
+                    }
                 }
             } else {
                 await MainActor.run {
@@ -189,13 +227,14 @@ class FileListViewModel: ObservableObject {
         self.uploadAnimating = true
         let date = imageData.imageDate
         let apiData = CreateFileRequest.Image(url: url.lastPathComponent, date: date ?? Date().string, data: imageData.base64EncodedString())
-        Task(priority: .userInitiated) {
+        Task(name: "uploading", priority: .utility) {
             let response = await URLSession.shared.resumeTask(CreateFileRequest(username: KeychainService.username, originalURL: [apiData]))
             
             await MainActor.run {
                 switch response {
                     
-                case .success(let result):
+                case .success(_):
+                    filemamager.performDelete(path: url.lastPathComponent, urlType: .temporary)
                     self.photoLibrarySelectedURLs.removeFirst()
                     if photoLibrarySelectedURLs.isEmpty {
                         self.didCompletedUploadingFiles()
@@ -215,7 +254,7 @@ class FileListViewModel: ObservableObject {
     private func deleteApiImage(
         _ filename: String, completed: ((_ ok: Bool)->())? = nil) {
 //        isLoading = true
-        Task {
+            Task(name: "deleting", priority: .utility) {
             let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: KeychainService.username, filename: filename))
             filemamager.delete(path: KeychainService.username + filename)
             await MainActor.run {
@@ -276,6 +315,7 @@ class FileListViewModel: ObservableObject {
             completion?(false)
             return
         }
+#if !os(watchOS)
         self.photoLibraryModifierService.save(
             data: data,
             date: date) { success in
@@ -286,6 +326,7 @@ class FileListViewModel: ObservableObject {
                     self.messages.append(.init(header:success ? "Success" : "Error", title: title))
                 }
             }
+            #endif
     }
     
     func retryTask(_ task: SelectedFilesActionType?) {
@@ -367,24 +408,16 @@ class FileListViewModel: ObservableObject {
     }
     
     func loadAPIImage(filename: String, completion:@escaping(_ image: Data?)->()) {
-        Task {
-            WasabiService.fetchURL(
-                username: KeychainService.username,
-                filename: filename
-            ) { url in
-                guard let url else {
-//                    self.isLoading = false
-                    completion(nil)
-                    return
-                }
-                self.loadApiImage(
-                    url: url) { image in
-                        completion(image)
-                    }
+        Task(name:"loadImage", priority: .utility) {
+            let response = await URLSession.shared.resumeTask(FetchImageRequest(username: KeychainService.username, filename: filename))
+            let imageData = try? response.get()
+            await MainActor.run {
+                completion(imageData)
             }
         }
     }
     
+    /// not used
     private func loadApiImage(
         url: URL, completion: @escaping(_ image: Data?) -> ()
     ) {
@@ -397,11 +430,58 @@ class FileListViewModel: ObservableObject {
         urlTask.resume()
     }
     
-    func didSelectListItem(_ url: String) {
-        if selectedFileIDs.contains(url) {
-            selectedFileIDs.remove(url)
+    var showingUploading: Bool {
+        [!photoLibrarySelectedURLs.isEmpty,
+         !errorFileNames.isEmpty,
+         uploadError != nil
+        ].contains(true)
+    }
+    
+    func didSelectListItem(_ url: String, onScroll: Bool = false) {
+        guard let i = self.files.firstIndex(where: {
+            $0.originalURL == url
+        }) else {
+            print("notfound")
+            return
+        }
+        var selectedFileIDs = selectedFileIDs
+        let newArray: [Int]
+        if onScroll,
+            let lastSelectedID,
+            lastSelectedID != url,
+           let lastSelectedIndex = files.firstIndex(where: {
+               $0.originalURL == lastSelectedID
+           })
+        {
+            print("lastlast: ", lastSelectedID, " ferwda ", i)
+            if lastSelectedIndex > i {
+                newArray = Array(i..<lastSelectedIndex)
+            } else {
+                newArray = Array(lastSelectedIndex..<i)
+            }
+            
         } else {
-            selectedFileIDs.insert(url)
+            newArray = [i]
+        }
+        
+        let dataArray = newArray.compactMap({
+            files[$0].originalURL
+        })
+        let containsInSelected = selectedFileIDs.contains(files[i].originalURL)
+        dataArray.forEach {
+            if containsInSelected {
+                selectedFileIDs.remove($0)
+
+            } else {
+                selectedFileIDs.insert($0)
+            }
+        }
+        
+        self.selectedFileIDs = selectedFileIDs
+        if onScroll {
+            lastSelectedID = url
+        } else {
+            lastSelectedID = nil
         }
     }
     

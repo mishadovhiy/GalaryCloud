@@ -31,7 +31,7 @@ struct LinkButtonModifier: ViewModifier {
     
     private var tint: Color {
         switch type {
-        case .link: .blue
+        case .link: .accentColor
         case .distructive: .red
         case .default: .primaryContainer
         }

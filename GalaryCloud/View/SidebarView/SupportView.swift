@@ -25,11 +25,7 @@ struct SupportView: View {
             }
             TextField(
                 "",
-                text: .init(get: {
-                    supportRequest.head
-                }, set: {
-                    supportRequest.head = $0
-                }),
+                text: $supportRequest.head,
                 prompt: Text("Header")
                     .foregroundColor(.secondaryText)
             )
@@ -37,29 +33,7 @@ struct SupportView: View {
             .padding(.horizontal, 5)
             .background(.secondaryContainer)
             .cornerRadius(8)
-            TextEditor(text: .init(get: {
-                supportRequest.body
-            }, set: {
-                supportRequest.body = $0
-            }))
-            .background(.secondaryContainer)
-                .scrollContentBackground(.hidden)
-                .cornerRadius(8)
-                .overlay {
-                    VStack {
-                        
-                        HStack {
-                            Text("Your message")
-                                .foregroundColor(.secondaryText)
-                                .opacity(!supportRequest.body.isEmpty ? 0 : 1)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 5)
-                            Spacer()
-                        }
-                        Spacer()
-                    }
-                }
-                .foregroundColor(.primaryText)
+            textView
             HStack {
                 Spacer()
                 Button("Send") {
@@ -78,6 +52,33 @@ struct SupportView: View {
         .onAppear {
             supportRequest.title = KeychainService.username
         }
+    }
+    
+    var textView: some View {
+        #if os(tvOS)
+        EmptyView()
+            .frame(height: 10)
+        #else
+        TextEditor(text: $supportRequest.body)
+        .background(.secondaryContainer)
+            .scrollContentBackground(.hidden)
+            .cornerRadius(8)
+            .overlay {
+                VStack {
+                    
+                    HStack {
+                        Text("Your message")
+                            .foregroundColor(.secondaryText)
+                            .opacity(!supportRequest.body.isEmpty ? 0 : 1)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 5)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
+            .foregroundColor(.primaryText)
+        #endif
     }
     
     func sendRequest() {

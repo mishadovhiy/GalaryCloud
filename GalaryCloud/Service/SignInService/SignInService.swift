@@ -9,16 +9,21 @@ import Combine
 import Foundation
 
 final class SignInService: NSObject, ObservableObject {
-    
+#if !os(watchOS)
     @Published private var appleService: AppleSignInService?
+#endif
     private var selectedType: AuthorizationType?
     
     var user: UserModel? {
         switch selectedType {
         case .apple:
-            appleService?.user
+#if !os(watchOS)
+            return appleService?.user
+            #else
+            return nil
+#endif
         default:
-            nil
+            return nil
         }
         
     }
@@ -26,6 +31,7 @@ final class SignInService: NSObject, ObservableObject {
     
     func perform(_ type: AuthorizationType) {
         self.selectedType = type
+#if !os(watchOS)
         appleService?.user = nil
         switch type {
         case .apple:
@@ -37,6 +43,7 @@ final class SignInService: NSObject, ObservableObject {
             }
             self.appleService?.perform()
         }
+#endif
     }
 }
 

@@ -16,6 +16,7 @@ struct UploadingProgressView: View {
     
     var body: some View {
         HStack(spacing: 6) {
+#if !os(watchOS)
             Image(uiImage: uploadImage)
                 .resizable()
                 .scaledToFit()
@@ -25,6 +26,7 @@ struct UploadingProgressView: View {
                     RoundedRectangle(cornerRadius: 4)
                         .stroke(.outline, lineWidth: 0.6)
                 }
+#endif
             VStack(alignment: .leading) {
                 Text(error?.unparcedDescription ?? "Uploading \(uploadingFilesCount)")
                     .foregroundColor(error != nil ? .red : .secondaryContainer)
@@ -54,16 +56,23 @@ struct UploadingProgressView: View {
         }
         .padding(6)
         .modifier(CircularButtonModifier(color: .light, cornerRadius: 12))
-        .frame(maxHeight: 60)
+        .frame(maxHeight: Constants.height)
         .shadow(radius: 10)
         .padding(12)
     }
-    
+#if !os(watchOS)
     var uploadImage: UIImage {
         do {
             return UIImage(data: try Data(contentsOf: currentItem)) ?? .defaultUpload
         } catch {
             return .defaultUpload
         }
+    }
+    #endif
+}
+
+extension UploadingProgressView {
+    struct Constants {
+        static let height: CGFloat = 60
     }
 }

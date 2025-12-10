@@ -13,6 +13,8 @@ struct AppearenceConfig: AppServiceConfig {
     }
     
     private func navigation() {
+        #if !os(tvOS)
+        #if !os(watchOS)
         let appearance = UINavigationBarAppearance()
         appearance.titleTextAttributes = [.foregroundColor: UIColor(resource: .primaryText)]
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(resource: .primaryText)]
@@ -20,5 +22,7 @@ struct AppearenceConfig: AppServiceConfig {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
+        #endif
+        #endif
     }
 }

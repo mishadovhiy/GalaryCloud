@@ -28,6 +28,7 @@ struct RootAlertConfigModifier: ViewModifier {
         guard let lastMessage = db.messages.last else {
             return
         }
+#if !os(watchOS)
         let topVC = UIApplication.shared.activeWindow?.rootViewController?.topViewController
         if topVC is UIAlertController {
             return
@@ -36,9 +37,10 @@ struct RootAlertConfigModifier: ViewModifier {
         addActions(alert)
         
         topVC?.present(alert, animated: true, completion: nil)
+#endif
     }
     
-    
+#if !os(watchOS)
     private func addActions(_ alert: UIAlertController) {
         guard let lastMessage = db.messages.last else {
             return
@@ -64,5 +66,6 @@ struct RootAlertConfigModifier: ViewModifier {
             }
         }
     }
+#endif
 
 }

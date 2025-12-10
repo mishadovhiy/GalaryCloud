@@ -9,6 +9,7 @@ import UIKit
 import SwiftUI
 import AuthenticationServices
 
+#if !os(watchOS)
 struct SignInWithAppleButton: UIViewRepresentable {
     var action: () -> Void
 
@@ -40,3 +41,4 @@ struct SignInWithAppleButton: UIViewRepresentable {
         }
     }
 }
+#endif

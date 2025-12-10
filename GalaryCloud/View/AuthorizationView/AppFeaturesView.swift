@@ -11,78 +11,38 @@ struct AppFeaturesView: View {
     let isKeyboardFocused: Bool
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("Cloud Photo Storage")
-                    .font(.largeTitle)
-                    .frame(height: isKeyboardFocused ? 0 : nil)
-                    .clipped()
-                    .foregroundColor(.primaryText)
-                TabView {
-                    ForEach(data, id: \.title) { data in
-                        VStack(alignment: .center) {
-                            LottieView(name: data.gifURL)
-                                .frame(width: 150, height: isKeyboardFocused ? 0 : 150)
-                                .clipped()
-                            Text(data.title)
-                                .font(.headline)
-                                .foregroundColor(.primaryText)
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity)
-                            Spacer().frame(height: 5)
-                            Text(data.description)
-                                .font(.footnote)
-                                .foregroundColor(.secondaryText)
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity)
-                        }
-                        .padding(.horizontal, 30)
-                    }
-                }
-                .tabViewStyle(.page)
-                HStack {
-                    VStack {
-                        NavigationLink("Support") {
-                            SupportView()
-                                .padding(.bottom, 20)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-
-                    Spacer()
-                    VStack {
-                        NavigationLink("Privacy policy") {
-                            HTMLBlockPresenterView(urlType: .privacyPolicy)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-
-                    Spacer()
-                    VStack {
-                        NavigationLink("Terms Of Use") {
-                            HTMLBlockPresenterView(urlType: .termsOfUse)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                .tint(.white)
-                .font(.system(size: 10))
-                .frame(maxWidth: .infinity, maxHeight: isKeyboardFocused ? 0 : nil)
-                .padding(.bottom, isKeyboardFocused ? 0 : 20)
+        VStack {
+            Text("Cloud Photo Storage")
+                .font(.largeTitle)
+                .frame(height: isKeyboardFocused ? 0 : nil)
                 .clipped()
+                .foregroundColor(.primaryText)
+            TabView {
+                ForEach(data, id: \.title) { data in
+                    VStack(alignment: .center) {
+                        #if !os(watchOS)
+                        LottieView(name: data.gifURL)
+                            .frame(width: 150, height: isKeyboardFocused ? 0 : 150)
+                            .clipped()
+                        #endif
+                        Text(data.title)
+                            .font(.headline)
+                            .foregroundColor(.primaryText)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
+                        Spacer().frame(height: 5)
+                        Text(data.description)
+                            .font(.footnote)
+                            .foregroundColor(.secondaryText)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding(.horizontal, 30)
+                }
             }
-            .animation(.smooth, value: isKeyboardFocused)
-            .background {
-                ClearBackgroundView()
-            }
-            .background(.primaryContainer)
-            .navigationViewStyle(StackNavigationViewStyle())
+            .tabViewStyle(.page)
         }
-        .background {
-            ClearBackgroundView()
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
-        .background(.primaryContainer)
+        .animation(.smooth, value: isKeyboardFocused)
     }
     
 #warning("todo: fetch in general request")

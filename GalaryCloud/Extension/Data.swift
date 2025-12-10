@@ -9,6 +9,7 @@ import UIKit
 
 extension Data {
     var imageDate: String? {
+        #if !os(watchOS)
         if let source = CGImageSourceCreateWithData(self as CFData, nil),
            let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
            let exif = metadata[kCGImagePropertyExifDictionary] as? [CFString: Any],
@@ -18,6 +19,9 @@ extension Data {
         } else {
             return nil
         }
+        #else
+        return nil
+        #endif
     }
 }
 

@@ -1,0 +1,18 @@
+{
+  "images" : [
+    {
+      "filename" : "Group Copy 4.png",
+      "idiom" : "tv",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Group Copy 4x2.png",
+      "idiom" : "tv",
+      "scale" : "2x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
