@@ -55,6 +55,7 @@ struct PhotoPickerView: View, GalaryListProtocol {
         .clipped()
         .presentationDetents([isPresenting ? .large : .height(50)])
         .colorScheme(.dark)
+        .preferredColorScheme(.dark)
     }
     
     var headerView: some View {
@@ -66,6 +67,11 @@ struct PhotoPickerView: View, GalaryListProtocol {
                 }
                 .frame(maxHeight: .infinity)
                 .modifier(LinkButtonModifier(type: .link))
+                .background(content: {
+                    BlurView()
+                        .background(.black.opacity(0.15))
+                })
+                .cornerRadius(12)
                 Button("Save \(manager.selectedIs.count)") {
                     hide()
                     if !manager.selectedIs.isEmpty {
@@ -78,6 +84,11 @@ struct PhotoPickerView: View, GalaryListProtocol {
                 }
                 .frame(maxHeight: .infinity)
                 .modifier(LinkButtonModifier(type: .link))
+                .background(content: {
+                    BlurView()
+                        .background(.black.opacity(0.15))
+                })
+                .cornerRadius(12)
             } else {
                 Text("Saving \(manager.selectedIs.count)")
                     .foregroundColor(.primaryText)
@@ -88,8 +99,10 @@ struct PhotoPickerView: View, GalaryListProtocol {
         .padding(.vertical, 5)
         .padding(.horizontal, 10)
         .background(content: {
-            BlurView(style: .dark)
-                .opacity(isPresenting ? 1 : 0.3)
+            BlurView()
+                .background(.black.opacity(0.75))
+                .opacity(isPresenting ? 1 : 0)
+                .animation(.smooth, value: isPresenting)
         })
         .cornerRadius(20)
         .padding(.horizontal, 20)
