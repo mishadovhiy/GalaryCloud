@@ -149,6 +149,7 @@
 		8262A5852ED7F4A1005188F2 /* AppleSignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A5842ED7F4A1005188F2 /* AppleSignInService.swift */; };
 		8262A59B2ED7F87D005188F2 /* ClearBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A59A2ED7F87D005188F2 /* ClearBackgroundView.swift */; };
 		8262A59D2ED7F992005188F2 /* SignInWithAppleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8262A59C2ED7F992005188F2 /* SignInWithAppleButton.swift */; };
+		8267F36D2EE94AA6001BB753 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9CA2EDF894700CF0B5F /* UIImage.swift */; };
 		8268DBDB2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDA2ED783AB004FC985 /* PHPhotoLibraryModifierService.swift */; };
 		8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBDD2ED796BB004FC985 /* CachedAsyncImageViewModel.swift */; };
 		8268DBE12ED7CCD5004FC985 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268DBE02ED7CCD5004FC985 /* UserModel.swift */; };
@@ -1234,6 +1235,7 @@
 				8292DCE02EE75F9F003DCD1C /* AuthorizationView.swift in Sources */,
 				8292DCE12EE75F9F003DCD1C /* FileListViewModel.swift in Sources */,
 				8292DCE22EE75F9F003DCD1C /* AppFeaturesView.swift in Sources */,
+				8267F36D2EE94AA6001BB753 /* UIImage.swift in Sources */,
 				8292DCCC2EE75F6D003DCD1C /* TrashIconView.swift in Sources */,
 				8292DCD52EE75F78003DCD1C /* CachedAsyncImage.swift in Sources */,
 				8292DCD62EE75F78003DCD1C /* CachedAsyncImageViewModel.swift in Sources */,
@@ -1676,7 +1678,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GalaryCloud/GalaryCloud.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1737,7 +1739,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GalaryCloud/GalaryCloud.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
