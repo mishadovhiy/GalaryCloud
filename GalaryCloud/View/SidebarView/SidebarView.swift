@@ -217,7 +217,7 @@ struct SidebarView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: spacing) {
                     Spacer().frame(height: spacing)
-                    #if os(watchOS)
+                    #if os(watchOS) || os(tvOS)
                     generalSettingsList
                     #else
                     allSettingsList
