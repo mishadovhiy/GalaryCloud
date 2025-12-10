@@ -159,7 +159,7 @@ class FileListViewModel: ObservableObject {
             }
         }
     }
-    
+    @Published var showResend: Bool = false
     func temporaryDirectoryUpdated(showError: Bool = false, replacingCurrentList: Bool = false) {
         let errorURLs = filemamager.loadFiles(.temporary)
         print(errorURLs.count, " yrefds")
@@ -168,7 +168,8 @@ class FileListViewModel: ObservableObject {
                 selectedFilesActionType = .upload
             }
             if showError {
-                self.uploadError = .init(domain: "retry uploading files", code: 10)
+                showResend = true
+//                self.uploadError = .init(domain: "retry uploading files", code: 10)
             }
             if !uploadAnimating {
                 uploadAnimating = true
@@ -434,7 +435,8 @@ class FileListViewModel: ObservableObject {
     var showingUploading: Bool {
         [!photoLibrarySelectedURLs.isEmpty,
          !errorFileNames.isEmpty,
-         uploadError != nil
+         uploadError != nil,
+         showResend
         ].contains(true)
     }
     

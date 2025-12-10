@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UploadingProgressView: View {
-    
+    let showResend: Bool
     let currentItem: URL
     let uploadingFilesCount: Int
     let error: Error?
@@ -46,7 +46,7 @@ struct UploadingProgressView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
-            if error != nil {
+            if error != nil || showResend {
                 Button("Resend\n\(uploadingFilesCount) files") {
                     resendPressed()
                 }

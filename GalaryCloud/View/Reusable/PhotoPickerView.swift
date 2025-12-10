@@ -41,6 +41,7 @@ struct PhotoPickerView: View, GalaryListProtocol {
             .padding(.top, 64)
             .ignoresSafeArea(.all)
             .frame(maxWidth: .infinity, maxHeight: isPresenting ? .infinity : 0)
+            .clipped()
         })
         .overlay(content: {
             VStack {

@@ -12,7 +12,6 @@ struct FileListView: View, GalaryListProtocol {
     
     @StateObject private var viewModel: FileListViewModel = .init()
     @EnvironmentObject private var db: DataBaseService
-    @EnvironmentObject private var backgroundService: BackgroundTaskService
     @FocusState private var focusedAt: String?
     
     var body: some View {
@@ -63,13 +62,6 @@ struct FileListView: View, GalaryListProtocol {
             .sheet(isPresented: $viewModel.menuPresenting, content: {
                 SidebarView()
             })
-        //        .overlay(content: {
-        //            //tru setting view controller size to button size
-        //            photoPickerSheet
-        //        })
-        //        .onChange(of: backgroundService.currentURL) { newValue in
-        //            self.viewModel.temporaryDirectoryUpdated(showError: false, replacingCurrentList: true)
-        //        }
             .background(.black)
             .modifier(ViewSizeReaderModifier(viewSize: $viewModel.viewSize))
     }
@@ -291,7 +283,7 @@ struct FileListView: View, GalaryListProtocol {
                 let count = viewModel.photoLibrarySelectedURLs.count
                 let uploadingCount = count == 0 ? viewModel.errorFileNames.count : count
                 let currentURL = (viewModel.photoLibrarySelectedURLs.first ?? firstErrorURL)!
-                UploadingProgressView(currentItem: currentURL, uploadingFilesCount: uploadingCount, error: viewModel.uploadError, resendPressed: {
+                UploadingProgressView(showResend: viewModel.showResend, currentItem: currentURL, uploadingFilesCount: uploadingCount, error: viewModel.uploadError, resendPressed: {
                     viewModel.photoLibrarySelectedURLs.append(contentsOf: viewModel.errorFileNames.compactMap({.init(string: $0)!}))
 #warning("background task")
                     //                    backgroundService.scheduleTask()

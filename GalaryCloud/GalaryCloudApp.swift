@@ -15,7 +15,6 @@ struct GalaryCloudApp: App {
     // buy pro screen only dont store in enviroment and fecth active subscription detail when app did enter foregraund (for displaying total gb availible), and when selected photos
     @StateObject var dataBaseService: DataBaseService = .init()
     @State var isLoading: Bool = true
-    @StateObject var backgroundService: BackgroundTaskService = .init()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -28,14 +27,6 @@ struct GalaryCloudApp: App {
                 let _ = ServiceConfig()
                 fetchAppData()
                 dataBaseService.storeKitService.listenForTransactions()
-                backgroundService.configure()
-            }
-            .onChange(of: scenePhase) { newValue in
-                switch newValue {
-                case .background:
-                    backgroundService.scheduleTask(time: 2*60)
-                default: break
-                }
             }
             
         }
@@ -49,7 +40,6 @@ struct GalaryCloudApp: App {
             HomeView()
                 .modifier(RootAlertConfigModifier())
                 .environmentObject(dataBaseService)
-                .environmentObject(backgroundService)
         }
     }
     

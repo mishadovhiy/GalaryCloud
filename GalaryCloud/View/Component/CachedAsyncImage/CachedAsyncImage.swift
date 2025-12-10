@@ -114,10 +114,11 @@ struct CachedAsyncImage: View {
                     .resizable()
                     .scaledToFit()
                 Spacer()
-                Text(viewModel.image?.pngData()?.count.megabytesFromBytes.formated ?? "")
+                Text((viewModel.image?.pngData()?.count.megabytesFromBytes.formated ?? "") + " MB")
                     .multilineTextAlignment(.leading)
                     .font(.system(size: 8))
                     .foregroundColor(.secondaryText)
+                    .padding(.horizontal, 10)
             }
         }
     }
