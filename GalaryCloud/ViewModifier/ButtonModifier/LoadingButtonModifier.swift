@@ -15,18 +15,22 @@ struct LoadingButtonModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
+        #if os(watchOS)
+            .frame(maxWidth: isLoading ? 34 : nil, maxHeight: isHidden ? 0 : (type != .default ? nil : 34))
+        #else
             .frame(maxWidth: isLoading ? 44 : nil, maxHeight: isHidden ? 0 : (type != .default ? nil : 44))
+        #endif
             .overlay(content: {
                 if isLoading {
                     LoaderView(isLoading: isLoading, tint: .primaryText, lineWidth: 3)
-                        .padding(10)
+                        .padding(50)
                         .cornerRadius(9)
                 }
             })
             .background(Color.accentColor)
             .font(font)
             .tint(isLoading ? .accentColor : .white)
-            .cornerRadius(9)
+            .cornerRadius(isLoading ? 50 : 9)
             .animation(.bouncy, value: isLoading)
             .clipped()
             .shadow(radius: 8)

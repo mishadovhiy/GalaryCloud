@@ -16,7 +16,7 @@ struct FileListView: View, GalaryListProtocol {
     @FocusState private var focusedAt: String?
     
     var body: some View {
-        galary
+        contentScrollView
             .overlay(content: {
 #if !os(watchOS)
 #if !os(tvOS)
@@ -71,6 +71,7 @@ struct FileListView: View, GalaryListProtocol {
         //            self.viewModel.temporaryDirectoryUpdated(showError: false, replacingCurrentList: true)
         //        }
             .background(.black)
+            .modifier(ViewSizeReaderModifier(viewSize: $viewModel.viewSize))
     }
 #warning("background task on change")
     
@@ -311,72 +312,76 @@ struct FileListView: View, GalaryListProtocol {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
+    var galaryGrid: some View {
+        ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
+            Section {
+                ForEach(filesModel.files,id:\.originalURL) { file in
+                    if #available(iOS 17.0, *) {
+                        galaryItem(file)
+                            .focusable()
+                            .focused($focusedAt, equals: file.originalURL)
+                    } else {
+                        galaryItem(file)
+                    }
+                }
+            } header: {
+                sectionHeader(filesModel)
+            }
+        }
+    }
+    
+    func sectionHeader(_ filesModel: FileListViewModel.FileSection) -> some View {
+        HStack {
+            ZStack(content: {
+                Text(filesModel.dateString)
+                    .blendMode(.destinationOut)
+                Text(filesModel.dateString)
+                    .opacity(0.2)
+            })
+            .foregroundColor(.primaryText)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 3)
+            .modifier(CircularButtonModifier())
+            .compositingGroup()
+            Spacer()
+        }
+    }
+    
     @ViewBuilder
-    var galary: some View {
+    var contentScrollView: some View {
         let showingUploading = viewModel.showingUploading
-        VStack {
-            ScrollView(.vertical) {
-                VStack {
+        ScrollView(.vertical) {
+            VStack {
 #if os(watchOS)
-                    menuButton
+                menuButton
 #endif
 #if os(tvOS)
-                    menuButton
+                menuButton
 #endif
-                    Spacer()
-                        .frame(height: showingUploading ? UploadingProgressView.Constants.height + 20 : 0)
-                        .animation(.bouncy, value: showingUploading)
-                    if !viewModel.fetchRequestLoading && viewModel.files.isEmpty {
-                        NoDataView(text: "Start uploading photos", image: .emptyGalary)
-                            .padding(.top, 150)
-                            .animation(.bouncy, value: viewModel.files.isEmpty)
-                            .transition(.move(edge: .bottom))
-                    }
-                    LazyVGrid( columns: Array(0..<4).compactMap({ _ in
-                            .init()
-                    }), spacing: viewModel.appeared ? 8 : 120, pinnedViews: .sectionHeaders) {
-                        ForEach(viewModel.galaryData, id:\.dateString) { filesModel in
-                            Section {
-                                ForEach(filesModel.files,id:\.originalURL) { file in
-                                    if #available(iOS 17.0, *) {
-                                        galaryItem(file)
-                                            .focusable()
-                                            .focused($focusedAt, equals: file.originalURL)
-                                    } else {
-                                        galaryItem(file)
-                                    }
-                                }
-                            } header: {
-                                HStack {
-                                    ZStack(content: {
-                                        Text(filesModel.dateString)
-                                            .blendMode(.destinationOut)
-                                        Text(filesModel.dateString)
-                                            .opacity(0.2)
-                                    })
-                                    .foregroundColor(.primaryText)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 3)
-                                    .modifier(CircularButtonModifier())
-                                    .compositingGroup()
-                                    Spacer()
-                                }
-                            }
-                            
-                        }
-                    }
-                    .padding(.horizontal, 4)
-                    .padding(.bottom, Constants.bottomStatusBarHeight)
-                    Spacer()
-                        .frame(height: !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
-                        .animation(.bouncy, value: viewModel.photoLibrarySelectedURLs.isEmpty)
+                Spacer()
+                    .frame(height: showingUploading ? UploadingProgressView.Constants.height + 20 : 0)
+                    .animation(.bouncy, value: showingUploading)
+                if !viewModel.fetchRequestLoading && viewModel.files.isEmpty {
+                    NoDataView(text: "Start uploading photos", image: .emptyGalary)
+                        .padding(.top, 150)
+                        .animation(.bouncy, value: viewModel.files.isEmpty)
+                        .transition(.move(edge: .bottom))
                 }
-                .animation(.bouncy, value: viewModel.appeared)
+                LazyVGrid( columns: Array(0..<viewModel.gridCount).compactMap({ _ in
+                        .init()
+                }), spacing: viewModel.appeared ? 8 : 120, pinnedViews: .sectionHeaders) {
+                    galaryGrid
+                }
+                .padding(.horizontal, 4)
+                .padding(.bottom, Constants.bottomStatusBarHeight)
+                Spacer()
+                    .frame(height: !viewModel.photoLibrarySelectedURLs.isEmpty ? viewModel.uploadIndicatorSize.height : 0)
+                    .animation(.bouncy, value: viewModel.photoLibrarySelectedURLs.isEmpty)
             }
-            .refreshable {
-                viewModel.fetchList(ignoreOffset: true, reload: true)
-            }
-            
+            .animation(.bouncy, value: viewModel.appeared)
+        }
+        .refreshable {
+            viewModel.fetchList(ignoreOffset: true, reload: true)
         }
         
     }

@@ -24,6 +24,7 @@ class FileListViewModel: ObservableObject {
             groupFiles()
         }
     }
+    @Published var viewSize: CGSize = .zero
     @Published var menuPresenting: Bool = false
     @Published var fetchError: NSError?
     @Published var uploadError: NSError?
@@ -498,6 +499,15 @@ class FileListViewModel: ObservableObject {
             return true
         }
         return false
+    }
+    
+    var gridCount: Int {
+        let max:CGFloat = 90
+        let count = Int(viewSize.width / max)
+        if count <= 4 {
+            return 4
+        }
+        return count
     }
     
     enum SelectedFilesActionType: String {

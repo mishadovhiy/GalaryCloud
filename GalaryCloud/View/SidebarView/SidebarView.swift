@@ -19,6 +19,7 @@ struct SidebarView: View {
         NavigationView(content: {
             rootView
         })
+        .navigationViewStyle(StackNavigationViewStyle())
         .overlay(content: {
             if isLoading {
                 LoaderView(isLoading: true)
@@ -232,6 +233,7 @@ struct SidebarView: View {
             ClearBackgroundView()
         }
         .background(.primaryContainer)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     var logoutView: some View {

@@ -19,7 +19,7 @@ struct PhotoPickerView: View, GalaryListProtocol {
     @State private var selectedOnScreenIndxs: [Int] = []
     @State private var lastDroppedID: String?
     @Environment(\.dismiss) private var dismiss
-    
+    @State var viewSize: CGSize = .zero
     var body: some View {
         if #available(iOS 16.4, *) {
             contentView
@@ -33,11 +33,10 @@ struct PhotoPickerView: View, GalaryListProtocol {
     
     var contentView: some View {
         ScrollView(content: {
-            LazyVGrid(columns: (0..<4).compactMap({ _ in
+            LazyVGrid(columns: (0..<gridCount).compactMap({ _ in
                     .init()
             })) {
                 galaryView
-                
             }
             .padding(.top, 64)
             .ignoresSafeArea(.all)
@@ -53,6 +52,7 @@ struct PhotoPickerView: View, GalaryListProtocol {
         .ignoresSafeArea(.all)
         .background(.black)
         .clipped()
+        .modifier(ViewSizeReaderModifier(viewSize: $viewSize))
         .presentationDetents([isPresenting ? .large : .height(50)])
         .colorScheme(.dark)
         .preferredColorScheme(.dark)
@@ -182,5 +182,14 @@ extension PhotoPickerView {
         withAnimation {
             isPresenting = false
         }
+    }
+    
+    var gridCount: Int {
+        let max:CGFloat = 90
+        let count = Int(viewSize.width / max)
+        if count <= 4 {
+            return 4
+        }
+        return count
     }
 }

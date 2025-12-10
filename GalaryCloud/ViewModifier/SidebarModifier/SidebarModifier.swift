@@ -19,7 +19,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
             VStack(content: {
                 targedBackgroundView
                     .padding(.bottom, 20)
-                    .frame(maxHeight: model.maxScrollX, alignment: .leading)
+                    .frame(maxWidth: .infinity, maxHeight: model.maxScrollX, alignment: .leading)
                 Spacer().frame(maxHeight: .infinity)
             })
             .frame(maxHeight: .infinity)
@@ -57,6 +57,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
 
             }
         }
+        .frame(maxWidth: .infinity)
     }
 
     var scrollIcons: some View {
