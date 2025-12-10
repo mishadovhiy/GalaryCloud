@@ -43,6 +43,9 @@ struct CachedAsyncImage: View {
             }
         })
         .onChange(of: db.currentLoading == viewModel.presentationType.galaryModel?.fileName) { newValue in
+            if self.deleteImagePressed != nil {
+                return
+            }
             viewModel.isCurrentlyLoading = newValue
             if newValue {
                 print(newValue, " tgerfwdas ")
@@ -50,6 +53,9 @@ struct CachedAsyncImage: View {
             }
         }
         .onChange(of: viewModel.image != nil) { newValue in
+            if self.deleteImagePressed != nil {
+                return
+            }
             if let name = viewModel.presentationType.galaryModel?.fileName {
                 if db.currentLoading == name {
                     db.currentLoading = nil
@@ -59,6 +65,9 @@ struct CachedAsyncImage: View {
         }
         .onDisappear {
             viewModel.viewDidDisapear()
+            if self.deleteImagePressed != nil {
+                return
+            }
             if let name = viewModel.presentationType.galaryModel?.fileName {
                 if db.currentLoading == name {
                     db.currentLoading = nil
