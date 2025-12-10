@@ -36,20 +36,30 @@ struct SidebarView: View {
         #endif
     }
     
+    @ViewBuilder
+    var fileManagerOptions: some View {
+        ForEach(FileManagerService.URLType.allCases, id: \.url.absoluteString) { type in
+            Button("\(type.rawValue.capitalized) \(directorySize[type]?.megabytesFromBytes.formated ?? "") MB") {
+                filemamager.clear(url: type)
+                calculateDirectorySizes()
+            }
+            .modifier(LinkButtonModifier())
+        }
+    }
+    
     var fileManagerView: some View {
         VStack(alignment: .leading, spacing: spacing) {
             Text("Select directory, you would like to clear:")
                 .foregroundColor(.primaryText)
+            #if os(watchOS)
+            fileManagerOptions
+            #else
             HStack(spacing: spacing) {
-                ForEach(FileManagerService.URLType.allCases, id: \.url.absoluteString) { type in
-                    Button("\(type.rawValue.capitalized) \(directorySize[type]?.megabytesFromBytes.formated ?? "") MB") {
-                        filemamager.clear(url: type)
-                        calculateDirectorySizes()
-                    }
-                    .modifier(LinkButtonModifier())
-                }
+                fileManagerOptions
                 Spacer()
             }
+            #endif
+            
             Spacer()
         }
         .padding(10)
@@ -145,37 +155,59 @@ struct SidebarView: View {
     
     let spacing: CGFloat = 15
     
+    @ViewBuilder
+    var generalSettingsList: some View {
+        NavigationLink("Account") {
+            accountView
+                .navigationTitle("Account")
+        }
+        .modifier(LinkButtonModifier())
+        NavigationLink("Local storage") {
+            #if os(watchOS)
+            ScrollView(.vertical) {
+                fileManagerView
+                    .navigationTitle("Local storage")
+            }
+            #else
+            fileManagerView
+                .navigationTitle("Local storage")
+            #endif
+        }
+        .modifier(LinkButtonModifier())
+    }
+    
+    @ViewBuilder
+    var allSettingsList: some View {
+        HStack(spacing: spacing) {
+            generalSettingsList
+        }
+        
+        HStack(spacing: spacing) {
+            NavigationLink("Help & Support") {
+                helpSupportView
+                    .navigationTitle("Help & Support")
+            }
+            .modifier(LinkButtonModifier())
+            
+            NavigationLink("External Links") {
+                appUtilitiesView
+                    .navigationTitle("App Utilities & Links")
+            }
+            .modifier(LinkButtonModifier())
+        }
+    }
+    
     var rootView: some View {
         VStack(alignment: .leading, spacing: 0) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: spacing) {
                     Spacer().frame(height: spacing)
-                    HStack(spacing: spacing) {
-                        NavigationLink("Account") {
-                            accountView
-                                .navigationTitle("Account")
-                        }
-                        .modifier(LinkButtonModifier())
-                        NavigationLink("Local storage") {
-                            fileManagerView
-                                .navigationTitle("Local storage")
-                        }
-                        .modifier(LinkButtonModifier())
-                    }
+                    #if os(watchOS)
+                    generalSettingsList
+                    #else
+                    allSettingsList
+                    #endif
                     
-                    HStack(spacing: spacing) {
-                        NavigationLink("Help & Support") {
-                            helpSupportView
-                                .navigationTitle("Help & Support")
-                        }
-                        .modifier(LinkButtonModifier())
-                        
-                        NavigationLink("External Links") {
-                            appUtilitiesView
-                                .navigationTitle("App Utilities & Links")
-                        }
-                        .modifier(LinkButtonModifier())
-                    }
 
                     Spacer()
                     
@@ -183,12 +215,15 @@ struct SidebarView: View {
                 .frame(alignment: .leading)
 
             }
+            #if os(iOS)
             NavigationLink {
                 StoreKitView(db: db)
             } label: {
                 storageUsedView
             }
-
+            #else
+            storageUsedView
+            #endif
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 5)
@@ -245,15 +280,19 @@ struct SidebarView: View {
                         .tint(.primaryText)
                 }
                 .frame(alignment: .leading)
+#if os(iOS)
                 Text("Number of files: \(db.totalFileCount)")
                     .font(.footnote)
                     .multilineTextAlignment(.leading)
                     .tint(.secondaryText)
                     .frame(alignment: .leading)
+#endif
             }
+            #if os(iOS)
             Spacer()
             Text("Upgrade")
                 .modifier(LinkButtonModifier(type: .link))
+            #endif
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 15)
