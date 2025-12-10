@@ -24,7 +24,17 @@ struct AuthorizationView: View {
                         .transition(.move(edge: .top))
                 }
                 #if !os(watchOS)
-                AppFeaturesView(isKeyboardFocused: isKeyboardFocused)
+                NavigationView {
+                    AppFeaturesView(isKeyboardFocused: isKeyboardFocused)
+                        .navigationViewStyle(.stack)
+                        .background {
+                            ClearBackgroundView()
+                        }
+                }
+                .navigationViewStyle(.stack)
+                .background {
+                    ClearBackgroundView()
+                }
                 #endif
                 contentView
                     .frame(maxHeight: viewModel.appeared ? nil : 0)

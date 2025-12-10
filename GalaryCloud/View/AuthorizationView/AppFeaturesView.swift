@@ -20,11 +20,11 @@ struct AppFeaturesView: View {
             TabView {
                 ForEach(data, id: \.title) { data in
                     VStack(alignment: .center) {
-                        #if !os(watchOS)
+#if !os(watchOS)
                         LottieView(name: data.gifURL)
                             .frame(width: 150, height: isKeyboardFocused ? 0 : 150)
                             .clipped()
-                        #endif
+#endif
                         Text(data.title)
                             .font(.headline)
                             .foregroundColor(.primaryText)
@@ -41,8 +41,47 @@ struct AppFeaturesView: View {
                 }
             }
             .tabViewStyle(.page)
+#if !os(watchOS)
+            links
+#endif
         }
         .animation(.smooth, value: isKeyboardFocused)
+    }
+    
+    var links: some View {
+#if !os(watchOS)
+        HStack {
+            NavigationLink ("Support" ) {
+                SupportView()
+                    .padding (.bottom, 20)
+            }
+            .frame(maxWidth: .infinity)
+            Spacer ()
+            VStack {
+                NavigationLink("Privacy policy") {
+                    HTMLBlockPresenterView(urlType:
+                            .privacyPolicy)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            Spacer ()
+            VStack{
+                NavigationLink("Terms Of Use") {
+                    HTMLBlockPresenterView(urlType:
+                            .termsOfUse)
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+        .tint(.secondaryText)
+        .font (.system(size: 10))
+        .frame(maxWidth: .infinity, maxHeight:
+                isKeyboardFocused ? 0: nil)
+        .padding(.bottom, isKeyboardFocused ? 0 : 20)
+        .clipped()
+#else
+        EmptyView()
+#endif
     }
     
 #warning("todo: fetch in general request")
