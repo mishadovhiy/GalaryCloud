@@ -13,7 +13,7 @@ struct StoreKitView: View {
     @StateObject private var storeKitService: StoreKitService
     @EnvironmentObject private var db: DataBaseService
     @Binding var privacyPresentingType: HTMLBlockPresenterView.URLType?
-
+    
     var purchuasedProductID: String {
         db.storeKitService.activeSubscription?.id ?? ""
     }
@@ -28,19 +28,21 @@ struct StoreKitView: View {
     var body: some View {
         TabView {
             ForEach(storeKitService.allProducts, id: \.id) { product in
-                VStack(alignment: .leading, spacing: 10) {
+#if os(watchOS)
+                ScrollView(.vertical) {
                     productContent(product)
                 }
-                .frame(maxWidth: 270, alignment: .leading)
-                
+#else
+                productContent(product)
+#endif
             }
         }
         .foregroundColor(.primaryText)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .background(.primaryContainer)
         .background(content: {
             ClearBackgroundView()
         })
-        .background(.primaryContainer)
 #if !os(watchOS)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -69,47 +71,77 @@ struct StoreKitView: View {
     }
     
     @ViewBuilder
-    func productContent(_ product: Product) -> some View {
-        let isPurchuased = purchuasedProductID == product.id
-        HStack(spacing: 2) {
-            Text(product.displayName)
-                .font(.title)
-                .multilineTextAlignment(.leading)
-                .foregroundColor(.primaryText)
-                .background {
-                    if isPurchuased {
-                        currentIndicator
-                    }
-                }
-            Spacer()
-            price(product)
-        }
-        description(product)
-        
-        HStack {
+    func productButtons(
+        _ product: Product,
+        isPurchuased: Bool) -> some View {
             Button("Restore\nPurchase", action: {
                 storeKitService.restorePurchases(db: db)
             })
             .padding(.vertical, 3)
             .padding(.horizontal, 5)
             .multilineTextAlignment(.leading)
+            .foregroundColor(.secondaryContainer)
             .tint(.secondaryContainer)
             .font(.system(size: 9))
             .background(.secondaryText.opacity(0.4))
             .cornerRadius(6)
-
+            
             Spacer()
             expirationDate(product, isPurchuased: isPurchuased)
             Button("Subscribe") {
                 buyPressed(product)
             }
+            #if os(tvOS)
+            .foregroundColor(.accentColor)
+            .tint(.accentColor)
+            #endif
             .disabled(isPurchuased)
             .frame(alignment: .trailing)
             .padding(.horizontal, 6)
             .padding(.vertical, 3)
+#if !os(tvOS)
             .modifier(LoadingButtonModifier(isLoading: false, type: .middle))
+#endif
         }
-        .frame(maxWidth: .infinity, alignment: .trailing)
+    
+    @ViewBuilder
+    func productContent(_ product: Product) -> some View {
+        let isPurchuased = purchuasedProductID == product.id
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 2) {
+                Text(product.displayName)
+#if os(watchOS) || os(tvOS)
+                    .font(.system(size: 12, weight: .semibold))
+                #else
+                    .font(.title)
+                #endif
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(.primaryText)
+                    .background {
+                        if isPurchuased {
+                            currentIndicator
+                        }
+                    }
+                Spacer()
+                price(product)
+            }
+            description(product)
+#if os(watchOS)
+            VStack(spacing: 20) {
+                productButtons(product, isPurchuased: isPurchuased)
+            }
+#else
+            HStack {
+                productButtons(product, isPurchuased: isPurchuased)
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+#endif
+        }
+#if os(tvOS)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        #else
+        .frame(maxWidth: 270, alignment: .leading)
+        #endif
     }
     
     @ViewBuilder

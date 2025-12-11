@@ -14,7 +14,8 @@ struct SidebarView: View {
     private let filemamager = FileManagerService()
     @State var directorySize: [FileManagerService.URLType: Int64] = [:]
     @State var isLoading: Bool = false
-
+    @State var storeKitOverlayPresenting: Bool = false
+    
     var body: some View {
         NavigationView(content: {
             rootView
@@ -30,6 +31,9 @@ struct SidebarView: View {
             ClearBackgroundView()
         }
         .background(Constants.background)
+        .sheet(isPresented: $storeKitOverlayPresenting, content: {
+            StoreKitView(db: db, privacyPresentingType: $privacyPresentingType)
+        })
 #if !os(watchOS)
         .sheet(isPresented: $sharePresenting) {
             ShareView(items: [Keys.shareAppURL])
@@ -239,7 +243,12 @@ struct SidebarView: View {
                 storageUsedView
             }
             #else
-            storageUsedView
+            Button {
+                storeKitOverlayPresenting = true
+            } label: {
+                storageUsedView
+            }
+
             #endif
         }
         .padding(.horizontal, 10)

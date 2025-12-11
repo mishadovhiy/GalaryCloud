@@ -19,29 +19,30 @@ extension UIImage {
         }
         return newImage
 #else
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        
-        guard let context = CGContext(
-            data: nil,
-            width: Int(proportionalSize.width),
-            height: Int(proportionalSize.height),
-            bitsPerComponent: 8,
-            bytesPerRow: 0,
-            space: colorSpace,
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-        ) else {
-            return .init()
-        }
-        
-        context.setFillColor(CGColor(red: 1, green: 0, blue: 0, alpha: 1))
-        context.fill(CGRect(origin: .zero, size: size))
-        
-        if let image = context.makeImage() {
-            return .init(cgImage: image)
-        } else {
-            return .init()
-
-        }
+        return self
+//        let colorSpace = CGColorSpaceCreateDeviceRGB()
+//        
+//        guard let context = CGContext(
+//            data: nil,
+//            width: Int(proportionalSize.width),
+//            height: Int(proportionalSize.height),
+//            bitsPerComponent: 8,
+//            bytesPerRow: 0,
+//            space: colorSpace,
+//            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+//        ) else {
+//            return .init()
+//        }
+//        
+//        context.setFillColor(CGColor(red: 1, green: 0, blue: 0, alpha: 1))
+//        context.fill(CGRect(origin: .zero, size: size))
+//        
+//        if let image = context.makeImage() {
+//            return .init(cgImage: image)
+//        } else {
+//            return .init()
+//
+//        }
 #endif
     }
 }
