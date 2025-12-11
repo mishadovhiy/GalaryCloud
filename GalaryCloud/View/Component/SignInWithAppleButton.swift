@@ -19,6 +19,9 @@ struct SignInWithAppleButton: UIViewRepresentable {
         button.addTarget(context.coordinator,
                          action: #selector(Coordinator.tapped),
                          for: .touchUpInside)
+        button.addTarget(context.coordinator,
+                         action: #selector(Coordinator.tapped),
+                         for: .primaryActionTriggered)
         return button
     }
 
@@ -39,6 +42,28 @@ struct SignInWithAppleButton: UIViewRepresentable {
         @objc func tapped() {
             action()
         }
+    }
+}
+#else
+struct SignInWithAppleButton: View {
+    var action: () -> Void
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            HStack {
+                Image(systemName: "apple.logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 7, height: 7)
+                Text("Sign in with Apple")
+            }
+            .padding(.horizontal, 15)
+            .padding(.vertical, 8)
+        }
+        .background(.black)
+        .cornerRadius(5)
+        .tint(.white)
     }
 }
 #endif

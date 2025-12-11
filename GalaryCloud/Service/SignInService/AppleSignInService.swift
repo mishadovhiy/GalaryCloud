@@ -8,14 +8,16 @@
 import Foundation
 import Combine
 import AuthenticationServices
-#if !os(watchOS)
-final class AppleSignInService: NSObject, ObservableObject, AuthorizationServiceProtocol, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+
+final class AppleSignInService: NSObject, ObservableObject, AuthorizationServiceProtocol, ASAuthorizationControllerDelegate {
     
     @Published var user: UserModel?
     
+#if !os(watchOS)
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         (UIApplication.shared.activeWindow?.rootViewController?.topViewController.view.window ?? UIApplication.shared.activeWindow) ?? .init()
     }
+#endif
     
     func perform() {
         let request = ASAuthorizationAppleIDProvider().createRequest()
@@ -23,7 +25,9 @@ final class AppleSignInService: NSObject, ObservableObject, AuthorizationService
 
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
+#if !os(watchOS)
         controller.presentationContextProvider = self
+        #endif
         controller.performRequests()
     }
     
@@ -32,5 +36,10 @@ final class AppleSignInService: NSObject, ObservableObject, AuthorizationService
             self.user = .init(username: credinails.email, password: credinails.user)
         }
     }
+}
+
+#if !os(watchOS)
+extension AppleSignInService: ASAuthorizationControllerPresentationContextProviding {
+    
 }
 #endif
