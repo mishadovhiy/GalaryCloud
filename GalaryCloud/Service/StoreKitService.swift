@@ -139,6 +139,21 @@ class StoreKitService: NSObject, ObservableObject {
         }
     }
     
+    func restorePurchases(db: DataBaseService) {
+        Task {
+            do {
+                try await AppStore.sync()
+
+                print("Restore completed")
+                await MainActor.run {
+                    db.messages.append(.init(title: "You all set"))
+                }
+            } catch {
+                print("Restore failed: \(error)")
+            }
+        }
+    }
+    
     func requestAppStoreReview() {
         #if !os(tvOS)
 #if !os(watchOS)

@@ -31,7 +31,7 @@ struct StoreKitView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     productContent(product)
                 }
-                .frame(maxWidth: 230, alignment: .leading)
+                .frame(maxWidth: 270, alignment: .leading)
                 
             }
         }
@@ -49,6 +49,7 @@ struct StoreKitView: View {
                 })
                 .tint(.primaryText)
                 .font(.footnote)
+                .font(.system(size: 9))
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Terms of use", action: {
@@ -56,6 +57,7 @@ struct StoreKitView: View {
                 })
                 .tint(.primaryText)
                 .font(.footnote)
+                .font(.system(size: 9))
             }
         }
 #endif
@@ -85,6 +87,18 @@ struct StoreKitView: View {
         description(product)
         
         HStack {
+            Button("Restore\nPurchase", action: {
+                storeKitService.restorePurchases(db: db)
+            })
+            .padding(.vertical, 3)
+            .padding(.horizontal, 5)
+            .multilineTextAlignment(.leading)
+            .tint(.secondaryContainer)
+            .font(.system(size: 9))
+            .background(.secondaryText.opacity(0.4))
+            .cornerRadius(6)
+
+            Spacer()
             expirationDate(product, isPurchuased: isPurchuased)
             Button("Subscribe") {
                 buyPressed(product)
@@ -193,7 +207,7 @@ struct StoreKitView: View {
                             .background(.secondaryText)
                             .cornerRadius(30)
                             .compositingGroup()
-                            .offset(x: -10, y: 6)
+                            .offset(x: -14, y: 7)
                         Spacer()
                     }
                 })

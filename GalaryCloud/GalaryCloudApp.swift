@@ -23,6 +23,8 @@ struct GalaryCloudApp: App {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.primaryContainer)
             .animation(.smooth, value: isLoading)
+            .preferredColorScheme(.dark)
+            .colorScheme(.dark)
             .onAppear {
                 let _ = ServiceConfig()
                 fetchAppData()
