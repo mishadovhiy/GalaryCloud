@@ -407,15 +407,17 @@ struct FileListView: View, GalaryListProtocol {
         .onTapGesture {
             photoSelected(item)
         }
-        #if !os(tvOS)
+        #if !os(tvOS) && !os(watchOS)
         .onKeyPress(.return, action: {
             photoSelected(item)
             return .handled
         })
         #endif
+        #if !os(watchOS)
         .onPlayPauseCommand(perform: {
             photoSelected(item)
         })
+        #endif
         .overlay(content: {
             if viewModel.selectedFileIDs.contains(item.originalURL) {
                 selectionIndicator
