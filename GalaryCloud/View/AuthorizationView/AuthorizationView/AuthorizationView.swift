@@ -150,17 +150,25 @@ struct AuthorizationView: View {
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
-                #if !os(watchOS)
+#if !os(watchOS)
+
                 SignInWithAppleButton {
                     viewModel.authorization.perform(.apple)
                 }
                 .frame(maxWidth: 100)
                 .opacity(viewModel.appeared ? 1 : 0)
                 .animation(.smooth(duration: 1.2), value: viewModel.appeared)
-                #endif
+#endif
                 HStack{}.frame(maxWidth: .infinity)
             }
             .frame(height: 40)
+#if os(watchOS)
+            SignInWithAppleButton {
+                viewModel.authorization.perform(.apple)
+            }
+            .frame(maxWidth: 100)
+
+#endif
         }
         .onAppear {
             withAnimation {
