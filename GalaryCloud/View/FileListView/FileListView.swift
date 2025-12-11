@@ -311,6 +311,12 @@ struct FileListView: View, GalaryListProtocol {
                     if #available(iOS 17.0, *) {
                         galaryItem(file)
                             .focused($focusedAt, equals: file.originalURL)
+#if !os(tvOS) && !os(watchOS)
+                            .onKeyPress(.return, action: {
+                                photoSelected(file)
+                                return .handled
+                            })
+#endif
                     } else {
                         galaryItem(file)
                     }
@@ -407,17 +413,11 @@ struct FileListView: View, GalaryListProtocol {
         .onTapGesture {
             photoSelected(item)
         }
-        #if !os(tvOS) && !os(watchOS)
-        .onKeyPress(.return, action: {
-            photoSelected(item)
-            return .handled
-        })
-        #endif
-        #if !os(watchOS)
+#if !os(iOS) && !os(watchOS)
         .onPlayPauseCommand(perform: {
             photoSelected(item)
         })
-        #endif
+#endif
         .overlay(content: {
             if viewModel.selectedFileIDs.contains(item.originalURL) {
                 selectionIndicator
@@ -443,11 +443,11 @@ struct FileListView: View, GalaryListProtocol {
             }
         }
         .background {
-            #if os(tvOS)
+#if os(tvOS)
             Button("") {
                 photoSelected(item)
             }
-            #endif
+#endif
         }
     }
     
@@ -456,7 +456,7 @@ struct FileListView: View, GalaryListProtocol {
             viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {
                 $0.originalURL == item.originalURL
             })!)
-
+            
         } else {
             viewModel.didSelectListItem(item.originalURL)
         }
