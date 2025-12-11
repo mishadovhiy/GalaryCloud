@@ -479,7 +479,6 @@ class FileListViewModel: ObservableObject {
                 selectedFileIDs.insert($0)
             }
         }
-        
         self.selectedFileIDs = selectedFileIDs
         if onScroll {
             lastSelectedID = url

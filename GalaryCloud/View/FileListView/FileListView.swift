@@ -310,7 +310,6 @@ struct FileListView: View, GalaryListProtocol {
                 ForEach(filesModel.files,id:\.originalURL) { file in
                     if #available(iOS 17.0, *) {
                         galaryItem(file)
-                            .focusable()
                             .focused($focusedAt, equals: file.originalURL)
                     } else {
                         galaryItem(file)
@@ -406,17 +405,27 @@ struct FileListView: View, GalaryListProtocol {
         .aspectRatio(1, contentMode: .fill)
         .cornerRadius(4)
         .onTapGesture {
-            if !viewModel.isEditingList {
-                viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {
-                    $0.originalURL == item.originalURL
-                })!)
-            } else {
-                viewModel.didSelectListItem(item.originalURL)
-            }
+            photoSelected(item)
         }
+        #if !os(tvOS)
+        .onKeyPress(.return, action: {
+            photoSelected(item)
+            return .handled
+        })
+        #endif
+        .onPlayPauseCommand(perform: {
+            photoSelected(item)
+        })
         .overlay(content: {
             if viewModel.selectedFileIDs.contains(item.originalURL) {
                 selectionIndicator
+            }
+        })
+        .overlay(content: {
+            if focusedAt == item.originalURL {
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(.white, lineWidth: 3)
+                    .padding(-3)
             }
         })
 #if !os(watchOS)
@@ -430,6 +439,24 @@ struct FileListView: View, GalaryListProtocol {
             if viewModel.files.last?.originalURL == item.originalURL {
                 viewModel.fetchList()
             }
+        }
+        .background {
+            #if os(tvOS)
+            Button("") {
+                photoSelected(item)
+            }
+            #endif
+        }
+    }
+    
+    func photoSelected(_ item: FileListViewModel.File) {
+        if !viewModel.isEditingList {
+            viewModel.selectedImagePreviewPresenting = .init(file: item, index: viewModel.files.firstIndex(where: {
+                $0.originalURL == item.originalURL
+            })!)
+
+        } else {
+            viewModel.didSelectListItem(item.originalURL)
         }
     }
 }

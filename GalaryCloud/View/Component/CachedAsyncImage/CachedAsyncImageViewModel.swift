@@ -42,6 +42,14 @@ class CachedAsyncImageViewModel: ObservableObject {
         if let imageData = filemamager.load(
             path: dataModel.username + dataModel.fileName,
             quality: .middle) {
+            var imageData = imageData
+            #if os(tvOS) || os(watchOS)
+            if isSmallImageType {
+                imageData = UIImage(data: imageData)?
+                    .changeSize(newWidth: 20)
+                    .jpegData(compressionQuality: 0.01) ?? .init()
+            }
+            #endif
             self.image = .init(data: imageData)
             if isSmallImageType {
                 self.isLoading = false
@@ -61,16 +69,24 @@ class CachedAsyncImageViewModel: ObservableObject {
     private func didFetchImage(
         data: Data?,
         db: DataBaseService,
-        dataModel: PresentationType.GalaryModel
+        dataModel: PresentationType.GalaryModel, isSmall: Bool
     ) {
             self.isLoading = false
 
             if let data,
                let image = UIImage(data: data) {
-                self.image = .init(data: data)
+                var image = image
+                #if !os(tvOS) && !os(watchOS)
                 db.imageCache.setObject(
                     image, forKey: dataModel.fileName as NSString,
                     cost: data.count)
+                #else
+if isSmall {
+    image = image.changeSize(newWidth: 20)
+}
+                #endif
+                self.image = image
+
                 self.filemamager.save(
                     data: data,
                     path: dataModel.username + dataModel.fileName)
@@ -106,7 +122,7 @@ class CachedAsyncImageViewModel: ObservableObject {
                     self.didFetchImage(
                         data: data,
                         db: db,
-                        dataModel: dataModel)
+                        dataModel: dataModel, isSmall: isSmallImageType)
                 }
                 
             }
