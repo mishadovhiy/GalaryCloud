@@ -353,7 +353,7 @@ struct FileListView: View, GalaryListProtocol {
                     .frame(height: showingUploading ? UploadingProgressView.Constants.height + 20 : 0)
                     .animation(.bouncy, value: showingUploading)
                 if !viewModel.fetchRequestLoading && viewModel.files.isEmpty {
-                    NoDataView(text: "Start uploading photos", image: .emptyGalary)
+                    NoDataView(text: viewModel.noDataText, image: .emptyGalary)
                         .padding(.top, 150)
                         .animation(.bouncy, value: viewModel.files.isEmpty)
                         .transition(.move(edge: .bottom))

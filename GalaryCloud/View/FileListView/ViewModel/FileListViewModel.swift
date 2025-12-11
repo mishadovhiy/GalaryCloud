@@ -487,6 +487,14 @@ class FileListViewModel: ObservableObject {
         }
     }
     
+    var noDataText: String {
+        #if os(tvOS)
+        return "Start Uploading photos\n\nLog in from you main device to upload new photos\nAnd preview you galary from Apple TV app"
+        #else
+        return "Start Uploading photos"
+        #endif
+    }
+    
     func presentCancelSelectionsIfNeeded() -> Bool {
         if !selectedFileIDs.isEmpty && isEditingList {
             messages.append(.init(header:"Confirmation", title: "all your selected items would be removed from the memory", buttons: [
