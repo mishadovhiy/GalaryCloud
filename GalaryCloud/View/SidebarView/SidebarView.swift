@@ -283,6 +283,8 @@ struct SidebarView: View {
     @ViewBuilder
     var storageUsedView: some View {
         let subscriptionGB = db.storeKitService.activeSubscriptionGB
+        let usedMB = db.storageUsed.megabytesFromBytes.gbFromMegabytes
+        let progress = usedMB / Double(subscriptionGB)
         HStack(spacing: spacing) {
             VStack(alignment: .leading) {
                 Text("Cloud storage used")
@@ -292,7 +294,7 @@ struct SidebarView: View {
                     .opacity(0.4)
                     .padding(.bottom, 1)
                 HStack(alignment: .firstTextBaseline, spacing: 3) {
-                    Text((db.storageUsed.megabytesFromBytes.gbFromMegabytes.mbOrTbTitle) + " / " + "\(subscriptionGB.mbOrTbTitle)")
+                    Text((usedMB.mbOrTbTitle) + " / " + "\(subscriptionGB.mbOrTbTitle)")
                         .font(.subheadline)
                         .multilineTextAlignment(.leading)
                         .tint(.primaryText)
@@ -318,8 +320,9 @@ struct SidebarView: View {
         .overlay(content: {
             VStack {
                 Spacer()
-                ProgressView(value: db.storageUsed.megabytesFromBytes / Double(subscriptionGB * 1024), total: Double(subscriptionGB * 1024))
+                ProgressView(value: progress >= 1 ? 1 : progress, total: 1)
                     .progressViewStyle(.linear)
+                    .tint(progress >= 1 ? .red : .accentColor)
             }
             .padding(.horizontal, 10)
         })
