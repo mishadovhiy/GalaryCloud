@@ -42,7 +42,7 @@ struct SidebarView: View {
             HTMLBlockPresenterView(urlType: privacyPresentingType ?? .privacyPolicy)
                 .presentationDetents([.medium])
         }
-        #endif
+#endif
     }
     
     @ViewBuilder

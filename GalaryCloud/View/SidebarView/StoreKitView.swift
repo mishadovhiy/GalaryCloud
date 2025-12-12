@@ -26,14 +26,6 @@ struct StoreKitView: View {
     }
     
     var body: some View {
-        #if os(watchOS) || os(tvOS)
-        VStack {
-            Text("Make purchase on your main device\nPurchase gets you more cloud storage")
-                .foregroundColor(.primaryText)
-            restorePurchuaseButton
-        }
-        .padding(5)
-        #else
         TabView {
             ForEach(storeKitService.allProducts, id: \.id) { product in
 #if os(watchOS)
@@ -84,7 +76,18 @@ struct StoreKitView: View {
                 await db.storeKitService.fetchActiveProducts(force: true)
             }
         }
-#endif
+        #if os(watchOS) || os(tvOS)
+        .sheet(isPresented: .init(get: {
+            privacyPresentingType != nil
+        }, set: {
+            if !$0 {
+                privacyPresentingType = nil
+            }
+        })) {
+            HTMLBlockPresenterView(urlType: privacyPresentingType ?? .privacyPolicy)
+                .presentationDetents([.medium])
+        }
+        #endif
     }
     
     var restorePurchuaseButton: some View {

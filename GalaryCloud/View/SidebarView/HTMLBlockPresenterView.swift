@@ -13,28 +13,58 @@ struct HTMLBlockPresenterView: View {
     let urlType: URLType
     
     var body: some View {
-        #if !os(watchOS)
+        #if !os(watchOS) && !os(tvOS)
         WebView(html: privacyPolicyContent ?? "")
             .background(content: {
                 ClearBackgroundView()
             })
             .background(SidebarView.Constants.background)
             .onAppear {
-                Task {
-                    let request = URLSession.shared.dataTask(with: .init(url: .init(string: urlType.url)!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)) { data, _, _ in
-                        let string = String(data: data ?? .init(), encoding: .utf8) ?? ""
-                        let result = unparcePrivacyPolicy(string)
-                        DispatchQueue.main.async {
-                            privacyPolicyContent = result
-                        }
-                    }
-                    request.resume()
-                }
+                viewAppeared()
             }
             .ignoresSafeArea(.all)
         #else
-        EmptyView()
+        ScrollView(content: {
+            VStack {
+                Text(privacyPolicyContent ?? "loading")
+                    .focusable(true)
+#if os(tvOS)
+                Button("") {
+                    
+                }
+                .focusable(true)
+                .opacity(0.01)
+                #endif
+            }
+        })
+            .onAppear {
+                viewAppeared()
+            }
         #endif
+    }
+    
+    func viewAppeared() {
+        Task {
+            let request = URLSession.shared.dataTask(with: .init(url: .init(string: urlType.url)!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)) { data, _, _ in
+                let string = String(data: data ?? .init(), encoding: .utf8) ?? ""
+                let result = unparcePrivacyPolicy(string)
+                DispatchQueue.main.async {
+                    #if os(watchOS) || os(tvOS)
+                    let keys = ["h1", "h2", "h3", "ul", "li", "p", "strong", "div"]
+                    var string = string
+                    keys.forEach {
+                        string = string.replacingOccurrences(of: "<" + $0 + ">", with: "")
+                            .replacingOccurrences(of: "</" + $0 + ">", with: "")
+                    }
+                    privacyPolicyContent = string
+                        .extractSubstring(key: "main", key2: "/main") ?? string
+                    #else
+                    privacyPolicyContent = result
+                    #endif
+                }
+            }
+            request.resume()
+        }
     }
     
     func unparcePrivacyPolicy(_ response:String) -> String {

@@ -14,25 +14,32 @@ struct HomeView: View {
     @State var isLoggedIn: Bool = false
     @EnvironmentObject private var db: DataBaseService
     @State var appeared = false
+    
+    let testing: Bool = false
+    
     var body: some View {
         VStack {
-            if !appeared {
-                AppLaunchView()
+            if testing {
+                FileListView()
             } else {
-                if isLoggedIn {
-                    FileListView()
-#if !os(tvOS)
-#if !os(watchOS)
-                        .modifier(
-                            SidebarModifier(
-                                targedBackgroundView: SidebarView(),
-                                disabled: false)
-                        )
-#endif
-#endif
-                    
+                if !appeared {
+                    AppLaunchView()
                 } else {
-                    AuthorizationView()
+                    if isLoggedIn {
+                        FileListView()
+    #if !os(tvOS)
+    #if !os(watchOS)
+                            .modifier(
+                                SidebarModifier(
+                                    targedBackgroundView: SidebarView(),
+                                    disabled: false)
+                            )
+    #endif
+    #endif
+                        
+                    } else {
+                        AuthorizationView()
+                    }
                 }
             }
             
