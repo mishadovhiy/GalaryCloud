@@ -46,7 +46,7 @@ class CachedAsyncImageViewModel: ObservableObject {
             #if os(tvOS) || os(watchOS)
             if isSmallImageType {
                 imageData = UIImage(data: imageData)?
-                    .changeSize(newWidth: 20)
+                    .changeSize(newWidth: 50)
                     .jpegData(compressionQuality: 0.01) ?? .init()
             }
             #endif

@@ -26,6 +26,14 @@ struct StoreKitView: View {
     }
     
     var body: some View {
+        #if os(watchOS) || os(tvOS)
+        VStack {
+            Text("Make purchase on your main device\nPurchase gets you more cloud storage")
+                .foregroundColor(.primaryText)
+            restorePurchuaseButton
+        }
+        .padding(5)
+        #else
         TabView {
             ForEach(storeKitService.allProducts, id: \.id) { product in
 #if os(watchOS)
@@ -42,6 +50,14 @@ struct StoreKitView: View {
         .background(.primaryContainer)
         .background(content: {
             ClearBackgroundView()
+        })
+        .overlay(content: {
+#if os(tvOS)
+            VStack {
+                privacyButtons
+                Spacer()
+            }
+#endif
         })
 #if !os(watchOS)
         .toolbar {
@@ -68,33 +84,38 @@ struct StoreKitView: View {
                 await db.storeKitService.fetchActiveProducts(force: true)
             }
         }
+#endif
+    }
+    
+    var restorePurchuaseButton: some View {
+        Button("Restore\nPurchase", action: {
+            storeKitService.restorePurchases(db: db)
+        })
+        .padding(.vertical, 3)
+        .padding(.horizontal, 5)
+        .multilineTextAlignment(.leading)
+        .foregroundColor(.secondaryContainer)
+        .tint(.secondaryContainer)
+        .font(.system(size: 9))
+        .background(.secondaryText.opacity(0.4))
+        .cornerRadius(6)
     }
     
     @ViewBuilder
     func productButtons(
         _ product: Product,
         isPurchuased: Bool) -> some View {
-            Button("Restore\nPurchase", action: {
-                storeKitService.restorePurchases(db: db)
-            })
-            .padding(.vertical, 3)
-            .padding(.horizontal, 5)
-            .multilineTextAlignment(.leading)
-            .foregroundColor(.secondaryContainer)
-            .tint(.secondaryContainer)
-            .font(.system(size: 9))
-            .background(.secondaryText.opacity(0.4))
-            .cornerRadius(6)
+            restorePurchuaseButton
             
             Spacer()
             expirationDate(product, isPurchuased: isPurchuased)
             Button("Subscribe") {
                 buyPressed(product)
             }
-            #if os(tvOS)
+#if os(tvOS)
             .foregroundColor(.accentColor)
             .tint(.accentColor)
-            #endif
+#endif
             .disabled(isPurchuased)
             .frame(alignment: .trailing)
             .padding(.horizontal, 6)
@@ -104,6 +125,23 @@ struct StoreKitView: View {
 #endif
         }
     
+    var privacyButtons: some View {
+        HStack {
+            Button("Privacy Policy", action: {
+                privacyPresentingType = .privacyPolicy
+            })
+            .tint(.primaryText)
+            .font(.footnote)
+            .font(.system(size: 9))
+            Button("Terms of use", action: {
+                privacyPresentingType = .termsOfUse
+            })
+            .tint(.primaryText)
+            .font(.footnote)
+            .font(.system(size: 9))
+        }
+    }
+    
     @ViewBuilder
     func productContent(_ product: Product) -> some View {
         let isPurchuased = purchuasedProductID == product.id
@@ -112,9 +150,9 @@ struct StoreKitView: View {
                 Text(product.displayName)
 #if os(watchOS) || os(tvOS)
                     .font(.system(size: 12, weight: .semibold))
-                #else
+#else
                     .font(.title)
-                #endif
+#endif
                     .multilineTextAlignment(.leading)
                     .foregroundColor(.primaryText)
                     .background {
@@ -126,6 +164,10 @@ struct StoreKitView: View {
                 price(product)
             }
             description(product)
+            #if os(tvOS)
+            Text("You will receive additional cloud space to store you content, after the purchase")
+                .foregroundColor(.primaryText)
+            #endif
 #if os(watchOS)
             VStack(spacing: 20) {
                 productButtons(product, isPurchuased: isPurchuased)
@@ -136,12 +178,17 @@ struct StoreKitView: View {
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
 #endif
+            
+            #if os(watchOS)
+            Spacer().frame(height: 40)
+            privacyButtons
+            #endif
         }
 #if os(tvOS)
         .frame(maxWidth: .infinity, alignment: .leading)
-        #else
+#else
         .frame(maxWidth: 270, alignment: .leading)
-        #endif
+#endif
     }
     
     @ViewBuilder
