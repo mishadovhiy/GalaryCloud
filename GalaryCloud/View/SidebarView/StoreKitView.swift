@@ -34,6 +34,9 @@ struct StoreKitView: View {
                 }
 #else
                 productContent(product)
+#if os(tvOS)
+                    .padding(10)
+                #endif
 #endif
             }
         }
@@ -168,7 +171,7 @@ struct StoreKitView: View {
             }
             description(product)
             #if os(tvOS)
-            Text("You will receive additional cloud space to store you content, after the purchase")
+            Text("You will receive additional cloud space to store your content, after the purchase")
                 .foregroundColor(.primaryText)
             #endif
 #if os(watchOS)
@@ -185,6 +188,10 @@ struct StoreKitView: View {
             #if os(watchOS)
             Spacer().frame(height: 40)
             privacyButtons
+            #endif
+#if os(tvOS)
+            Spacer().frame(height: 10)
+            reneviewTitleText
             #endif
         }
 #if os(tvOS)
@@ -218,7 +225,11 @@ struct StoreKitView: View {
             Text(amount.mbOrTbTitle)
                 .foregroundColor(.primaryText)
                 .multilineTextAlignment(.leading)
-                .font(.system(size: 15, weight: .semibold))
+#if os(tvOS)
+            .font(.title2)
+        #else
+            .font(.system(size: 15, weight: .semibold))
+        #endif
             Text(description)
                 .foregroundColor(.secondaryText)
                 .multilineTextAlignment(.leading)
@@ -227,27 +238,48 @@ struct StoreKitView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
+    
     func price(_ product: Product) -> some View {
-        Text("$" + "\(product.price)")
-            .font(.footnote)
-            .foregroundColor(.secondaryText)
-            .multilineTextAlignment(.trailing)
-            .lineLimit(1)
-            .minimumScaleFactor(0.2)
-            .frame(width: 40)
-            .overlay {
-                HStack {
-                    Spacer()
-                    Text("/ month")
-                        .lineLimit(nil)
-                        .font(.system(size: 7, weight: .medium))
-                        .foregroundColor(.primaryText.opacity(0.3))
-                        .multilineTextAlignment(.trailing)
-                        .offset(y: -10)
-                        .shadow(color:.primaryText.opacity(0.3), radius: 4)
+
+        return VStack(alignment: .trailing) {
+            Text("$" + "\(product.price)")
+    #if os(tvOS)
+                .font(.title2)
+            #else
+                .font(.footnote)
+            #endif
+                .foregroundColor(.secondaryText)
+                .multilineTextAlignment(.trailing)
+                .lineLimit(1)
+                .minimumScaleFactor(0.2)
+    #if os(tvOS)
+                .frame(width: 90)
+    #else
+                .frame(width: 40)
+    #endif
+
+                .overlay {
+    #if !os(tvOS)
+
+                    HStack {
+                        Spacer()
+                        Text("/ month")
+                            .lineLimit(nil)
+                            .font(.system(size: 7, weight: .medium))
+                            .foregroundColor(.primaryText.opacity(0.3))
+                            .multilineTextAlignment(.trailing)
+                            .offset(y: -10)
+                            .shadow(color:.primaryText.opacity(0.3), radius: 4)
+                    }
+                    #endif
                 }
-                
-            }
+#if os(tvOS)
+            Text("Per Month")
+                .foregroundColor(.secondaryText)
+                .font(.footnote)
+                .opacity(0.6)
+            #endif
+        }
     }
     
     @ViewBuilder
@@ -312,10 +344,15 @@ struct StoreKitView: View {
         }
     }
     
-    var reneviewDetails: some View {
+    var reneviewTitleText: some View {
         VStack(alignment: .leading, spacing: 5, content: {
             Text("Subscription renews automatically")
+            #if os(tvOS)
+                .font(.body)
+
+            #else
                 .font(.title3)
+            #endif
                 .frame(maxWidth: .infinity, alignment: .leading)
             Text("Unless canceled at least 24 hours before the end of the current period.")
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -325,8 +362,12 @@ struct StoreKitView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .multilineTextAlignment(.leading)
         .font(.system(size: 12))
-        //            .minimumScaleFactor(0.3)
         .foregroundColor(.primaryText)
+    }
+    
+    var reneviewDetails: some View {
+        reneviewTitleText
+        //            .minimumScaleFactor(0.3)
         .presentationDetents([.height(100), .medium])
         .background {
             ClearBackgroundView()
