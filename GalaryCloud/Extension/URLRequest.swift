@@ -18,7 +18,7 @@ extension URLRequest {
             guard let url = URL(string: urlString + suffix) else {
                 throw NSError(domain: "Error creating url", code: URLError.badURL.rawValue)
             }
-            self.init(url: url)
+            self.init(url: url, cachePolicy: .reloadIgnoringCacheData)
             try self.prepareRequest(requestable: requestable)
         }
         catch {

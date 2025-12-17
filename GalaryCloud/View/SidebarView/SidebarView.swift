@@ -309,6 +309,10 @@ struct SidebarView: View {
                         .tint(.primaryText)
                 }
                 .frame(alignment: .leading)
+#if os(tvOS)
+Text("Upgrade")
+    .modifier(LinkButtonModifier(type: .link))
+#endif
 #if os(iOS)
                 Text("Number of files: \(db.totalFileCount)")
                     .font(.footnote)
