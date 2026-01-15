@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UploadingProgressView: View {
     let showResend: Bool
-    let currentItem: URL
+    let currentItem: URL?
     let uploadingFilesCount: Int
     let error: Error?
     let resendPressed: ()->()
@@ -34,8 +34,8 @@ struct UploadingProgressView: View {
                     .multilineTextAlignment(.leading)
                     .frame(alignment: .leading)
                     .font(.footnote)
-                if error == nil {
-                    Text(currentItem.lastPathComponent)
+                if error == nil, let url = currentItem?.lastPathComponent {
+                    Text(url)
                         .foregroundColor(.secondaryContainer.opacity(0.4))
                         .font(.footnote)
                         .lineLimit(error == nil ? 1 : 0)
@@ -62,6 +62,9 @@ struct UploadingProgressView: View {
     }
 #if !os(watchOS)
     var uploadImage: UIImage {
+        guard let currentItem else {
+            return UIImage(resource: .defaultUpload)
+        }
         do {
             return UIImage(data: try Data(contentsOf: currentItem)) ?? .defaultUpload
         } catch {

@@ -106,6 +106,9 @@
 		82144B542EE77490003DB4AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823DC2522ED10AA3005367A2 /* AppDelegate.swift */; };
 		82144B552EE7750D003DB4AF /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8292DD1B2EE7627C003DCD1C /* SharedAssets.xcassets */; };
 		82144B582EE77647003DB4AF /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 82144B572EE77647003DB4AF /* Lottie */; };
+		822380FA2F0EDC95003AFDE4 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822380F92F0EDC95003AFDE4 /* Keys.swift */; };
+		822380FB2F0EDC95003AFDE4 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822380F92F0EDC95003AFDE4 /* Keys.swift */; };
+		822380FC2F0EDC95003AFDE4 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822380F92F0EDC95003AFDE4 /* Keys.swift */; };
 		8230C99E2EDDD2E300CF0B5F /* uploading.json in Resources */ = {isa = PBXBuildFile; fileRef = 8230C99D2EDDD2E300CF0B5F /* uploading.json */; };
 		8230C9A12EDDD2E300CF0B5F /* giftDiscount.json in Resources */ = {isa = PBXBuildFile; fileRef = 8230C99B2EDDD2E300CF0B5F /* giftDiscount.json */; };
 		8230C9A42EDEEFAB00CF0B5F /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8230C9A32EDEEFAB00CF0B5F /* SupportView.swift */; };
@@ -342,6 +345,7 @@
 		820A9D552ED816F600498E35 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		820A9D572ED8172000498E35 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		82144AE82EE77343003DB4AF /* tvOS.GalaryCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tvOS.GalaryCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		822380F92F0EDC95003AFDE4 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		8230C99B2EDDD2E300CF0B5F /* giftDiscount.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = giftDiscount.json; sourceTree = "<group>"; };
 		8230C99D2EDDD2E300CF0B5F /* uploading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = uploading.json; sourceTree = "<group>"; };
 		8230C9A32EDEEFAB00CF0B5F /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
@@ -862,6 +866,7 @@
 			isa = PBXGroup;
 			children = (
 				82D00CC22EE78BA10002136F /* Keys.swift */,
+				822380F92F0EDC95003AFDE4 /* Keys.swift */,
 				82909A692ED5418700BF9548 /* ServiceConfig.swift */,
 				8250E2C92EDFC7E600A81E91 /* AppearenceConfig.swift */,
 				8250E2E72EE0056400A81E91 /* NotificationCenterConfig.swift */,
@@ -1131,6 +1136,7 @@
 				82144B442EE7747B003DB4AF /* DirectorySizeResponse.swift in Sources */,
 				82144B452EE7747B003DB4AF /* BaseResponse.swift in Sources */,
 				82144B462EE7747B003DB4AF /* UserModel.swift in Sources */,
+				822380FA2F0EDC95003AFDE4 /* Keys.swift in Sources */,
 				82144B472EE7747B003DB4AF /* AppleSignInService.swift in Sources */,
 				82144B2F2EE77462003DB4AF /* AppFeaturesView.swift in Sources */,
 				82144B172EE77443003DB4AF /* SaveIconView.swift in Sources */,
@@ -1267,6 +1273,7 @@
 				8292DCF32EE75FB5003DCD1C /* DirectorySizeResponse.swift in Sources */,
 				8292DCF42EE75FB5003DCD1C /* MessageModel.swift in Sources */,
 				8292DCF52EE75FB5003DCD1C /* DataBaseModel.swift in Sources */,
+				822380FC2F0EDC95003AFDE4 /* Keys.swift in Sources */,
 				8292DCD42EE75F73003DCD1C /* LottieView.swift in Sources */,
 				8292DCC62EE75F60003DCD1C /* NoDataView.swift in Sources */,
 				8292DCC82EE75F60003DCD1C /* AppLaunchView.swift in Sources */,
@@ -1324,6 +1331,7 @@
 				827162512ECBA8C000E52013 /* FetchImageRequest.swift in Sources */,
 				820A9D582ED8172000498E35 /* WebView.swift in Sources */,
 				826E6FDF2ED93B6C00DE98BB /* RootAlertConfigModifier.swift in Sources */,
+				822380FB2F0EDC95003AFDE4 /* Keys.swift in Sources */,
 				8230C9AB2EDEFC9800CF0B5F /* CodeRequest.swift in Sources */,
 				8268DBDE2ED796BB004FC985 /* CachedAsyncImageViewModel.swift in Sources */,
 				8250E2D02EDFF64800A81E91 /* NoDataView.swift in Sources */,

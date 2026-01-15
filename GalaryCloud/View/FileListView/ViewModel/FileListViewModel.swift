@@ -131,6 +131,7 @@ class FileListViewModel: ObservableObject {
                 switch response {
                     
                 case .success(let result):
+                    print(result.results.first, " reffwefew ")
                     var canUpdateData = ignoreOffset || reload
                     if let totalFileRecords,
                        ignoreOffset
@@ -413,8 +414,13 @@ class FileListViewModel: ObservableObject {
         Task(name:"loadImage", priority: .utility) {
             let response = await URLSession.shared.resumeTask(FetchImageRequest(username: KeychainService.username, filename: filename))
             let imageData = try? response.get()
-            await MainActor.run {
-                completion(imageData)
+            self.loadApiImage(url: .init(string: imageData?.url ?? "")!) { imageData in
+                DispatchQueue.main.async {
+                    
+                
+//                await MainActor.run {
+                    completion(imageData)
+                }
             }
         }
     }

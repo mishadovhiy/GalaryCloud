@@ -282,14 +282,16 @@ struct FileListView: View, GalaryListProtocol {
                 let firstErrorURL = URL(string: viewModel.errorFileNames.first ?? "")
                 let count = viewModel.photoLibrarySelectedURLs.count
                 let uploadingCount = count == 0 ? viewModel.errorFileNames.count : count
-                let currentURL = (viewModel.photoLibrarySelectedURLs.first ?? firstErrorURL)!
-                UploadingProgressView(showResend: viewModel.showResend, currentItem: currentURL, uploadingFilesCount: uploadingCount, error: viewModel.uploadError, resendPressed: {
-                    viewModel.photoLibrarySelectedURLs.append(contentsOf: viewModel.errorFileNames.compactMap({.init(string: $0)!}))
-#warning("background task")
-                    //                    backgroundService.scheduleTask()
-                    viewModel.upload()
-                })
-                .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
+                if let currentURL = (viewModel.photoLibrarySelectedURLs.first ?? firstErrorURL) {
+                    UploadingProgressView(showResend: viewModel.showResend, currentItem: currentURL, uploadingFilesCount: uploadingCount, error: viewModel.uploadError, resendPressed: {
+                        viewModel.photoLibrarySelectedURLs.append(contentsOf: viewModel.errorFileNames.compactMap({.init(string: $0)!}))
+    #warning("background task")
+                        //                    backgroundService.scheduleTask()
+                        viewModel.upload()
+                    })
+                    .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))
+                }
+                
             }
             Spacer()
         }

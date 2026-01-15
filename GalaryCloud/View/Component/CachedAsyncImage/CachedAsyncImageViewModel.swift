@@ -110,25 +110,37 @@ if isSmall {
                 dataModel: dataModel) {
                 return
             }
-            task = Task(name: "imageLoading" + dataModel.fileName,
-                        priority: .userInitiated) {
+            self.task = Task.detached(priority: .userInitiated) {
                 let response = await URLSession.shared.resumeTask(
                     FetchImageRequest(
                         username: dataModel.username,
                         filename: dataModel.fileName)
                 )
                 let data = try? response.get()
-                await MainActor.run {
-                    self.didFetchImage(
-                        data: data,
-                        db: db,
-                        dataModel: dataModel, isSmall: isSmallImageType)
+                await self.loadApiImage(url: .init(string: data?.url ?? "")!) { data in
+                    DispatchQueue.main.async {
+                        self.didFetchImage(
+                            data: data,
+                            db: db,
+                            dataModel: dataModel, isSmall: isSmallImageType)
+                    }
                 }
                 
             }
         }
     }
     
+    nonisolated private func loadApiImage(
+        url: URL, completion: @escaping(_ image: Data?) -> ()
+    ) async {
+        let urlTask = URLSession.shared.dataTask(with: .init(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)) { data, _, _ in
+            DispatchQueue.main.async {
+                completion(data)
+            }
+        }
+
+        urlTask.resume()
+    }
     func performSaveImage(_ db: DataBaseService) {
         guard let data = self.image?.jpegData(
             compressionQuality: 1) else {
