@@ -65,11 +65,11 @@ extension DateComponents {
     }
     
     var stringDate: String {
-        "\(stringMonthesShort[month ?? 0] ?? "") \(day ?? 0) , \(year ?? 0)"
+        "\(stringMonthesShort[month ?? 0] ?? "") \(day?.twoDecimalsString ?? "") , \(year ?? 0)"
     }
     
     var stringTime: String {
-        "\(hour ?? 0): \(minute ?? 0)"
+        "\(hour?.twoDecimalsString ?? ""): \(minute?.twoDecimalsString ?? "")"
     }
 }
 
@@ -103,5 +103,14 @@ extension CVarArg {
 extension String {
     var numbers: Int? {
         Int(self.filter({$0.isNumber}))
+    }
+}
+
+extension Int {
+    var twoDecimalsString: String {
+        if self > 9 {
+            return "\(self)"
+        }
+        return "0\(self)"
     }
 }

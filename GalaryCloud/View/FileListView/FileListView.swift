@@ -137,6 +137,7 @@ struct FileListView: View, GalaryListProtocol {
                     
                 }
                 .scaleEffect(1.15)
+                .background(.black.opacity(0.01))
             }
             .modifier(CircularButtonModifier(isAspectRatio: true))
             .frame(maxWidth: 60)
@@ -155,6 +156,7 @@ struct FileListView: View, GalaryListProtocol {
                 }
                 .scaleEffect(0.8)
                 .padding(5)
+                .background(.black.opacity(0.01))
             })
             .modifier(CircularButtonModifier(isAspectRatio: true))
             .aspectRatio(1, contentMode: .fit)
@@ -198,6 +200,10 @@ struct FileListView: View, GalaryListProtocol {
                 Text("Select")
                     .frame(maxWidth: viewModel.isEditingList ? 0 : nil)
             }
+            .padding(.horizontal, 15 + (viewModel.isEditingList ? 15 : 0))
+            .frame(maxHeight: .infinity)
+            .background(.black.opacity(0.01))
+
         })
         .frame(maxHeight: .infinity)
         .padding(.horizontal, 15)
@@ -234,6 +240,7 @@ struct FileListView: View, GalaryListProtocol {
                 viewModel.uploadFilePressed(db)
             } label: {
                 UploadIconView(isLoading: viewModel.uploadAnimating)
+                    .background(.black.opacity(0.01))
             }
             //            .frame(width: viewModel.isEditingList ? 0 : 70, height: 70)
             .disabled(viewModel.directorySizeResponse == nil)

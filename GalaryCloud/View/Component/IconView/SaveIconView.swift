@@ -33,7 +33,7 @@ struct SaveIconView: View, IconViewProtocol {
             UploadComponentShape()
                 .trim(to: !isLoading ? 1 : (animationActive ? 1 : 0))
                 .scale(isLoading ? (animationActive ? 1.05 : 0.95) : 1)
-                .stroke(tint, lineWidth: lineWidth)
+                .stroke(tint, lineWidth: lineWidth + 1)
                 .padding(.bottom, 10)
                 .padding(.top, 10)
             //                .padding(.vertical, 10)
