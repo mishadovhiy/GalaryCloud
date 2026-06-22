@@ -9,7 +9,10 @@ import UIKit
 import CoreGraphics
 
 extension UIImage {
-    func changeSize(newWidth:CGFloat, from:CGSize? = nil, origin:CGPoint = .zero) -> UIImage {
+    func changeSize(newWidth:CGFloat?, from:CGSize? = nil, origin:CGPoint = .zero) -> UIImage {
+        guard let newWidth else {
+            return self
+        }
         let widthPercent = newWidth / (from?.width ?? self.size.width)
         let proportionalSize: CGSize = .init(width: newWidth, height: widthPercent * (from?.height ?? self.size.height))
 #if !os(watchOS)

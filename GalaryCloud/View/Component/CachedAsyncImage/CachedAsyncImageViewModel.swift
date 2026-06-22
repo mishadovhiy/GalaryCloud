@@ -110,13 +110,31 @@ if isSmall {
                 dataModel: dataModel) {
                 return
             }
-            self.task = Task.detached(priority: .userInitiated) {
-                let response = await URLSession.shared.resumeTask(
-                    FetchImageRequest(
-                        username: dataModel.username,
-                        filename: dataModel.fileName)
-                )
-                let data = try? response.get()
+            startFetchRequest(dataModel, isSmallImageType: isSmallImageType, db: db)
+        }
+    }
+    
+    func startFetchRequest(isReloading: Bool = false, _ dataModel: PresentationType.GalaryModel, isSmallImageType: Bool, db: DataBaseService) {
+        let quality: ImageQuality
+        if isSmallImageType {
+            quality = db.db!.appearence.photo.qualityForCompression(.baseList)
+        } else {
+            quality = db.db!.appearence.photo.qualityForCompression(.fullSizeGalary)
+        }
+        let folder = quality.folderDirectoryName ?? ""
+        self.task = Task.detached(priority: .userInitiated) {
+            let name = !isReloading ? ("/quality/" + folder + "/") : nil
+            let fileNameResult = (name == nil ? "" : (name ?? "")) + dataModel.fileName
+            print(fileNameResult, " rtegrtrgte ", dataModel.username)
+            let response = await URLSession.shared.resumeTask(
+                FetchImageRequest(
+                    username: dataModel.username,
+                    filename: fileNameResult)
+            )
+            let data = try? response.get()
+            if (data?.url.isEmpty ?? true), !isReloading {
+                await self.startFetchRequest(isReloading: true, dataModel, isSmallImageType: isSmallImageType, db: db)
+            } else {
                 await self.loadApiImage(url: .init(string: data?.url ?? "")!) { data in
                     DispatchQueue.main.async {
                         self.didFetchImage(
@@ -125,8 +143,9 @@ if isSmall {
                             dataModel: dataModel, isSmall: isSmallImageType)
                     }
                 }
-                
             }
+        
+            
         }
     }
     

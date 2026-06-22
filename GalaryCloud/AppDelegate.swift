@@ -8,9 +8,19 @@
 import SwiftUI
 import Combine
 
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, URLSessionTaskDelegate {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
+        print(bytesSent / totalBytesExpectedToSend, " tgerfdwsa ")
+    }
+
     @Published var notificationsToken: String = ""
     static var didReciveNotification:((_ userInfo: [AnyHashable : Any])->())?
+    
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        BackgroundTaskService().configure()
+
+        return true
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         return true

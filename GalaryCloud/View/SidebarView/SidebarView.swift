@@ -193,6 +193,7 @@ struct SidebarView: View {
             #endif
         }
         .modifier(LinkButtonModifier())
+        qualitiesPicker
     }
     
     @ViewBuilder
@@ -214,6 +215,34 @@ struct SidebarView: View {
             }
             .modifier(LinkButtonModifier())
         }
+    }
+    
+    var qualitiesPicker: some View {
+        NavigationLink {
+            ScrollView(.vertical) {
+                VStack {
+                    HStack {
+                        ForEach(DataBaseModel.Appearence.Photo.CompressionDestinationType.allCases.sorted(by: {$0.rawValue > $1.rawValue}), id: \.rawValue) { compression in
+                            VStack {
+                                Text(compression.rawValue + ":")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .multilineTextAlignment(.leading)
+                                ForEach(ImageQuality.allCases.sorted(by: {$0.hashValue > $1.hashValue}), id: \.rawValue) { quality in
+                                    Button(quality.rawValue) {
+                                        db.db?.appearence.photo.setCompression(compression, quality: quality)
+                                    }
+                                    .modifier(LinkButtonModifier(type: db.db?.appearence.photo.qualityForCompression(compression) == quality ? .default : .link))
+                                }
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                }
+            }
+        } label: {
+            Text("Compression")
+        }
+        .modifier(LinkButtonModifier())
     }
     
     var rootView: some View {

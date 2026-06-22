@@ -146,7 +146,7 @@ class FileListViewModel: ObservableObject {
                         self.totalFileRecords = result.totalRecords
                         self.files.append(contentsOf: result.results)
                         self.requestOffset += 1
-                    }
+                    }//todo: back end modifications: get parameter createLinkRecord = if false - dont create mysql url, so when fetching data, it will return only original urls
                     print(canUpdateData, " htrgerfds ")
                     if self.directorySizeResponse == nil {
                         self.fetchDirectoruSizeRequest()
@@ -213,37 +213,68 @@ class FileListViewModel: ObservableObject {
         }
     }
     
-    func upload() {
+    func upload(qualities: [ImageQuality] = ImageQuality.allCases) {
         self.uploadError = nil
         guard let url = self.photoLibrarySelectedURLs.first else {
             self.uploadAnimating = false
             return
         }
-        
-        guard let imageData = try? Data(contentsOf: url) else {
+        let quality = qualities.first
+        let newQualities = qualities.filter({$0 != quality})
+        guard let data = try? Data(contentsOf: url) else {
             if !self.photoLibrarySelectedURLs.isEmpty {
                 self.photoLibrarySelectedURLs.removeFirst()
                 self.uploadAnimating = false
             }
             return
         }
-        self.uploadAnimating = true
-        let date = imageData.imageDate
-        let apiData = CreateFileRequest.Image(url: url.lastPathComponent, date: date ?? Date().string, data: imageData.base64EncodedString())
-        Task(name: "uploading", priority: .utility) {
+        print(url, " tgegtre ")//todo: add folder name from the list of image qualities passed as a parameter to the upload #function
+        if !uploadAnimating {
+            self.uploadAnimating = true
+        }
+        let date = data.imageDate
+        guard let image = UIImage(data: data)?.changeSize(newWidth: quality?.data?.width) else {
+            self.uploadError = NSError.init(domain: "Error converting image", code: -900)
+            self.uploadAnimating = false
+            //todo: add to error query and skip, showing message
+            return
+        }
+        let imageURL: String
+        
+        let imageData: Data
+        if let quealityData = quality?.data,
+           let folderName = quality?.folderDirectoryName {
+            imageData = image.jpegData(compressionQuality: quealityData.compression) ?? data
+            imageURL = "/quality/" + folderName + "/" + url.lastPathComponent
+            print(imageURL, " gytefjby ")
+        } else {
+            imageData = data
+            imageURL = url.lastPathComponent
+
+        }
+        print(imageURL, " yjgjygjygjuyg ")
+        //= quality?.data == nil ? imageData.base64EncodedString() : image.jpegData(compressionQuality: quality?.data?.compression ?? 1)?.base64EncodedString()
+
+        let apiData = CreateFileRequest.Image(url: imageURL, date: date ?? Date().string, data: imageData.base64EncodedString())
+        Task(name: "uploading", priority: .userInitiated) {
             let response = await URLSession.shared.resumeTask(CreateFileRequest(username: KeychainService.username, originalURL: [apiData]))
             
             await MainActor.run {
                 switch response {
                     
                 case .success(_):
-                    filemamager.performDelete(path: url.lastPathComponent, urlType: .temporary)
-                    self.photoLibrarySelectedURLs.removeFirst()
+                    if newQualities.isEmpty {
+                        filemamager.performDelete(path: url.lastPathComponent, urlType: .temporary)
+                        self.photoLibrarySelectedURLs.removeFirst()
+                    }
+                    
                     if photoLibrarySelectedURLs.isEmpty {
                         self.didCompletedUploadingFiles()
                     } else {
-                        self.files.insert(.init(originalURL: url.lastPathComponent, date: date ?? Date().string), at: 0)
-                        self.upload()
+                        if newQualities.isEmpty {
+                            self.files.insert(.init(originalURL: url.lastPathComponent, date: date ?? Date().string), at: 0)
+                        }
+                        self.upload(qualities: newQualities.isEmpty ? ImageQuality.allCases : newQualities)
                     }
                     
                 case .failure(let error):
@@ -256,6 +287,7 @@ class FileListViewModel: ObservableObject {
     
     private func deleteApiImage(
         _ filename: String, completed: ((_ ok: Bool)->())? = nil) {
+            //todo: requesivelly delete for each quality sizes
 //        isLoading = true
             Task(name: "deleting", priority: .utility) {
             let request = await URLSession.shared.resumeTask(DeleteFileRequest(username: KeychainService.username, filename: filename))
@@ -410,18 +442,23 @@ class FileListViewModel: ObservableObject {
         }
     }
     
-    func loadAPIImage(filename: String, completion:@escaping(_ image: Data?)->()) {
+    func loadAPIImage(filename: String, isReloading: Bool = false, completion:@escaping(_ image: Data?)->()) {
         Task(name:"loadImage", priority: .utility) {
-            let response = await URLSession.shared.resumeTask(FetchImageRequest(username: KeychainService.username, filename: filename))
+            let name = isReloading ? ("/quality/" + (ImageQuality.lowest.folderDirectoryName ?? "") + "/") : nil
+            let fileNameResult = ImageQuality.lowest.folderDirectoryName == nil ? "" : ((name ?? "") + "/") + filename
+            print(fileNameResult, " yjbygyj ")
+            let response = await URLSession.shared.resumeTask(FetchImageRequest(username: KeychainService.username, filename: fileNameResult))
             let imageData = try? response.get()
-            self.loadApiImage(url: .init(string: imageData?.url ?? "")!) { imageData in
-                DispatchQueue.main.async {
-                    
-                
-//                await MainActor.run {
-                    completion(imageData)
+            if imageData?.url == nil && !isReloading {
+                self.loadAPIImage(filename: filename, isReloading: true, completion: completion)
+            } else {
+                self.loadApiImage(url: .init(string: imageData?.url ?? "")!) { imageData in
+                    DispatchQueue.main.async {
+                        completion(imageData)
+                    }
                 }
             }
+            
         }
     }
     

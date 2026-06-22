@@ -6,13 +6,16 @@
 //
 
 import Foundation
+import UIKit
 
 extension URLSession {
     
     func resumeTask<T: Requestable>(_ requestable: T) async -> Result<T.Response, Error> {
         do {
             let request = try URLRequest.init(requestable)
-            print(request.url?.absoluteString)
+#if DEBUG
+            print(request.url?.absoluteString, " ", #file, #function)
+#endif
             let response = try await self.performTask(request: request)
             switch response {
             case .success(let data):
@@ -37,7 +40,13 @@ extension URLSession {
         
     func performTask(request: URLRequest) async throws -> Result<Data, Error> {
         do {
-            let (data, response) = try await self.data(for: request)
+            let delegate: URLSessionTaskDelegate?
+            #if os(iOS)
+            delegate = UIApplication.shared as? AppDelegate
+            #else
+            delegate = nil
+            #endif
+            let (data, response) = try await self.data(for: request, delegate: delegate)
             guard let httpResponse = response as? HTTPURLResponse,
                   200..<300 ~= httpResponse.statusCode else {
                 throw NSError(domain: NSURLErrorDomain, code: URLError.badServerResponse.rawValue)

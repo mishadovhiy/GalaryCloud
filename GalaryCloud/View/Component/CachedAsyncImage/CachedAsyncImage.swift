@@ -20,6 +20,7 @@ struct CachedAsyncImage: View {
     }
     
     var body: some View {
+        let canLoadFromQuery = canLoadFromQuery
         ZStack {
             if let image = viewModel.image {
                 imageView(image)
@@ -33,8 +34,8 @@ struct CachedAsyncImage: View {
             }
         }
         .onAppear(perform: {
-            if self.deleteImagePressed != nil {
-                viewModel.fetchImage(db: db, isSmallImageType: self.deleteImagePressed == nil)
+            if !canLoadFromQuery {
+                viewModel.fetchImage(db: db, isSmallImageType: canLoadFromQuery)
             } else if let galaryModel = viewModel.presentationType.galaryModel {
                 let isCached = viewModel.fetchCachedImage(db: db, isSmallImageType: true, dataModel: galaryModel)
                 if !isCached {
@@ -43,17 +44,17 @@ struct CachedAsyncImage: View {
             }
         })
         .onChange(of: db.currentLoading == viewModel.presentationType.galaryModel?.fileName) { newValue in
-            if self.deleteImagePressed != nil {
+            if !canLoadFromQuery {
                 return
             }
             viewModel.isCurrentlyLoading = newValue
             if newValue {
                 print(newValue, " tgerfwdas ")
-                viewModel.fetchImage(db: db, isSmallImageType: self.deleteImagePressed == nil)
+                viewModel.fetchImage(db: db, isSmallImageType: canLoadFromQuery)
             }
         }
         .onChange(of: viewModel.image != nil) { newValue in
-            if self.deleteImagePressed != nil {
+            if !canLoadFromQuery {
                 return
             }
             if let name = viewModel.presentationType.galaryModel?.fileName {
@@ -65,7 +66,7 @@ struct CachedAsyncImage: View {
         }
         .onDisappear {
             viewModel.viewDidDisapear()
-            if self.deleteImagePressed != nil {
+            if !canLoadFromQuery {
                 return
             }
             if let name = viewModel.presentationType.galaryModel?.fileName {
@@ -75,20 +76,29 @@ struct CachedAsyncImage: View {
                 db.allLoaders.remove(name)
             }
         }
-        .background(deleteImagePressed == nil ? .clear : .primaryContainer)
+        .background(canLoadFromQuery ? .clear : .primaryContainer)
         .background {
             ClearBackgroundView()
         }
     }
+    
+    /// if true, 'fetch image' method is called when
+    /// 'currently loading image URL' is equeal
+    /// to this image url that this view is presenting,
+    /// othervise image is fetched on view appear
+    var canLoadFromQuery: Bool {
+        deleteImagePressed == nil
+    }
         
     @ViewBuilder
     var dateView: some View {
+        let canLoadFromQuery = canLoadFromQuery
         let date = DateComponents(string: viewModel.date)
         HStack(spacing: 20) {
-            if deleteImagePressed != nil {
+            if !canLoadFromQuery {
                 VStack(alignment: .leading) {
                     Text(date.stringDate)
-                        .font(deleteImagePressed == nil ? .footnote : .body)
+                        .font(canLoadFromQuery ? .footnote : .body)
                         .multilineTextAlignment(.leading)
                     Text(date.stringTime)
                         .font(.system(size: 9))
@@ -111,7 +121,7 @@ struct CachedAsyncImage: View {
     
     @ViewBuilder
     func imageView(_ image: UIImage) -> some View {
-        if self.deleteImagePressed == nil {
+        if canLoadFromQuery {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()

@@ -13,6 +13,9 @@ struct FileListView: View, GalaryListProtocol {
     @StateObject private var viewModel: FileListViewModel = .init()
     @EnvironmentObject private var db: DataBaseService
     @FocusState private var focusedAt: String?
+    #if os(iOS)
+    @EnvironmentObject var backgroundTask: BackgroundTaskService
+    #endif
     
     var body: some View {
         contentScrollView
@@ -293,7 +296,9 @@ struct FileListView: View, GalaryListProtocol {
                     UploadingProgressView(showResend: viewModel.showResend, currentItem: currentURL, uploadingFilesCount: uploadingCount, error: viewModel.uploadError, resendPressed: {
                         viewModel.photoLibrarySelectedURLs.append(contentsOf: viewModel.errorFileNames.compactMap({.init(string: $0)!}))
     #warning("background task")
-                        //                    backgroundService.scheduleTask()
+                        #if os(iOS)
+//                                            backgroundTask.scheduleTask()
+                        #endif
                         viewModel.upload()
                     })
                     .modifier(ViewSizeReaderModifier(viewSize: $viewModel.uploadIndicatorSize))

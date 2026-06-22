@@ -16,10 +16,12 @@ struct GalaryCloudApp: App {
     @StateObject var dataBaseService: DataBaseService = .init()
     @State var isLoading: Bool = true
     @Environment(\.scenePhase) private var scenePhase
-
+    @StateObject var backgroundManager: BackgroundTaskService = .init()
+    
     var body: some Scene {
         WindowGroup {
             contentView
+                .environmentObject(backgroundManager)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.primaryContainer)
             .animation(.smooth, value: isLoading)
@@ -29,6 +31,13 @@ struct GalaryCloudApp: App {
                 let _ = ServiceConfig()
                 fetchAppData()
                 dataBaseService.storeKitService.listenForTransactions()
+            }
+            .onChange(of: scenePhase) { newValue in
+                switch newValue {
+                case .background:
+                    backgroundManager.scheduleTask()
+                default: break
+                }
             }
             
         }

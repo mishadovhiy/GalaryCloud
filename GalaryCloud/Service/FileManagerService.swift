@@ -10,7 +10,7 @@ import UIKit
 
 struct FileManagerService {
     
-    private let manager = FileManager.default
+    fileprivate let manager = FileManager.default
         
     func directorySize(_ type: URLType) -> Int64 {
         var size: Int64 = 0
@@ -71,8 +71,11 @@ struct FileManagerService {
     
     func save(data: Data, path: String) {
         ImageQuality.allCases.forEach { quality in
-            let image = quality.data == nil ? nil : UIImage(data: data)?.changeSize(newWidth: quality.data?.width ?? 0).jpegData(compressionQuality: quality.data?.compression ?? 0)
-            self.performSave(data: image ?? data, path: quality.rawValue + "_" + path, urlType: .caches)
+            if let folderName = quality.folderDirectoryName {
+                let image = quality.data == nil ? nil : UIImage(data: data)?.changeSize(newWidth: quality.data?.width ?? 0).jpegData(compressionQuality: quality.data?.compression ?? 0)
+                self.performSave(data: image ?? data, path: folderName + "_" + path, urlType: .caches)
+            }
+            
         }
     }
     
@@ -88,7 +91,10 @@ struct FileManagerService {
     }
     
     func load(path: String, quality: ImageQuality) -> Data? {
-        self.performLoad(path: quality.rawValue + "_" + path, quality: quality)
+        guard let folderName = quality.folderDirectoryName else {
+            return nil
+        }
+        return self.performLoad(path: folderName + "_" + path, quality: quality)
     }
     
     func performDelete(path: String, urlType: URLType) {
@@ -107,7 +113,9 @@ struct FileManagerService {
     
     func delete(path: String) {
         ImageQuality.allCases.forEach { quality in
-            self.performDelete(path: quality.rawValue + "_" + path, urlType: .caches)
+            if let folderName = quality.folderDirectoryName {
+                self.performDelete(path: folderName + "_" + path, urlType: .caches)
+            }
         }
     }
 }
@@ -125,21 +133,6 @@ extension FileManagerService {
             case .temporary:
                 fileManager.temporaryDirectory
             }
-        }
-    }
-
-    enum ImageQuality: String, CaseIterable {
-        case middle
-        
-        var data:QualityData? {
-            return switch self {
-            case .middle:.init(width: 80, compression: 0.01)
-            }
-        }
-        
-        struct QualityData {
-            var width:CGFloat
-            var compression:CGFloat
         }
     }
 }

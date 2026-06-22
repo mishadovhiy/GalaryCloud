@@ -79,6 +79,7 @@ class PHFetchManager: ObservableObject {
                             } else {
                                 format = PHAssetResource.assetResources(for: asset).first?.uniformTypeIdentifier ?? "jpg"
                             }
+                            #warning("todo: add fileSizeKey, after file name, before file extension (exp. '(filename).(small).jpeg')")//or indeed small - use int size
                             manager.performSave(data: data, path: asset.localIdentifier.replacingOccurrences(of: "/", with: "") + "." + format, urlType: .temporary)
                         }
                         DispatchQueue.main.async {
